@@ -17,7 +17,7 @@ export default function Page() {
       <Partners />
       <HowItWorks />
       <Testimonials />
-      <Blogs />
+      <Blogs limit={3} />
       <FAQs/>
       <Footer />
     </>

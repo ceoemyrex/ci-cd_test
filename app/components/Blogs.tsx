@@ -48,10 +48,28 @@ const items = [
     description:"Why clarity upfront reduces pricing surprises and builds trust with movers.",
     imageUrl:"/images/blog3.png",
     id:3
+  },
+  {
+    title:"5 things movers wish you knew",
+    description:"Insider tips to make your move smoother for everyone involved.",
+    imageUrl:"/images/blog4.png",
+    id:4
+  },
+  {
+    title:"Planning a long-distance move",
+    description:"Key considerations for interstate moves and how inventory helps.",
+    imageUrl:"/images/blog5.png",
+    id:5
+  },
+  {
+    title:"How to inventory special items",
+    description:"Documenting fragile, valuable, and unusual items for accurate quotes.",
+    imageUrl:"/images/blog6.png",
+    id:6
   }
 ]
 
-export function Blogs() {
+export function Blogs({limit,showCta=true}:{limit?:number,showCta?:boolean}) {
   return (
     <section className="py-18.5 lg:py-37.5">
       <div className="max-w-310 px-4 lg:px-10 mx-auto">
@@ -70,12 +88,15 @@ export function Blogs() {
         </header>
 
         <div className="my-10 space-y-4 lg:my-20 lg:grid grid-cols-3 gap-x-6">
-        {items.map(item=>(
+        {items
+        .slice(0,limit)
+        .map(item=>(
           <BlogItem key={item.id} blog={item}/>
         ))}
         </div>
 
-        <div className="max-w-64.5 mx-auto">
+        {showCta && (
+          <div className="max-w-64.5 mx-auto">
           <Link
             href={"/blogs"}
             className="bg-theme block text-center w-full text-white text-sm lg:text-lg rounded-2xl px-5 lg:px-10 py-2.5 lg:py-5 font-medium"
@@ -83,6 +104,7 @@ export function Blogs() {
             View All
           </Link>
         </div>
+        )}
       </div>
     </section>
   );

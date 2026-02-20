@@ -14,7 +14,7 @@ const images = [
 
 export function StatsSwiper() {
   return (
-    <div className="mt-14">
+    <div className="mt-14 max-w-310 mx-auto">
       <Swiper
         modules={[FreeMode, Autoplay]}
         slidesPerView={1.3}
