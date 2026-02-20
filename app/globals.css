@@ -3,24 +3,34 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --theme: #044C95;
+  --secondary: #73C057;
+  --dark: #121212;
+}
+
+@font-face {
+  font-family: "DM_Sans";
+  src: url("/fonts/DM_Sans/DMSans-Variable.ttf");
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
+  --font-dm:"DM_Sans",sans-serif;
   --font-mono: var(--font-geist-mono);
+  --color-theme: #044C95;
+  --color-secondary: #73C057;
+  --color-dark: var(--dark);
+  --color-dark-shade: #17191A;
+  --color-grey: #7C7C8E;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
+html {
+  font-family: "DM_Sans" sans-serif;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+button{
+  cursor: pointer;
 }
