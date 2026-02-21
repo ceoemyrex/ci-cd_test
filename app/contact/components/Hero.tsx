@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { SendIcon } from "@/app/icons";
+import { MessageIcon, SendIcon } from "@/app/icons";
+import { MailIcon } from "@/app/icons/mail";
 import { AppTag, Navbar } from "@/components";
 
 export function ContactHero() {
@@ -65,6 +66,26 @@ export function ContactHero() {
                 </button>
               </footer>
             </form>
+            <div className="space-y-4 lg:space-y-0 lg:grid grid-cols-2 gap-x-8 mt-10 lg:mt-16">
+              <div className="border rounded-lg lg:rounded-2xl gap-x-4 shadow border-[#B6DDA84D]/30 p-4 lg:p-6 flex bg-white">
+                <div className="lg:h-12 w-10 h-10 lg:w-12 bg-[#EFEFEF] rounded-lg flex items-center justify-center">
+                    <MailIcon/>
+                </div>
+                <div>
+                  <p className="text-dark text-sm lg:text-base">Email</p>
+                  <p className="text-grey text-xs lg:text-sm">support@zinter.com</p>
+                </div>
+              </div>
+              <div className="border rounded-lg lg:rounded-2xl gap-x-4 shadow border-[#B6DDA84D]/30 p-4 lg:p-6 flex bg-white">
+                <div className="h-10 lg:h-12 w-10 lg:w-12 bg-[#EFEFEF] flex items-center justify-center rounded-lg">
+                    <MessageIcon/>
+                </div>
+                <div>
+                  <p className="text-dark text-sm lg:text-base">Response Time</p>
+                  <p className="text-grey text-xs lg:text-sm">Usually within 24 hours</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

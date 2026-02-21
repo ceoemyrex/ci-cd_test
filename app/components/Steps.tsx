@@ -51,7 +51,7 @@ export function Steps() {
             <div className="mt-12 space-y-8">
               <div className="flex items-start gap-x-3">
                 <div>
-                  <div className="h-8 lg:h-8 w-8 lg:w-16 flex bg-secondary/10 rounded-full items-center justify-center">
+                  <div className="h-8 lg:h-16 w-8 lg:w-16 flex bg-secondary/10 rounded-full items-center justify-center">
                     <p className="text-secondary font-bold text-lg lg:text-2xl">
                       1
                     </p>

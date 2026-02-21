@@ -5,14 +5,14 @@ import { TrackingCodeInput } from "./TrackingCodeInput";
 
 export function TrackMoveHero() {
   return (
-    <section className={`lg:pt-8`}>
-      <div className="max-w-310 relative pb-15 lg:pb-30 lg:rounded-t-4xl  mx-auto">
+    <section className={`lg:pt-8 lg:px-8`}>
+      <div className=" relative pb-15 lg:pb-30 lg:rounded-t-4xl">
         <img
           src={"/hero-bg.png"}
           alt="hero-bg"
           className="absolute lg:rounded-t-4xl top-0 left-0 w-full h-full object-center object-cover"
         />
-        <div className="relative p-4 lg:py-10 lg:p-10">
+        <div className="relative max-w-310 mx-auto p-4 lg:py-10 lg:p-10">
           <Navbar />
           <div className="pb-12.5 lg:pb-37.5 pt-10 lg:pt-20">
             <header className="flex items-center">
