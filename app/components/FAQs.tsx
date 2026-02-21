@@ -10,7 +10,7 @@ import { useState } from "react";
 /*        FAQ DATA               */
 /* ============================= */
 
-const faqs = [
+export const faqs = [
   {
     question: "Do I have to use AI?",
     answer:
@@ -49,7 +49,7 @@ type FAQCardProps = {
   onToggle: () => void;
 };
 
-function FAQCard({ question, answer, isOpen, onToggle }: FAQCardProps) {
+export function FAQCard({ question, answer, isOpen, onToggle }: FAQCardProps) {
   return (
     <div className={`relative w-full ${isOpen ? "z-50" : "z-0"}`}>
       {/* Question */}
@@ -64,7 +64,7 @@ function FAQCard({ question, answer, isOpen, onToggle }: FAQCardProps) {
             isOpen ? "rotate-180" : ""
           }`}
         >
-          {isOpen ? <CancelIcon /> : <PlusIcon />}
+          {isOpen ? null : <PlusIcon />}
         </div>
       </div>
 

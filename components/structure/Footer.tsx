@@ -26,16 +26,16 @@ export function Footer() {
               <div className="">
                 <p className="font-medium text-dark">Zinter</p>
                 <div className="mt-6 space-y-4 text-grey">
-                  <Link href={"/"} className="block">
+                  <Link href={"/how-it-works"} className="block">
                     How it Works
                   </Link>
-                  <Link href={"/"} className="block">
+                  <Link href={"/trust-and-safety"} className="block">
                     Inventory Options
                   </Link>
-                  <Link href={"/"} className="block">
+                  <Link href={"/trust-and-safety"} className="block">
                     Trust & Safety
                   </Link>
-                  <Link href={"/"} className="block">
+                  <Link href={"/faqs"} className="block">
                     FAQ
                   </Link>
                 </div>
@@ -43,10 +43,10 @@ export function Footer() {
               <div className="">
                 <p className="font-medium text-dark">Resources</p>
                 <div className="mt-6 space-y-4 text-grey">
-                  <Link href={"/"} className="block">
+                  <Link href={"/blog"} className="block">
                     Blog
                   </Link>
-                  <Link href={"/"} className="block">
+                  <Link href={"/contact"} className="block">
                     Contact
                   </Link>
                 </div>
