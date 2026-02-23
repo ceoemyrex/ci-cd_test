@@ -90,7 +90,7 @@ export function TrackingCodeInput({
             ref={(el) => {
               inputsRef.current[index] = el;
             }}
-            type="number"
+            type="text"
             inputMode="numeric"
             maxLength={1}
             value={value}

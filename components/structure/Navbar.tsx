@@ -18,45 +18,48 @@ const navLinks = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname()
+  const pathname = usePathname();
 
-  console.log(pathname)
+  console.log(pathname);
 
   return (
     <>
       <nav className="flex items-center relative z-40">
         {/* Logo */}
         <div className="flex items-center gap-x-2 lg:gap-x-4">
-          <img
-            src="/logo.png"
-            className="lg:h-11 w-8 h-8 lg:w-11"
-            alt="Logo"
-          />
+          <img src="/logo.png" className="lg:h-11 w-8 h-8 lg:w-11" alt="Logo" />
           <p className="uppercase text-xl lg:text-4xl text-dark font-bold">
             Zinter
           </p>
         </div>
 
         {/* Desktop Nav */}
-        <div className="mx-auto border-b-2 border-[#D3E6FA] hidden lg:flex gap-x-5 justify-center">
-          {navLinks.map((link) => (
-            <Link
-              href={link.url}
-              key={link.title}
-              className={`
-                pb-1.5 px-2
-                ${pathname == link.url
-                ?"text-theme font-medium -mb-px border-b-2 border-theme "
-                :"text-grey"}
-              `}
-            >
-              {link.title}
-            </Link>
-          ))}
+        <div className="mx-auto border-b-2 border-[#D3E6FA] hidden xl:flex gap-x-5 justify-center">
+          {navLinks.map((link) => {
+            const matchedLink = navLinks.find((l) => l.url === pathname);
+
+            const isActive = matchedLink
+              ? pathname === link.url
+              : link.url === "/";
+
+            return (
+              <Link
+                href={link.url}
+                key={link.title}
+                className={`pb-1.5 px-2 ${
+                  isActive
+                    ? "text-theme font-medium -mb-px border-b-2 border-theme"
+                    : "text-grey"
+                }`}
+              >
+                {link.title}
+              </Link>
+            );
+          })}
         </div>
 
         {/* Desktop Right */}
-        <div className="hidden lg:flex items-center ml-auto gap-x-8">
+        <div className="hidden xl:flex items-center ml-auto gap-x-8">
           <div className="flex rounded-[80px] gap-x-2 items-center p-2 border border-dark/10">
             <div className="h-8.5 w-8.5 border relative border-dark-shade rounded-full">
               <img
@@ -77,7 +80,7 @@ export function Navbar() {
         {/* Floating Mobile Button */}
         <button
           onClick={() => setIsOpen(true)}
-          className="lg:hidden bg-white h-10 w-10 rounded-full fixed top-4 right-4 z-50 text-dark border border-grey/10 shadow-xl flex items-center justify-center"
+          className="xl:hidden bg-white h-10 w-10 rounded-full fixed lg:static ml-auto top-4 right-4 z-50 text-dark border border-grey/10 shadow-xl flex items-center justify-center"
         >
           <i className="bi bi-list text-lg"></i>
         </button>
@@ -112,9 +115,7 @@ export function Navbar() {
               onClick={() => setIsOpen(false)}
               className={`
                 font-medium text-sm
-                ${pathname == link.url
-                ?"text-theme"
-                :"text-grey"}
+                ${pathname == link.url ? "text-theme" : "text-grey"}
                 `}
             >
               {link.title}
