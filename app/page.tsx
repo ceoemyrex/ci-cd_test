@@ -8,8 +8,16 @@ import {
   Steps,
   Testimonials,
 } from "./components";
+import { ContentfulProvider } from "@/services";
+import { Suspense } from "react";
 
-export default function Page() {
+
+export const revalidate = 300;
+
+export default async function Page() {
+
+    const blogs = await ContentfulProvider.getBlogEntries();
+
   return (
     <>
       <Hero />
@@ -17,7 +25,9 @@ export default function Page() {
       <Partners />
       <HowItWorks />
       <Testimonials />
-      <Blogs limit={3} />
+      <Suspense fallback={null}>
+         <Blogs blogs={blogs ?? []} limit={3} />
+      </Suspense>
       <FAQs/>
       <Footer />
     </>

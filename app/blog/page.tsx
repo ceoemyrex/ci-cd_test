@@ -1,14 +1,21 @@
 import { Footer } from "@/components";
 import { BlogHero } from "./components";
-import { Blogs,ReadyToMove } from "../components";
+import { Blogs, ReadyToMove } from "../components";
+import { ContentfulProvider } from "@/services";
+import { Suspense } from "react";
 
-export default function Page(){
-    return (
+export const revalidate = 300;
+
+export default async function Page() {
+  const blogs = await ContentfulProvider.getBlogEntries();
+  return (
     <>
-    <BlogHero/>
-    <Blogs showCta={false}/>
-    <ReadyToMove/>
-    <Footer/>
+      <BlogHero />
+      <Suspense fallback={null}>
+        <Blogs blogs={blogs ?? []} showCta={false} />
+      </Suspense>
+      <ReadyToMove />
+      <Footer />
     </>
-    )
+  );
 }
