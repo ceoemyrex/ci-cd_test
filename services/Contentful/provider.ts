@@ -47,14 +47,16 @@ function richTextToHtml(node: any): string {
 }
 
 export class ContentfulProvider {
-  private static client = contentful.createClient({
-    space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID ?? "",
-    accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN ?? "",
+  private static getClient() {
+  return contentful.createClient({
+    space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID!,
+    accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN!,
   });
+}
 
   static async getBlogEntries() {
     try {
-      const entries = await this.client.getEntries({
+      const entries = await this.getClient().getEntries({
         content_type: "zinterBlogPost",
       });
 
@@ -66,7 +68,7 @@ export class ContentfulProvider {
   }
   static async getBlogEntry(entryId:string) {
     try {
-      const entry = await this.client.getEntry(entryId);
+      const entry = await this.getClient().getEntry(entryId);
         
       return this.flattenEntry(entry);
     } catch (err) {
