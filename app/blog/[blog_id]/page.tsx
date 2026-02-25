@@ -6,8 +6,6 @@ import Link from "next/link";
 import { DateTime } from "luxon";
 import { CalendarIcon, TimerIcon } from "@/app/icons";
 
-export const revalidate = 60;
-
 export default async function Page({
   params,
 }: {
