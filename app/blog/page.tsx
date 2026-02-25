@@ -4,7 +4,7 @@ import { Blogs, ReadyToMove } from "../components";
 import { ContentfulProvider } from "@/services";
 import { Suspense } from "react";
 
-export const revalidate = 300;
+export const revalidate = 60;
 
 export default async function Page() {
   const blogs = await ContentfulProvider.getBlogEntries();

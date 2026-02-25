@@ -4,10 +4,12 @@ import { Navbar } from "@/components";
 import {
   ArrowDropDownIcon,
   CheckBoxIcon,
+  GeoLocationIcon,
   HexagonIcon,
   LocationIcon,
 } from "../icons";
 import { StatsSwiper } from "./StatsSwiper";
+import { PackageMovingIcon } from "../icons/package";
 
 
 export function Hero() {
@@ -83,7 +85,7 @@ export function Hero() {
                   <div className="space-y-3">
                     <p className="text-dark text-sm lg:text-base">Moving To</p>
                     <div className="bg-[#F3F3F4] gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
-                      <LocationIcon />
+                      <GeoLocationIcon />
                       <p className="text-grey text-xs lg:text-sm">Moving To</p>
                       <span className="ml-auto">
                         <ArrowDropDownIcon />
@@ -93,7 +95,7 @@ export function Hero() {
                   <div className="space-y-3">
                     <p className="text-dark">Moving Size</p>
                     <div className="bg-[#F3F3F4] gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
-                      <LocationIcon />
+                      <PackageMovingIcon/>
                       <p className="text-grey text-xs lg:text-sm">Moving Size</p>
                       <span className="ml-auto">
                         <ArrowDropDownIcon />
