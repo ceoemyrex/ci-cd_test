@@ -1,10 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import { ArrowRight } from "@/app/icons/arrow";
 import { AppTag, Navbar } from "@/components";
 import { ContentfulProvider } from "@/services";
-import Link from "next/link";
 import { DateTime } from "luxon";
 import { CalendarIcon, TimerIcon } from "@/app/icons";
+import { BlogBackButton } from "../components";
 
 export default async function Page({
   params,
@@ -34,13 +33,7 @@ export default async function Page({
           <div className="relative max-w-310 mx-auto p-4 lg:py-10 lg:p-10">
             <Navbar />
             <div className="pt-12 max-w-250 mx-auto lg:pt-26.25">
-              <Link
-                href="/blog"
-                className="bg-white inline-flex text-sm lg:text-base items-center gap-x-2 py-2 font-medium lg:py-4 px-4 lg:px-8 rounded-xl text-dark"
-              >
-                <ArrowRight fill="currentColor" />
-                Back To Blog
-              </Link>
+              <BlogBackButton/>
               <div className="space-y-4 mt-12">
                 <div className="">
                   <AppTag title={blog?.tag ?? ""} />
