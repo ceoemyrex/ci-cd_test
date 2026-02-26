@@ -14,16 +14,16 @@ import { PackageMovingIcon } from "../icons/package";
 
 export function Hero() {
   return (
-    <section className={`lg:py-8 lg:px-8`}>
-      <div className="relative pb-15 lg:pb-30 lg:rounded-t-4xl">
+    <section className={``}>
+      <div className="relative pb-15 lg:pb-30">
         <img
           src={"/hero-bg.png"}
           alt="hero-bg"
           className="absolute lg:rounded-t-4xl top-0 left-0 w-full h-full object-center object-cover"
         />
-        <div className="relative max-w-310 mx-auto p-4 lg:py-10 lg:p-10">
+        <div className="relative max-w-310 mx-auto p-4 lg:py-10">
           <Navbar />
-          <div className="pt-12 lg:pt-26.25 lg:flex space-y-8 gap-x-11 items-center">
+          <div className="pt-12 lg:pt-26.25 lg:flex space-y-8 gap-x-8 items-center">
             <div className="space-y-4 flex-2">
               <div className="text-center lg:text-left">
                 <span className="bg-[#CACACA1A]/10 px-4 text-xs lg:text-sm py-1.5 lg:py-2.5 rounded-[100px] text-secondary inline-flex items-center gap-x-1.5 border border-[#B6DDA8]">
@@ -35,13 +35,13 @@ export function Hero() {
                 Move coordination starts with a 
                 <span className="text-secondary">Clear Inventory.</span>
               </p>
-              <p className="text-center text-sm lg:text-left lg:text-lg text-grey">
+              <p className="text-center text-sm lg:text-left lg:text-base text-grey">
                 Zinter helps you plan and coordinate your move by creating a
                 clear inventory first. Upload photos using AI or build a manual
                 list whichever works best for you.
               </p>
 
-              <div className="my-4 lg:my-1 space-y-2 lg:space-y-4 text-sm lg:text-base">
+              <div className="my-4 lg:my-1 space-y-2 text-sm lg:text-base">
                 <div className="flex items-center gap-x-3">
                   <CheckBoxIcon />
                   <p className="text-grey">
