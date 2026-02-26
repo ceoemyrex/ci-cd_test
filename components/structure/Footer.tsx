@@ -14,10 +14,10 @@ export function Footer() {
           <div className="max-w-310 px-4 lg:px-10 mx-auto space-y-4 lg:flex">
             <div className="flex-1">
               <div className="flex w-full gap-x-4 items-center">
-                <img src={"/logo.png"} alt="Logo" className="h-11 w-11" />
+                <img src={"/logo.svg"} alt="Logo" className="h-11 w-11" />
                 <p className="font-bold text-4xl text-dark">ZINTER</p>
               </div>
-              <p className="mt-5 text-grey">
+              <p className="mt-5  text-grey">
                 Inventory-first move coordination. Create a clear inventory
                 first, then coordinate your move with confidence.
               </p>

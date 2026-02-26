@@ -33,6 +33,14 @@ export function StatsSwiper() {
           1024: {
             slidesPerView: 2.5,
             spaceBetween: 40,
+          },  
+          1200: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
+          1440: {
+            slidesPerView: 3.5,
+            spaceBetween: 20,
           },
         }}
       >
