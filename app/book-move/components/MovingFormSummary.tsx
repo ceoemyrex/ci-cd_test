@@ -31,7 +31,7 @@ export function MovingFormSummary({
         <p className="text-4xl font-medium text-dark">Get a quote for a move</p>
         <div className="mt-12 lg:flex gap-x-8">
           <div className="flex-1">
-            <StepBar />
+            <StepBar currentStep={4}/>
           </div>
           <div className="flex-2">
             <MovingSummary

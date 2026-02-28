@@ -100,6 +100,8 @@ export function MovingInfoForm({
   setMoveFrom: (place: Place) => void;
   setMoveTo: (place: Place) => void;
 }) {
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [promotionsAccepted, setPromotionsAccepted] = useState(false);
   /**
    * Convert ISO date → datetime-local value
    */
@@ -311,6 +313,14 @@ export function MovingInfoForm({
                         value: "2",
                         label: "2",
                       },
+                      {
+                        value: "3",
+                        label: "3",
+                      },
+                      {
+                        value: "4",
+                        label: "4",
+                      },
                     ]}
                     value={formData.toNumberOfFloors.toString()}
                     onChange={(val) => {
@@ -404,14 +414,20 @@ export function MovingInfoForm({
       </div>
 
       <footer className="border-t p-8 space-y-6 border-black/10">
-        <button className="flex w-full items-center gap-x-1">
-          <span className="h-4 w-4 rounded bg-white border border-[#D9D9D9]"></span>
-          <span className="text-secondary">Accept terms and condition *</span>
-        </button>
-        <button className="flex w-full items-center gap-x-1">
-          <span className="h-4 w-4 rounded bg-white border border-[#D9D9D9]"></span>
-          <span>Receive Promotions and moving tips</span>
-        </button>
+        <CheckboxButton
+          checked={termsAccepted}
+          onChange={setTermsAccepted}
+          label={
+            <span className="text-secondary">Accept terms and condition *</span>
+          }
+        />
+        <CheckboxButton
+          checked={promotionsAccepted}
+          onChange={setPromotionsAccepted}
+          label={
+            <>Receive Promotions and moving tips</>
+          }
+        />
       </footer>
     </div>
   );

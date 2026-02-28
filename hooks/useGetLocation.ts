@@ -10,10 +10,12 @@ import {
 
 export function useGetLocation(
   currentPlace?:Place | null,
-  setCurrentPlace?:(place:Place)=>void
+  setCurrentPlace?:(place:Place)=>void,
+  locationText?:string,
 ) {
   /* ---------------------------------- STATE --------------------------------- */
 
+  
   const [queryString, setQueryText] = useState("");
   const [places, setPlaces] = useState<PlacePredictionObject[]>([]);
   const [selectedPlace, setSelectedPlace] =
@@ -37,6 +39,35 @@ export function useGetLocation(
   setPlaceDetails(currentPlace);
   setQueryText(currentPlace.formattedAddress);
 }, [currentPlace]);
+
+ useEffect(() => {
+  if (!locationText) return;
+
+  const resolveLocation = async () => {
+    try {
+      setLoading(true);
+
+      // get predictions from text
+      const res =
+        await MapProvider.getPlacePrediction(locationText);
+
+      const firstSuggestion = res?.suggestions?.[0];
+
+      if (!firstSuggestion) return;
+
+      // simulate user selection
+      setIsSelecting(true);
+      setSelectedPlace(firstSuggestion);
+      setQueryText(firstSuggestion.placePrediction.text.text);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  resolveLocation();
+}, [locationText]);
 
   /* ---------------------------- SELECT PLACE ---------------------------- */
 

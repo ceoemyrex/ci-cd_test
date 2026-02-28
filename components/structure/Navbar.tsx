@@ -27,7 +27,9 @@ export function Navbar() {
       <nav className="flex items-center relative z-40">
         {/* Logo */}
         <div className="flex items-center gap-x-2 lg:gap-x-4">
+         <Link href={"/"}>
           <img src="/logo.svg" className="lg:h-11 w-8 h-8 lg:w-11" alt="Logo" />
+         </Link>
           <p className="uppercase text-xl lg:text-4xl text-dark font-bold">
             Zinter
           </p>

@@ -1,12 +1,11 @@
 "use client";
-
 import { LocationIcon, GeoLocationIcon, ArrowDropDownIcon } from "@/app/icons";
 import { PackageMovingIcon } from "@/app/icons/package";
-import { useGetLocation } from "@/hooks";
+import { useGetLocation, useParamFilter } from "@/hooks";
 import { Place } from "@/services";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
-const tabs = [
+export const tabs = [
   {
     name: "House",
     value: "house",
@@ -113,6 +112,13 @@ export function LocationDetailsForm({
 }) {
   const [currentTab, setCurrentTab] = useState("house");
   const [sizeOpen, setSizeOpen] = useState(false);
+  const [moveFromText] = useParamFilter("moveFrom")
+  const [moveToText] = useParamFilter("moveTo")
+  const [moveSizeText] = useParamFilter("moveSize")
+
+  useEffect(()=>{
+    setMoveSize(moveSizeText)
+  },[moveSizeText,setMoveSize])
 
   const options = useMemo(() => {
     const selectedOption = tabs.find((item) => item.value == currentTab);
@@ -130,6 +136,7 @@ export function LocationDetailsForm({
           onSelectPlace={setMoveFrom}
           placeholder="Moving From"
           icon={<LocationIcon />}
+          locationText={moveFromText}
         />
 
         <LocationAutocomplete
@@ -137,6 +144,7 @@ export function LocationDetailsForm({
           selectedPlace={moveTo}
           onSelectPlace={setMoveTo}
           placeholder="Moving To"
+          locationText={moveToText}
           icon={<GeoLocationIcon />}
         />
 
@@ -217,7 +225,7 @@ interface LocationAutocompleteProps {
   label: string;
   placeholder: string;
   icon: ReactNode;
-  theme?: "white" | "light";
+  theme?: "white" | "light" | "grey";
   selectedPlace?: Place | null;
   onSelectPlace?: (place: Place) => void;
   readOnly?:boolean;
@@ -232,9 +240,11 @@ export function LocationAutocomplete({
   readOnly,
   onSelectPlace,
   theme = "white",
+  locationText,
 }: LocationAutocompleteProps) {
-  const location = useGetLocation(selectedPlace, onSelectPlace);
+  const location = useGetLocation(selectedPlace, onSelectPlace,locationText);
   const containerRef = useRef<HTMLDivElement>(null);
+
 
   /**
    * ✅ Close dropdown on outside click
@@ -257,7 +267,7 @@ export function LocationAutocomplete({
       <div className="relative">
         {/* INPUT */}
         <div
-          className={`${theme == "white" ? "bg-white" : "bg-[#F9FCF9] border border-black/10"} flex items-center gap-x-2.5 rounded-xl p-2.5 lg:p-5`}
+          className={`${theme == "white" ? "bg-white" : theme == "grey"?"bg-[#F3F3F4] border border-black/10" :"bg-[#F9FCF9] border border-black/10"} flex items-center gap-x-2.5 rounded-xl p-2.5 lg:p-5`}
         >
           {icon}
 

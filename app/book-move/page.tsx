@@ -1,9 +1,12 @@
+import { Suspense } from "react";
 import { BookMoveForm, PageContainer } from "./components";
 
 export default function Page(){
     return(
         <PageContainer>
-            <BookMoveForm/>
+            <Suspense>
+                <BookMoveForm/>
+            </Suspense>
         </PageContainer>
     )
 }
