@@ -1,71 +1,183 @@
-import { LocationDetailsForm } from "./LocationDetailsForm";
+"use client";
 
-function StepButton({
-  active = false,
-  title,
-  description,
-}: {
-  active?: boolean;
-  title: string;
-  description: string;
-}) {
-  if (!active) {
-    return (
-      <div className="flex items-center gap-x-4">
-        <div className="border-2 border-[#D3E3CD] rounded-full h-12 w-12 bg-white flex items-center justify-center">
-          <div className="bg-[#D3E3CD] h-4 w-4 rounded-full"></div>
-        </div>
-        <div className="text-dark">
-          <p className="text-lg font-medium">{title}</p>
-          <p className="text-grey text-sm">{description}</p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex items-center gap-x-4">
-      <div className="border border-secondary rounded-full h-12 w-12 bg-secondary/10 flex items-center justify-center">
-        <div className="bg-secondary h-4 w-4 rounded-full"></div>
-      </div>
-      <div className="text-secondary">
-        <p className="text-lg font-medium">{title}</p>
-        <p className="text-secondary/80 text-sm">{description}</p>
-      </div>
-    </div>
-  );
-}
+import { useState } from "react";
+import { AddLocationDetails } from "./AddLocationDetails";
+import { AddInventoryList } from "./AddInventoryList";
+import { AddMovingInfoForm } from "./AddMovingInfoForm";
+import { MovingFormSummary } from "./MovingFormSummary";
+import { useRouter } from "next/navigation";
+import { CreateMoveRequest, MoveRequestProvider } from "@/services/MoveRequest";
+import { Place } from "@/services";
+import { notification } from "antd";
+import { Portal } from "@/components";
+import StarrySpace from "./MovingSummary";
 
 export function BookMoveForm() {
+  const [notificationApi, context] = notification.useNotification();
+  const [moveFrom, setMoveFrom] = useState<Place | null>(null);
+  const [moveTo, setMoveTo] = useState<Place | null>(null);
+  const [moveSize, setMoveSize] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const [formData, setFormData] = useState<CreateMoveRequest>({
+    fullName: "",
+    phoneNumber: "",
+    email: "",
+    provinceId: 0,
+
+    pickUpAddress: "",
+    pickUpAddressNumber: "",
+    dropOffAddress: "",
+    dropOffAddressNumber: "",
+
+    pickUpLongitude: "",
+    pickUpLatitude: "",
+    dropOffLongitude: "",
+    dropOffLatitude: "",
+
+    moveDate: new Date().toISOString(),
+    pickUpTime: new Date().toISOString(),
+
+    fromNumberOfFloors: 0,
+    toNumberOfFloors: 0,
+
+    fromLongCarry: "",
+    toLongCarry: "",
+
+    fromRemark: "",
+    toRemark: "",
+
+    fromHasElevator: false,
+    toHasElevator: false,
+
+    fromNeedShuttle: false,
+    toNeedShuttle: false,
+
+    fromHasBuildingInsurance: false,
+    toHasBuildingInsurance: false,
+
+    fromNeedHelpPacking: false,
+    toNeedHelpPacking: false,
+
+    items: [],
+  });
+
+  const handleUpdateForm = (updateFormData: Partial<CreateMoveRequest>) => {
+    setFormData((prev) => ({
+      ...prev,
+      ...updateFormData,
+    }));
+  };
+
+  const router = useRouter();
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const steps = [
+    AddLocationDetails,
+    AddInventoryList,
+    AddMovingInfoForm,
+    MovingFormSummary,
+  ];
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      const res = await MoveRequestProvider.getQuote(formData);
+      if (!res.responseStatus) {
+        throw new Error(
+          res?.responseMessage ?? "An error occurred could not request quote",
+        );
+      }
+      setSuccess(true);
+      setCurrentStep(0);
+    } catch (error) {
+      notificationApi.error({
+        title: "Error",
+        description:
+          (error as Error)?.message ??
+          "An error occurred could not request quote",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const next = () => {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep((prev) => prev + 1);
+    }
+  };
+  const prev = () => {
+    if (currentStep > 0) {
+      setCurrentStep((prev) => prev - 1);
+    } else {
+      router.back();
+    }
+  };
+
+  const CurrentStepComponent = steps[currentStep];
+
   return (
-    <div className="bg-white/40 p-10 backdrop-blur-2xl border border-black/10 min-h-screen rounded-3xl">
-      <p className="text-4xl font-medium text-dark">Get a quote for a move</p>
-      <div className="mt-12 flex gap-x-8">
-        <div className="flex-1">
-          <div className="bg-white rounded-2xl space-y-15 p-6 border border-[#E5E5E5]">
-            <StepButton
-              title={"Location Details"}
-              active
-              description={"Details of you are moving from"}
-            /> 
-            <StepButton
-              title={"Setup Inventory List "}
-              description={"Detailed list of items to be move"}
-            /> 
-            <StepButton
-              title={"Moving Information"}
-              description={"Date, contacts, restrictions, etc..."}
-            /> 
-            <StepButton
-              title={"View Summary"}
-              description={"Full Summary Of Your Move"}
-            />
+    <>
+      {context}
+      <CurrentStepComponent
+        moveFrom={moveFrom}
+        moveTo={moveTo}
+        setMoveFrom={(place) => {
+          setMoveFrom(place);
+          handleUpdateForm({
+            pickUpAddress: place.formattedAddress,
+            pickUpLatitude: place.location.latitude.toString(),
+            pickUpLongitude: place.location.longitude.toString(),
+          });
+        }}
+        setMoveTo={(place) => {
+          setMoveTo(place);
+          handleUpdateForm({
+            dropOffAddress: place.formattedAddress,
+            dropOffAddressNumber: place.adrFormatAddress,
+            dropOffLatitude: place.location.latitude.toString(),
+            dropOffLongitude: place.location.longitude.toString(),
+          });
+        }}
+        onNext={next}
+        moveSize={moveSize}
+        setMoveSize={setMoveSize}
+        onPrev={prev}
+        moveItems={formData.items}
+        handleUpdateMoveItems={(moveItems) => {
+          handleUpdateForm({ items:moveItems });
+        }}
+        handleUpdate={handleUpdateForm}
+        formData={formData}
+        loading={loading}
+        handleSubmit={handleSubmit}
+      />
+      {success && (
+        <Portal>
+          <div className="fixed overflow-auto flex items-center justify-center top-0 left-0 w-full h-full bg-white/20 backdrop-blur z-1000000">
+            <div className="bg-white flex-1 max-w-135 border border-black/10 rounded-2xl">
+              <StarrySpace />
+              <div>
+                <div className="mt-14 p-8">
+                  <p className="font-bold text-center text-3xl">
+                    Thank you for questing a quote {formData.fullName}{" "}
+                  </p>
+                  <p className="text-grey text-center">
+                    Your quotes are on their way to your email
+                  </p>
+                  <div className="my-10 text-center">
+                    <button onClick={()=>setSuccess(false)} className="bg-theme text-white rounded-lg px-10 py-4 font-medium">
+                      Ok Got It
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="flex-2">
-            <LocationDetailsForm/>
-        </div>
-      </div>
-    </div>
+        </Portal>
+      )}
+    </>
   );
 }

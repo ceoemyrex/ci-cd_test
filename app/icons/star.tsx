@@ -1,4 +1,6 @@
-export function Star() {
+import { SVGAttributes } from "react";
+
+export function Star(props:SVGAttributes<HTMLOrSVGElement>) {
   return (
     <>
       <svg
@@ -10,7 +12,7 @@ export function Star() {
       >
         <path
           d="M9.51074 0L11.7559 6.90983H19.0213L13.1435 11.1803L15.3886 18.0902L9.51074 13.8197L3.63289 18.0902L5.87803 11.1803L0.000177383 6.90983H7.2656L9.51074 0Z"
-          fill="#FF8D28"
+          fill={props.fill ?? "#FF8D28"}
         />
       </svg>
     </>
