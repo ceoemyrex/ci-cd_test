@@ -3,6 +3,7 @@
 import { LocationIcon, GeoLocationIcon, ArrowDropDownIcon } from "@/app/icons";
 import { PackageMovingIcon } from "@/app/icons/package";
 import { useGetLocation } from "@/hooks";
+import { Place } from "@/services";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
 const tabs = [
@@ -95,7 +96,21 @@ const tabs = [
   },
 ];
 
-export function LocationDetailsForm() {
+export function LocationDetailsForm({
+  moveFrom,
+  moveTo,
+  setMoveSize,
+  setMoveFrom,
+  setMoveTo,
+  moveSize,
+}: {
+  moveFrom: Place | null;
+  moveTo: Place | null;
+  setMoveFrom: (value: Place) => void;
+  setMoveTo: (value: Place) => void;
+  moveSize: string;
+  setMoveSize: (value: string) => void;
+}) {
   const [currentTab, setCurrentTab] = useState("house");
   const [sizeOpen, setSizeOpen] = useState(false);
 
@@ -111,12 +126,16 @@ export function LocationDetailsForm() {
       <div className="space-y-6 mt-8">
         <LocationAutocomplete
           label="Moving From"
+          selectedPlace={moveFrom}
+          onSelectPlace={setMoveFrom}
           placeholder="Moving From"
           icon={<LocationIcon />}
         />
 
         <LocationAutocomplete
           label="Moving To"
+          selectedPlace={moveTo}
+          onSelectPlace={setMoveTo}
           placeholder="Moving To"
           icon={<GeoLocationIcon />}
         />
@@ -127,7 +146,9 @@ export function LocationDetailsForm() {
 
           <div className="bg-white flex items-center gap-x-2.5 rounded-xl p-2.5 lg:p-5">
             <PackageMovingIcon />
-            <p className="text-grey text-xs lg:text-sm">Moving Size</p>
+            {moveSize 
+            ?<p className="text-dark text-xs lg:text-sm">{moveSize}</p>
+            :<p className="text-grey text-xs lg:text-sm">Moving Size</p>}
             <button
               onClick={() => setSizeOpen((prev) => !prev)}
               className={`ml-auto ${sizeOpen ? "rotate-180" : ""}`}
@@ -167,6 +188,10 @@ export function LocationDetailsForm() {
                     <button
                       className="p-4 border text-dark border-[#E5E5E5] w-full text-left last:border-0"
                       key={option.label}
+                      onClick={() => {
+                        setMoveSize(option.label)
+                        setSizeOpen(false)
+                      }}
                     >
                       {option.label}{" "}
                       {option.size && (
@@ -192,14 +217,23 @@ interface LocationAutocompleteProps {
   label: string;
   placeholder: string;
   icon: ReactNode;
+  theme?: "white" | "light";
+  selectedPlace?: Place | null;
+  onSelectPlace?: (place: Place) => void;
+  readOnly?:boolean;
+  locationText?:string
 }
 
-function LocationAutocomplete({
+export function LocationAutocomplete({
   label,
   placeholder,
   icon,
+  selectedPlace,
+  readOnly,
+  onSelectPlace,
+  theme = "white",
 }: LocationAutocompleteProps) {
-  const location = useGetLocation();
+  const location = useGetLocation(selectedPlace, onSelectPlace);
   const containerRef = useRef<HTMLDivElement>(null);
 
   /**
@@ -222,14 +256,17 @@ function LocationAutocomplete({
 
       <div className="relative">
         {/* INPUT */}
-        <div className="bg-white flex items-center gap-x-2.5 rounded-xl p-2.5 lg:p-5">
+        <div
+          className={`${theme == "white" ? "bg-white" : "bg-[#F9FCF9] border border-black/10"} flex items-center gap-x-2.5 rounded-xl p-2.5 lg:p-5`}
+        >
           {icon}
 
           <input
+            readOnly={readOnly}
             value={location.queryString}
             onChange={(e) => location.setQueryText(e.target.value)}
             placeholder={placeholder}
-            className="w-full outline-none text-xs lg:text-sm"
+            className="w-full outline-none capitalize text-xs lg:text-sm"
           />
 
           <span
@@ -241,16 +278,18 @@ function LocationAutocomplete({
         </div>
 
         {/* DROPDOWN */}
-        {location.popupOpen && location.places.length > 0 && (
+        {!readOnly && location.popupOpen && location.places.length > 0 && (
           <div className="absolute left-0 top-full w-full z-50">
             <ul className="mt-3 bg-white rounded-xl shadow-lg border border-grey/20 max-h-60 overflow-y-auto">
               {location.places.map((place) => (
                 <li
-                  key={place.id}
-                  onClick={() => location.selectPlace(place)}
-                  className="p-4 text-sm text-grey border-b border-grey/10 last:border-0 cursor-pointer hover:bg-grey/5"
+                  key={place.placePrediction.placeId}
+                  onClick={() => {
+                    location.selectPlace(place);
+                  }}
+                  className="p-4 text-sm capitalize text-grey border-b border-grey/10 last:border-0 cursor-pointer hover:bg-grey/5"
                 >
-                  {place.formattedAddress}
+                  {place.placePrediction.text.text}
                 </li>
               ))}
             </ul>

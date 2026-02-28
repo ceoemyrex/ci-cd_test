@@ -1,60 +1,175 @@
 "use client";
 
-import { MapProvider, Place } from "@/services";
-import { useEffect, useState } from "react";
+import { MapProvider, Place, PlacePredictionObject } from "@/services";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
-export function useGetLocation() {
+export function useGetLocation(
+  currentPlace?:Place | null,
+  setCurrentPlace?:(place:Place)=>void
+) {
+  /* ---------------------------------- STATE --------------------------------- */
+
   const [queryString, setQueryText] = useState("");
-  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
-  const [places, setPlaces] = useState<Place[]>([]);
+  const [places, setPlaces] = useState<PlacePredictionObject[]>([]);
+  const [selectedPlace, setSelectedPlace] =
+    useState<PlacePredictionObject | null>(null);
+  const [placeDetails, setPlaceDetails] = useState<Place | null>(null);
+
   const [loading, setLoading] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
 
-  /**
-   * ✅ Select place handler
-   * keeps logic centralized
-   */
-  const selectPlace = (place: Place) => {
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const [isSelecting, setIsSelecting] = useState(false);
+
+  /* ---------------------------------- REFS ---------------------------------- */
+
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
+  const detailsCache = useRef<Record<string, Place>>({});
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+ useEffect(() => {
+  if (!currentPlace) return;
+  setPlaceDetails(currentPlace);
+  setQueryText(currentPlace.formattedAddress);
+}, [currentPlace]);
+
+  /* ---------------------------- SELECT PLACE ---------------------------- */
+
+  const selectPlace = useCallback((place: PlacePredictionObject) => {
+    setIsSelecting(true);
     setSelectedPlace(place);
-    setQueryText(place.formattedAddress); // ⭐ integrate selection → input
+    setQueryText(place.placePrediction.text.text);
     setPopupOpen(false);
     setPlaces([]);
-  };
+    setActiveIndex(-1);
+  }, []);
 
-  useEffect(() => {
-    if (!queryString || queryString.trim().length < 3) {
-      setPlaces([]);
+  /* --------------------------- FETCH DETAILS ---------------------------- */
+
+  const getPlaceDetails = useCallback(async () => {
+    if (!selectedPlace) return;
+
+    const placeId = selectedPlace.placePrediction.placeId;
+
+    // ✅ cache hit
+    if (detailsCache.current[placeId]) {
+      setPlaceDetails(detailsCache.current[placeId]);
+      setCurrentPlace?.(detailsCache.current[placeId])
       return;
     }
 
-    const controller = new AbortController();
+    try {
+      const res = await MapProvider.getPlaceDetails(placeId);
 
-    const timeout = setTimeout(async () => {
+      if (res) {
+        detailsCache.current[placeId] = res;
+        setPlaceDetails(res);
+        setCurrentPlace?.(res)
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, [selectedPlace,setCurrentPlace]);
+
+  useEffect(() => {
+    getPlaceDetails();
+  }, [getPlaceDetails]);
+
+  /* --------------------------- AUTOCOMPLETE ---------------------------- */
+
+  useEffect(() => {
+    if (isSelecting) {
+      setIsSelecting(false);
+      return;
+    }
+
+    if (!queryString.trim()) {
+      setPlaces([]);
+      setPopupOpen(false);
+      return;
+    }
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+
+    debounceRef.current = setTimeout(async () => {
       try {
         setLoading(true);
 
-        const res = await MapProvider.getPlacesFromText(queryString);
+        const res =
+          await MapProvider.getPlacePrediction(queryString);
 
-        if (!controller.signal.aborted) {
-          setPlaces(res.places ?? []);
-          setPopupOpen(true); // open when results arrive
-        }
+        const suggestions = res?.suggestions ?? [];
+
+        setPlaces(suggestions);
+        setPopupOpen(suggestions.length > 0);
+        setActiveIndex(-1);
       } catch (err) {
-        if (!controller.signal.aborted) {
-          console.error(err);
-        }
+        console.error(err);
       } finally {
-        if (!controller.signal.aborted) {
-          setLoading(false);
-        }
+        setLoading(false);
       }
-    }, 400);
+    }, 350);
 
     return () => {
-      controller.abort();
-      clearTimeout(timeout);
+      if (debounceRef.current)
+        clearTimeout(debounceRef.current);
     };
-  }, [queryString]);
+  }, [queryString, isSelecting]);
+
+  /* ------------------------ KEYBOARD NAVIGATION ------------------------ */
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (!popupOpen || places.length === 0) return;
+
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setActiveIndex((prev) =>
+          prev < places.length - 1 ? prev + 1 : prev
+        );
+      }
+
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setActiveIndex((prev) => (prev > 0 ? prev - 1 : 0));
+      }
+
+      if (e.key === "Enter" && activeIndex >= 0) {
+        e.preventDefault();
+        selectPlace(places[activeIndex]);
+      }
+
+      if (e.key === "Escape") {
+        setPopupOpen(false);
+      }
+    },
+    [places, activeIndex, popupOpen, selectPlace]
+  );
+
+  /* -------------------------- CLICK OUTSIDE -------------------------- */
+
+  useEffect(() => {
+    const handler = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setPopupOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handler);
+
+    return () =>
+      document.removeEventListener("mousedown", handler);
+  }, []);
+
+  /* -------------------------------- RETURN -------------------------------- */
 
   return {
     queryString,
@@ -64,9 +179,15 @@ export function useGetLocation() {
     loading,
 
     selectedPlace,
+    placeDetails,
     selectPlace,
 
     popupOpen,
     setPopupOpen,
+
+    activeIndex,
+    handleKeyDown,
+
+    containerRef,
   };
 }
