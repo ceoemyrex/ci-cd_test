@@ -1,12 +1,13 @@
 import { Footer } from "@/components";
 import { CommitmentSection, TrustAndSafetyHero } from "./components";
-import { ReadyToMove } from "../components";
+import { ReadyToMove, Testimonials } from "../components";
 
 export default function Page() {
   return (
     <>
       <TrustAndSafetyHero />
       <CommitmentSection />
+      <Testimonials/>
       <ReadyToMove
         title="Move with confidence"
         description="Start your inventory and experience the Zinter difference."

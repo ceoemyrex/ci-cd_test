@@ -1,6 +1,6 @@
 import { SVGAttributes } from "react";
 
-export function CheckListIcon(props:SVGAttributes<HTMLOrSVGElement>) {
+export function CheckListIcon(props: SVGAttributes<HTMLOrSVGElement>) {
   return (
     <>
       <svg
@@ -51,7 +51,7 @@ export function CheckListIcon(props:SVGAttributes<HTMLOrSVGElement>) {
   );
 }
 
-export function CheckCircle(props:SVGAttributes<HTMLOrSVGElement>) {
+export function CheckCircle(props: SVGAttributes<HTMLOrSVGElement>) {
   return (
     <svg
       width={props.width ?? "32"}
@@ -72,6 +72,71 @@ export function CheckCircle(props:SVGAttributes<HTMLOrSVGElement>) {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function TickIcon() {
+  return (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 28 28"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M5.83301 16.917C5.83301 16.917 7.58301 16.917 9.91634 21.0003C9.91634 21.0003 16.4016 10.3059 22.1663 8.16699"
+        stroke="#73C057"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function CheckedDocument(props:SVGAttributes<HTMLOrSVGElement>) {
+  return (
+    <svg
+      width={props.width ?? "32"}
+      height={props.height ?? "32"}
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M19.9727 9.35547C19.9727 9.35547 20.6393 10.0221 21.306 11.3555C21.306 11.3555 23.4236 8.02214 25.306 7.35547"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M13.3278 2.6913C9.99648 2.55026 7.4228 2.93402 7.4228 2.93402C5.79766 3.05022 2.68325 3.96131 2.68328 9.28223C2.6833 14.5579 2.64882 21.0619 2.68328 23.6547C2.68328 25.2388 3.6641 28.9339 7.05898 29.1319C11.1854 29.3727 18.6183 29.4239 22.0286 29.1319C22.9415 29.0804 25.9808 28.3638 26.3655 25.057C26.764 21.6312 26.6847 19.2504 26.6847 18.6838"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M29.3344 9.35417C29.3344 13.0361 26.3468 16.0209 22.6613 16.0209C18.9759 16.0209 15.9883 13.0361 15.9883 9.35417C15.9883 5.67227 18.9759 2.6875 22.6613 2.6875C26.3468 2.6875 29.3344 5.67227 29.3344 9.35417Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M9.30859 17.3555H14.6419"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M9.30859 22.6875H19.9752"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
       />
     </svg>
   );

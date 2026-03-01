@@ -14,7 +14,7 @@ export function ReadyToMove(
     ctaText?:string
   }) {
   return (
-    <section className="max-w-310 mx-auto px-4  lg:px-10">
+    <section className="max-w-310 2xl:max-w-350 mx-auto px-4">
       <div className="relative rounded-4xl overflow-clip lg:min-h-140">
         <img
           src="/images/ready-to-move.png"

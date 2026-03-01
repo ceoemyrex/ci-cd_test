@@ -91,6 +91,7 @@ export function MovingInfoForm({
   handleUpdate,
   setMoveFrom,
   setMoveTo,
+  termsAccepted, setTermsAccepted,
   formData,
 }: {
   formData: CreateMoveRequest;
@@ -99,7 +100,10 @@ export function MovingInfoForm({
   moveFrom: Place | null;
   setMoveFrom: (place: Place) => void;
   setMoveTo: (place: Place) => void;
+  termsAccepted:boolean,
+  setTermsAccepted:(value:boolean)=>void
 }) {
+  const [promotionsAccepted, setPromotionsAccepted] = useState(false);
   /**
    * Convert ISO date → datetime-local value
    */
@@ -119,13 +123,13 @@ export function MovingInfoForm({
   };
 
   return (
-    <div className="bg-white border border-black/10 rounded-lg min-h-screen mb-18">
-      <header className="flex p-4 px-8 items-center justify-between">
-        <p className="text-2xl font-medium">
+    <div className="bg-white border mt-4 lg:mt-0 border-black/10 rounded-lg min-h-screen mb-18">
+      <header className="flex p-4 lg:px-8 items-center justify-between">
+        <p className="text-lg lg:text-2xl font-medium">
           Moving Information (<span className="text-grey">Few Items</span>)
         </p>
       </header>
-      <div className="p-4 pb-8 px-8 space-y-8">
+      <div className="p-4 pb-8 lg:px-8 space-y-8">
         <div className="space-y-3 max-w-130">
           <p className="text-dark text-sm lg:text-base">Moving Date *</p>
           <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
@@ -184,9 +188,9 @@ export function MovingInfoForm({
           </div>
         </div>
       </div>
-      <div className="p-8 space-y-8 border-t border-black/10">
+      <div className="p-4 lg:p-8 space-y-8 border-t border-black/10">
         <div className="space-y-6">
-          <p className="text-secondary text-xl font-medium">Pickup Details</p>
+          <p className="text-secondary text-base lg:text-xl font-medium">Pickup Details</p>
           <div className="max-w-130">
             <LocationAutocomplete
               theme="light"
@@ -210,10 +214,10 @@ export function MovingInfoForm({
           </div>
           <div className="border rounded-xl max-w-130 border-black/10">
             <header className="flex p-4 border-b border-black/10">
-              <p className="font-medium text-secondary text-xl">Restrictions</p>
+              <p className="font-medium text-secondary lg:text-xl">Restrictions</p>
             </header>
             <div>
-              <div className="p-8 flex gap-x-8 items-center">
+              <div className="p-4 space-y-4 lg:space-y-0 lg:p-8 lg:flex gap-x-8 items-center">
                 <div className="space-y-3 flex-1">
                   <p className="text-dark text-sm lg:text-base">
                     Number Of Floors *
@@ -266,9 +270,9 @@ export function MovingInfoForm({
           </div>
         </div>
       </div>
-      <div className="p-8 space-y-8 border-t border-black/10">
+      <div className="p-4 lg:p-8 space-y-8 border-t border-black/10">
         <div className="space-y-6">
-          <p className="text-secondary text-xl font-medium">Drop-off Details</p>
+          <p className="text-secondary lg:text-xl font-medium">Drop-off Details</p>
           <div className="max-w-130">
             <LocationAutocomplete
               theme="light"
@@ -292,10 +296,10 @@ export function MovingInfoForm({
           </div>
           <div className="border rounded-xl max-w-130 border-black/10">
             <header className="flex p-4 border-b border-black/10">
-              <p className="font-medium text-secondary text-xl">Restrictions</p>
+              <p className="font-medium text-secondary lg:text-xl">Restrictions</p>
             </header>
             <div>
-              <div className="p-8 flex gap-x-8 items-center">
+              <div className="p-4 lg:p-8 space-y-4 lg:space-y-0 lg:flex gap-x-8 items-center">
                 <div className="space-y-3 flex-1">
                   <p className="text-dark text-sm lg:text-base">
                     Number Of Floors *
@@ -310,6 +314,14 @@ export function MovingInfoForm({
                       {
                         value: "2",
                         label: "2",
+                      },
+                      {
+                        value: "3",
+                        label: "3",
+                      },
+                      {
+                        value: "4",
+                        label: "4",
                       },
                     ]}
                     value={formData.toNumberOfFloors.toString()}
@@ -347,7 +359,7 @@ export function MovingInfoForm({
             </div>
           </div>
 
-          <div className="max-w-130 grid grid-cols-3 gap-x-4">
+          <div className="max-w-130 space-y-4 lg:space-y-0 lg:grid grid-cols-3 gap-x-4">
             <div className="space-y-3 flex-1">
               <p className="text-dark text-base lg:text-sm">Moving Boxes</p>
               <div className="bg-[#F9FCF9]  text-xs lg:text-sm justify-between border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
@@ -403,15 +415,21 @@ export function MovingInfoForm({
         </div>
       </div>
 
-      <footer className="border-t p-8 space-y-6 border-black/10">
-        <button className="flex w-full items-center gap-x-1">
-          <span className="h-4 w-4 rounded bg-white border border-[#D9D9D9]"></span>
-          <span className="text-secondary">Accept terms and condition *</span>
-        </button>
-        <button className="flex w-full items-center gap-x-1">
-          <span className="h-4 w-4 rounded bg-white border border-[#D9D9D9]"></span>
-          <span>Receive Promotions and moving tips</span>
-        </button>
+      <footer className="border-t p-4 lg:p-8 space-y-6 border-black/10">
+        <CheckboxButton
+          checked={termsAccepted}
+          onChange={setTermsAccepted}
+          label={
+            <a target="_blank" href={"/terms-and-conditions"} className="text-secondary text-xs underline lg:text-base">Accept terms and condition *</a>
+          }
+        />
+        <CheckboxButton
+          checked={promotionsAccepted}
+          onChange={setPromotionsAccepted}
+          label={
+            <span className="text-xs lg:text-base">Receive Promotions and moving tips</span>
+          }
+        />
       </footer>
     </div>
   );

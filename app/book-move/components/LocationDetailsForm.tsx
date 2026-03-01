@@ -1,12 +1,12 @@
 "use client";
-
 import { LocationIcon, GeoLocationIcon, ArrowDropDownIcon } from "@/app/icons";
 import { PackageMovingIcon } from "@/app/icons/package";
-import { useGetLocation } from "@/hooks";
+import { useGetLocation, useParamFilter } from "@/hooks";
 import { Place } from "@/services";
+import { LoaderCircle } from "lucide-react";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
-const tabs = [
+export const tabs = [
   {
     name: "House",
     value: "house",
@@ -113,6 +113,13 @@ export function LocationDetailsForm({
 }) {
   const [currentTab, setCurrentTab] = useState("house");
   const [sizeOpen, setSizeOpen] = useState(false);
+  const [moveFromText] = useParamFilter("moveFrom")
+  const [moveToText] = useParamFilter("moveTo")
+  const [moveSizeText] = useParamFilter("moveSize")
+
+  useEffect(()=>{
+    setMoveSize(moveSizeText)
+  },[moveSizeText,setMoveSize])
 
   const options = useMemo(() => {
     const selectedOption = tabs.find((item) => item.value == currentTab);
@@ -121,7 +128,7 @@ export function LocationDetailsForm({
 
   return (
     <div>
-      <p className="text-2xl font-medium">Location Details</p>
+      <p className="text-lg lg:text-2xl font-medium">Location Details</p>
 
       <div className="space-y-6 mt-8">
         <LocationAutocomplete
@@ -130,6 +137,7 @@ export function LocationDetailsForm({
           onSelectPlace={setMoveFrom}
           placeholder="Moving From"
           icon={<LocationIcon />}
+          locationText={moveFromText}
         />
 
         <LocationAutocomplete
@@ -137,6 +145,7 @@ export function LocationDetailsForm({
           selectedPlace={moveTo}
           onSelectPlace={setMoveTo}
           placeholder="Moving To"
+          locationText={moveToText}
           icon={<GeoLocationIcon />}
         />
 
@@ -146,7 +155,7 @@ export function LocationDetailsForm({
 
           <div className="bg-white flex items-center gap-x-2.5 rounded-xl p-2.5 lg:p-5">
             <PackageMovingIcon />
-            {moveSize 
+            {moveSize
             ?<p className="text-dark text-xs lg:text-sm">{moveSize}</p>
             :<p className="text-grey text-xs lg:text-sm">Moving Size</p>}
             <button
@@ -217,7 +226,7 @@ interface LocationAutocompleteProps {
   label: string;
   placeholder: string;
   icon: ReactNode;
-  theme?: "white" | "light";
+  theme?: "white" | "light" | "grey";
   selectedPlace?: Place | null;
   onSelectPlace?: (place: Place) => void;
   readOnly?:boolean;
@@ -232,9 +241,11 @@ export function LocationAutocomplete({
   readOnly,
   onSelectPlace,
   theme = "white",
+  locationText,
 }: LocationAutocompleteProps) {
-  const location = useGetLocation(selectedPlace, onSelectPlace);
+  const location = useGetLocation(selectedPlace, onSelectPlace,locationText);
   const containerRef = useRef<HTMLDivElement>(null);
+
 
   /**
    * ✅ Close dropdown on outside click
@@ -257,7 +268,7 @@ export function LocationAutocomplete({
       <div className="relative">
         {/* INPUT */}
         <div
-          className={`${theme == "white" ? "bg-white" : "bg-[#F9FCF9] border border-black/10"} flex items-center gap-x-2.5 rounded-xl p-2.5 lg:p-5`}
+          className={`${theme == "white" ? "bg-white" : theme == "grey"?"bg-[#F3F3F4] border border-black/10" :"bg-[#F9FCF9] border border-black/10"} flex items-center gap-x-2.5 rounded-xl p-2.5 lg:p-5`}
         >
           {icon}
 
@@ -269,12 +280,14 @@ export function LocationAutocomplete({
             className="w-full outline-none capitalize text-xs lg:text-sm"
           />
 
-          <span
+          <button
             className="ml-auto cursor-pointer"
             onClick={() => location.setPopupOpen((p) => !p)}
           >
-            <ArrowDropDownIcon />
-          </span>
+            {location.loading
+            ?<LoaderCircle strokeWidth={1} className="animate-spin"/>
+            :<ArrowDropDownIcon />}
+          </button>
         </div>
 
         {/* DROPDOWN */}

@@ -15,7 +15,7 @@ export function PageContainer({children}:{children:ReactNode}) {
         />
         <div className="relative max-w-310 mx-auto p-4 lg:py-10">
           <Navbar />
-        <div className="mt-37">{children}</div>
+        <div className="mt-18 lg:mt-37">{children}</div>
         </div>
       </div>
     </section>

@@ -72,7 +72,7 @@ export function Steps() {
   ];
 
   return (
-    <div className="max-w-310 bg-white mx-auto px-4 lg:px-10">
+    <div className="max-w-310 2xl:max-w-350 bg-white mx-auto px-4">
       <div className="py-18.75 lg:py-37.5 space-y-15">
         {steps.map((step) => {
           return <CurrentStep key={`how-it-works-step-${step.step}`} {...step} />;

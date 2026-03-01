@@ -5,7 +5,7 @@ import { AppTag } from "@/components";
 export function Process() {
   return (
     <section className="py-18.5 lg:py-37.5">
-      <div className="max-w-310 px-4 lg:px-10 mx-auto">
+      <div className="max-w-310  px-4 2xl:max-w-350 mx-auto">
         <header className="text-center max-w-153.75 mx-auto">
           <AppTag title="Smooth Process" />
           <div className="mt-6 space-y-4">

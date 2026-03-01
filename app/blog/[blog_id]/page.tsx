@@ -23,7 +23,7 @@ export default async function Page({
 
   return (
     <>
-      <section className={`lg:pt-8 lg:px-8`}>
+      <section className={``}>
         <div className=" relative pb-15 lg:pb-30 lg:rounded-t-4xl">
           <img
             src={"/hero-bg.png"}
