@@ -91,6 +91,7 @@ export function MovingInfoForm({
   handleUpdate,
   setMoveFrom,
   setMoveTo,
+  termsAccepted, setTermsAccepted,
   formData,
 }: {
   formData: CreateMoveRequest;
@@ -99,8 +100,9 @@ export function MovingInfoForm({
   moveFrom: Place | null;
   setMoveFrom: (place: Place) => void;
   setMoveTo: (place: Place) => void;
+  termsAccepted:boolean,
+  setTermsAccepted:(value:boolean)=>void
 }) {
-  const [termsAccepted, setTermsAccepted] = useState(false);
   const [promotionsAccepted, setPromotionsAccepted] = useState(false);
   /**
    * Convert ISO date → datetime-local value
@@ -418,7 +420,7 @@ export function MovingInfoForm({
           checked={termsAccepted}
           onChange={setTermsAccepted}
           label={
-            <span className="text-secondary text-xs lg:text-base">Accept terms and condition *</span>
+            <a target="_blank" href={"/terms-and-conditions"} className="text-secondary text-xs underline lg:text-base">Accept terms and condition *</a>
           }
         />
         <CheckboxButton

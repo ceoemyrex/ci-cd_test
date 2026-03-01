@@ -62,5 +62,27 @@ export class MoveRequestProvider {
         responseMessage: "An error occurred could not create move request",
       } as BaseApiResponse<MoveItem[]>;
     }
+  } 
+  static async getTrackMove(code:string) {
+    this.initialize();
+    try {
+      const res = await this.instance.get<BaseApiResponse>(
+        `TrackMove?code=${code}`,
+      );
+
+      return res.data as BaseApiResponse<MoveItem[]>;
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        return {
+          responseStatus: false,
+          responseMessage: "An error occurred could not create move request",
+          ...e.response?.data,
+        } as BaseApiResponse<MoveItem[]>;
+      }
+      return {
+        responseStatus: false,
+        responseMessage: "An error occurred could not create move request",
+      } as BaseApiResponse<MoveItem[]>;
+    }
   }
 }

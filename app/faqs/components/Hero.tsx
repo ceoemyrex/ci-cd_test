@@ -12,16 +12,16 @@ export function FAQHero() {
   };
 
   return (
-    <section className={`lg:pt-8 lg:px-8`}>
+    <section className={``}>
       <div className=" relative pb-15 lg:pb-30 lg:rounded-t-4xl">
         <img
           src={"/hero-bg.png"}
           alt="hero-bg"
           className="absolute lg:rounded-t-4xl top-0 left-0 w-full h-full object-center object-cover"
         />
-        <div className="relative max-w-310 mx-auto p-4 lg:py-10 lg:p-10">
+        <div className="relative max-w-310 2xl:max-w-350 mx-auto p-4">
           <Navbar />
-          <div className="pt-12 max-w-140 mx-auto lg:pt-26.25">
+          <div className="pt-22 max-w-140 mx-auto lg:pt-36.25">
             <div className="space-y-4  text-center">
               <div className="text-center">
                 <AppTag title="Faq" />

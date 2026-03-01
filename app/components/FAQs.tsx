@@ -109,7 +109,7 @@ export function FAQs() {
 
   return (
     <section className="py-15.5 lg:py-31.25 bg-linear-to-b from-[#F8FBFF] to-[#FFFFFF]">
-      <div className="space-y-6 lg:flex max-w-310 px-4 lg:px-10 mx-auto items-center gap-x-30">
+      <div className="space-y-6 lg:flex max-w-310 2xl:max-w-350 px-4 mx-auto items-center gap-x-30">
         
         {/* Left Side */}
         <div className="flex-2">

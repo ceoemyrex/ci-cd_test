@@ -4,7 +4,7 @@ import { HexagonIcon } from "../icons";
 export function Steps() {
   return (
     <section className="py-18.5 lg:py-37.5">
-      <div className="max-w-310 px-4 lg:px-10 mx-auto">
+      <div className="max-w-310 2xl:max-w-350 px-4 mx-auto">
         <div className="lg:flex gap-x-22">
           <div className="flex-1">
             <div className="relative h-100 lg:h-180 w-full">

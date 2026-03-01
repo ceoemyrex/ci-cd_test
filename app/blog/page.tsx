@@ -1,6 +1,6 @@
 import { Footer } from "@/components";
 import { BlogHero } from "./components";
-import { Blogs, ReadyToMove } from "../components";
+import { Blogs, ReadyToMove, Testimonials } from "../components";
 import { ContentfulProvider } from "@/services";
 import { Suspense } from "react";
 
@@ -14,6 +14,7 @@ export default async function Page() {
       <Suspense fallback={null}>
         <Blogs blogs={blogs ?? []} showCta={false} />
       </Suspense>
+      <Testimonials/>
       <ReadyToMove />
       <Footer />
     </>

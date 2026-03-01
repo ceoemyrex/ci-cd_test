@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowDropDownIcon } from "@/app/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -18,22 +18,38 @@ const navLinks = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [hasBackground, setHasBackground] = useState(false);
   const pathname = usePathname();
 
-  console.log(pathname);
+  useEffect(() => {
+    const handleScroll = () => {
+      const passedViewport = window.scrollY >= window.innerHeight;
+      setHasBackground(passedViewport);
+    };
+
+    handleScroll(); // run once on mount
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
 
   return (
-    <>
-      <nav className="flex items-center relative z-40">
+    <div
+      className={`
+    fixed top-0 w-full z-40 left-0 transition-all duration-300
+    ${hasBackground ? "bg-[#F8FBFF] shadow-sm" : "bg-transparent"}
+  `}
+    >
+      <nav className="flex w-full p-4 items-center max-w-310  2xl:max-w-350 mx-auto relative">
         {/* Logo */}
-        <div className="flex items-center gap-x-2 lg:gap-x-4">
-         <Link href={"/"}>
+        <Link href={"/"} className="flex items-center gap-x-2 lg:gap-x-4">
           <img src="/logo.svg" className="lg:h-11 w-8 h-8 lg:w-11" alt="Logo" />
-         </Link>
           <p className="uppercase text-xl lg:text-4xl text-dark font-bold">
             Zinter
           </p>
-        </div>
+        </Link>
 
         {/* Desktop Nav */}
         <div className="mx-auto border-b-2 border-[#D3E6FA] hidden xl:flex gap-x-5 justify-center">
@@ -82,7 +98,7 @@ export function Navbar() {
         {/* Floating Mobile Button */}
         <button
           onClick={() => setIsOpen(true)}
-          className="xl:hidden bg-white h-10 w-10 rounded-full fixed lg:static ml-auto top-4 right-4 z-50 text-dark border border-grey/10 shadow-xl flex items-center justify-center"
+          className="xl:hidden bg-white h-10 w-10 rounded-full ml-auto top-4 right-4 z-50 text-dark border border-grey/10 shadow-xl flex items-center justify-center"
         >
           <i className="bi bi-list text-lg"></i>
         </button>
@@ -129,6 +145,6 @@ export function Navbar() {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

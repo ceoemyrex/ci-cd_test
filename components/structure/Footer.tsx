@@ -11,7 +11,7 @@ export function Footer() {
       />
       <div className="relative">
         <div className="py-16.5 lg:py-33">
-          <div className="max-w-310 px-4 lg:px-10 mx-auto space-y-4 lg:flex">
+          <div className="max-w-310  2xl:max-w-350 px-4 mx-auto space-y-4 lg:flex">
             <div className="flex-1">
               <div className="flex w-full gap-x-4 items-center">
                 <img src={"/logo.svg"} alt="Logo" className="h-11 w-11" />

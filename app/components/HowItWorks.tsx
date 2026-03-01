@@ -3,7 +3,7 @@ import { HexagonIcon, CheckListIcon, SettingIcon, CheckCircle } from "../icons";
 export function HowItWorks() {
   return (
     <section className="py-18.5 lg:py-37.5">
-      <div className="max-w-310 px-4 lg:px-10 mx-auto">
+      <div className="max-w-310 2xl:max-w-350 px-4 mx-auto">
         <header className="text-center max-w-153.75 mx-auto">
           <span className="bg-[#CACACA1A]/10 px-4 text-xs lg:text-sm py-1.5 lg:py-2.5 rounded-[100px] text-secondary inline-flex items-center gap-x-1.5 border border-[#B6DDA8]">
             <HexagonIcon />

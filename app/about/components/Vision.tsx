@@ -79,7 +79,7 @@ export function Vision() {
   ];
 
   return (
-    <section className="py-18.75 lg:py-37.5 max-w-310 px-4 lg:px-10 mx-auto">
+    <section className="py-18.75 lg:py-37.5 max-w-310 2xl:max-w-350 px-4 mx-auto">
       <SectionHeader
         tag="Our Vision"
         title={

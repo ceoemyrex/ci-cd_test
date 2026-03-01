@@ -2,6 +2,7 @@ import { MovingInfoForm } from "./MovingInfoForm";
 import { CreateMoveRequest } from "@/services/MoveRequest";
 import { Place } from "@/services";
 import { BookFormContainer } from "./BookFormContainer";
+import { useState } from "react";
 
 export function AddMovingInfoForm({
   onNext,
@@ -22,9 +23,12 @@ export function AddMovingInfoForm({
   setMoveFrom: (place: Place) => void;
   setMoveTo: (place: Place) => void;
 }) {
+
+  const [termsAccepted,setTermsAccepted] = useState(false)
+
   return (
     <BookFormContainer
-      canContinue
+      canContinue={termsAccepted}
       currentStep={3}
       onPrev={onPrev}
       onNext={onNext}
@@ -36,6 +40,8 @@ export function AddMovingInfoForm({
         handleUpdate={handleUpdate}
         setMoveFrom={setMoveFrom}
         setMoveTo={setMoveTo}
+        termsAccepted={termsAccepted}
+        setTermsAccepted={setTermsAccepted}
       />
     </BookFormContainer>
   );
