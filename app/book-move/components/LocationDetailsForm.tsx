@@ -3,6 +3,7 @@ import { LocationIcon, GeoLocationIcon, ArrowDropDownIcon } from "@/app/icons";
 import { PackageMovingIcon } from "@/app/icons/package";
 import { useGetLocation, useParamFilter } from "@/hooks";
 import { Place } from "@/services";
+import { LoaderCircle } from "lucide-react";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
 export const tabs = [
@@ -127,7 +128,7 @@ export function LocationDetailsForm({
 
   return (
     <div>
-      <p className="text-2xl font-medium">Location Details</p>
+      <p className="text-lg lg:text-2xl font-medium">Location Details</p>
 
       <div className="space-y-6 mt-8">
         <LocationAutocomplete
@@ -154,7 +155,7 @@ export function LocationDetailsForm({
 
           <div className="bg-white flex items-center gap-x-2.5 rounded-xl p-2.5 lg:p-5">
             <PackageMovingIcon />
-            {moveSize 
+            {moveSize
             ?<p className="text-dark text-xs lg:text-sm">{moveSize}</p>
             :<p className="text-grey text-xs lg:text-sm">Moving Size</p>}
             <button
@@ -279,12 +280,14 @@ export function LocationAutocomplete({
             className="w-full outline-none capitalize text-xs lg:text-sm"
           />
 
-          <span
+          <button
             className="ml-auto cursor-pointer"
             onClick={() => location.setPopupOpen((p) => !p)}
           >
-            <ArrowDropDownIcon />
-          </span>
+            {location.loading
+            ?<LoaderCircle strokeWidth={1} className="animate-spin"/>
+            :<ArrowDropDownIcon />}
+          </button>
         </div>
 
         {/* DROPDOWN */}

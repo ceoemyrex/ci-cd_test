@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { AddLocationDetails } from "./AddLocationDetails";
 import { AddInventoryList } from "./AddInventoryList";
 import { AddMovingInfoForm } from "./AddMovingInfoForm";
@@ -124,15 +124,15 @@ export function BookMoveForm() {
       <CurrentStepComponent
         moveFrom={moveFrom}
         moveTo={moveTo}
-        setMoveFrom={(place) => {
+        setMoveFrom={useCallback((place) => {
           setMoveFrom(place);
           handleUpdateForm({
             pickUpAddress: place.formattedAddress,
             pickUpLatitude: place.location.latitude.toString(),
             pickUpLongitude: place.location.longitude.toString(),
           });
-        }}
-        setMoveTo={(place) => {
+        },[])}
+        setMoveTo={useCallback((place) => {
           setMoveTo(place);
           handleUpdateForm({
             dropOffAddress: place.formattedAddress,
@@ -140,7 +140,7 @@ export function BookMoveForm() {
             dropOffLatitude: place.location.latitude.toString(),
             dropOffLongitude: place.location.longitude.toString(),
           });
-        }}
+        },[])}
         onNext={next}
         moveSize={moveSize}
         setMoveSize={setMoveSize}

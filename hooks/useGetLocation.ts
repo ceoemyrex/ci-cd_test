@@ -15,7 +15,7 @@ export function useGetLocation(
 ) {
   /* ---------------------------------- STATE --------------------------------- */
 
-  
+  const sessionRef = useRef(0)
   const [queryString, setQueryText] = useState("");
   const [places, setPlaces] = useState<PlacePredictionObject[]>([]);
   const [selectedPlace, setSelectedPlace] =
@@ -41,6 +41,7 @@ export function useGetLocation(
 }, [currentPlace]);
 
  useEffect(() => {
+  if(sessionRef.current > 0) return;
   if (!locationText) return;
 
   const resolveLocation = async () => {
@@ -63,6 +64,7 @@ export function useGetLocation(
       console.error(err);
     } finally {
       setLoading(false);
+      sessionRef.current = 1;
     }
   };
 

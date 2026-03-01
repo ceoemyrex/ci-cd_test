@@ -121,13 +121,13 @@ export function MovingInfoForm({
   };
 
   return (
-    <div className="bg-white border border-black/10 rounded-lg min-h-screen mb-18">
-      <header className="flex p-4 px-8 items-center justify-between">
-        <p className="text-2xl font-medium">
+    <div className="bg-white border mt-4 lg:mt-0 border-black/10 rounded-lg min-h-screen mb-18">
+      <header className="flex p-4 lg:px-8 items-center justify-between">
+        <p className="text-lg lg:text-2xl font-medium">
           Moving Information (<span className="text-grey">Few Items</span>)
         </p>
       </header>
-      <div className="p-4 pb-8 px-8 space-y-8">
+      <div className="p-4 pb-8 lg:px-8 space-y-8">
         <div className="space-y-3 max-w-130">
           <p className="text-dark text-sm lg:text-base">Moving Date *</p>
           <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
@@ -186,9 +186,9 @@ export function MovingInfoForm({
           </div>
         </div>
       </div>
-      <div className="p-8 space-y-8 border-t border-black/10">
+      <div className="p-4 lg:p-8 space-y-8 border-t border-black/10">
         <div className="space-y-6">
-          <p className="text-secondary text-xl font-medium">Pickup Details</p>
+          <p className="text-secondary text-base lg:text-xl font-medium">Pickup Details</p>
           <div className="max-w-130">
             <LocationAutocomplete
               theme="light"
@@ -212,10 +212,10 @@ export function MovingInfoForm({
           </div>
           <div className="border rounded-xl max-w-130 border-black/10">
             <header className="flex p-4 border-b border-black/10">
-              <p className="font-medium text-secondary text-xl">Restrictions</p>
+              <p className="font-medium text-secondary lg:text-xl">Restrictions</p>
             </header>
             <div>
-              <div className="p-8 flex gap-x-8 items-center">
+              <div className="p-4 space-y-4 lg:space-y-0 lg:p-8 lg:flex gap-x-8 items-center">
                 <div className="space-y-3 flex-1">
                   <p className="text-dark text-sm lg:text-base">
                     Number Of Floors *
@@ -268,9 +268,9 @@ export function MovingInfoForm({
           </div>
         </div>
       </div>
-      <div className="p-8 space-y-8 border-t border-black/10">
+      <div className="p-4 lg:p-8 space-y-8 border-t border-black/10">
         <div className="space-y-6">
-          <p className="text-secondary text-xl font-medium">Drop-off Details</p>
+          <p className="text-secondary lg:text-xl font-medium">Drop-off Details</p>
           <div className="max-w-130">
             <LocationAutocomplete
               theme="light"
@@ -294,10 +294,10 @@ export function MovingInfoForm({
           </div>
           <div className="border rounded-xl max-w-130 border-black/10">
             <header className="flex p-4 border-b border-black/10">
-              <p className="font-medium text-secondary text-xl">Restrictions</p>
+              <p className="font-medium text-secondary lg:text-xl">Restrictions</p>
             </header>
             <div>
-              <div className="p-8 flex gap-x-8 items-center">
+              <div className="p-4 lg:p-8 space-y-4 lg:space-y-0 lg:flex gap-x-8 items-center">
                 <div className="space-y-3 flex-1">
                   <p className="text-dark text-sm lg:text-base">
                     Number Of Floors *
@@ -357,7 +357,7 @@ export function MovingInfoForm({
             </div>
           </div>
 
-          <div className="max-w-130 grid grid-cols-3 gap-x-4">
+          <div className="max-w-130 space-y-4 lg:space-y-0 lg:grid grid-cols-3 gap-x-4">
             <div className="space-y-3 flex-1">
               <p className="text-dark text-base lg:text-sm">Moving Boxes</p>
               <div className="bg-[#F9FCF9]  text-xs lg:text-sm justify-between border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
@@ -413,19 +413,19 @@ export function MovingInfoForm({
         </div>
       </div>
 
-      <footer className="border-t p-8 space-y-6 border-black/10">
+      <footer className="border-t p-4 lg:p-8 space-y-6 border-black/10">
         <CheckboxButton
           checked={termsAccepted}
           onChange={setTermsAccepted}
           label={
-            <span className="text-secondary">Accept terms and condition *</span>
+            <span className="text-secondary text-xs lg:text-base">Accept terms and condition *</span>
           }
         />
         <CheckboxButton
           checked={promotionsAccepted}
           onChange={setPromotionsAccepted}
           label={
-            <>Receive Promotions and moving tips</>
+            <span className="text-xs lg:text-base">Receive Promotions and moving tips</span>
           }
         />
       </footer>

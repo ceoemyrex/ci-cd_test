@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 import { BASE_URL } from "../config";
-import { CreateMoveRequest } from "./types";
+import { CreateMoveRequest, MoveItem } from "./types";
 import { BaseApiResponse } from "../types";
 
 export class MoveRequestProvider {
@@ -38,6 +38,29 @@ export class MoveRequestProvider {
         responseStatus: false,
         responseMessage: "An error occurred could not create move request",
       } as BaseApiResponse;
+    }
+  }
+  static async getItemsByImage(formData:FormData,room:string) {
+    this.initialize();
+    try {
+      const res = await this.instance.post<BaseApiResponse<MoveItem[]>>(
+        `GetItemsByImage?room=${room}`,
+        formData,
+      );
+
+      return res.data as BaseApiResponse<MoveItem[]>;
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        return {
+          responseStatus: false,
+          responseMessage: "An error occurred could not create move request",
+          ...e.response?.data,
+        } as BaseApiResponse<MoveItem[]>;
+      }
+      return {
+        responseStatus: false,
+        responseMessage: "An error occurred could not create move request",
+      } as BaseApiResponse<MoveItem[]>;
     }
   }
 }

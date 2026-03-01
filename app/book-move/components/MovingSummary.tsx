@@ -51,23 +51,25 @@ export function MovingSummary({
   formData: CreateMoveRequest;
   moveFrom?: Place | null;
   moveTo?: Place | null;
-  moveSize:string,
-  moveItems:MoveItem[]
+  moveSize: string;
+  moveItems: MoveItem[];
 }) {
-
-  const getMoveItemCountByRoom = useCallback((room:string)=>{
-    return moveItems.map(item=>item.room == room).length;
-  },[moveItems])
+  const getMoveItemCountByRoom = useCallback(
+    (room: string) => {
+      return moveItems.filter((item) => item.room == room).length;
+    },
+    [moveItems],
+  );
 
   return (
     <>
       <section>
-        <p className="text-2xl font-medium">Location Details</p>
+        <p className="text-lg lg:text-2xl font-medium">Location Details</p>
         <div className="mt-8">
-          <div className="flex items-center gap-x-8">
+          <div className="flex items-center gap-x-4 lg:gap-x-8">
             <div className="mt-8">
-              <div className="border border-secondary rounded-full h-12 w-12 bg-secondary/10 flex items-center justify-center">
-                <div className="bg-secondary h-4 w-4 rounded-full"></div>
+              <div className="border border-secondary rounded-full h-8 lg:h-12 w-8 lg:w-12 bg-secondary/10 flex items-center justify-center">
+                <div className="bg-secondary h-2.5 w-2.5 lg:h-4 lg:w-4 rounded-full"></div>
               </div>
             </div>
             <div className="flex-1">
@@ -80,11 +82,11 @@ export function MovingSummary({
               />
             </div>
           </div>
-          <div className="h-20 -mt-2.75 -mb-10.75 -z-1 w-px bg-secondary ml-6"></div>
-          <div className="flex items-center gap-x-8">
+          <div className="h-18 lg:h-20 -mt-2 lg:-mt-2.75 -mb-9.5 lg:-mb-10.75 -z-1 w-px bg-secondary ml-4 lg:ml-6"></div>
+          <div className="flex items-center gap-x-4 lg:gap-x-8">
             <div className="mt-8">
-              <div className="border border-secondary rounded-full h-12 w-12 bg-secondary/10 flex items-center justify-center">
-                <div className="bg-secondary h-4 w-4 rounded-full"></div>
+              <div className="border border-secondary rounded-full h-8 lg:h-12 w-8 lg:w-12 bg-secondary/10 flex items-center justify-center">
+                <div className="bg-secondary h-2.5 w-2.5 lg:h-4 lg:w-4 rounded-full"></div>
               </div>
             </div>
             <div className="flex-1">
@@ -98,7 +100,7 @@ export function MovingSummary({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 mt-12 gap-x-8 gap-y-6">
+          <div className="space-y-4 lg;space-y-0 lg:grid grid-cols-2 mt-12 gap-x-8 gap-y-6">
             <div className="space-y-3 max-w-130">
               <p className="text-dark text-sm lg:text-base">Move Size</p>
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
@@ -115,7 +117,7 @@ export function MovingSummary({
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <input
                   readOnly
-                  value={"O Items Selected"}
+                  value={`${getMoveItemCountByRoom("Living Room")} Items Selected`}
                   className="text-grey placeholder:text-grey text-xs outline-0  lg:text-sm"
                   placeholder="Remarks for the location "
                 />
@@ -137,7 +139,7 @@ export function MovingSummary({
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <input
                   readOnly
-                 value={`${getMoveItemCountByRoom("Kitchen")} Items Selected`}
+                  value={`${getMoveItemCountByRoom("Kitchen")} Items Selected`}
                   className="text-grey placeholder:text-grey text-xs outline-0  lg:text-sm"
                   placeholder="Remarks for the location "
                 />
@@ -155,11 +157,11 @@ export function MovingSummary({
               </div>
             </div>
             <div className="space-y-3 max-w-130">
-              <p className="text-dark text-sm lg:text-base">Bed Room</p>
+              <p className="text-dark text-sm lg:text-base">{moveSize}</p>
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <input
                   readOnly
-                  value={`${getMoveItemCountByRoom("Bedroom")} Items Selected`}
+                  value={`${getMoveItemCountByRoom(moveSize)} Items Selected`}
                   className="text-grey placeholder:text-grey text-xs outline-0  lg:text-sm"
                   placeholder="Remarks for the location "
                 />
