@@ -13,7 +13,7 @@ export function TrackMoveHero() {
   const [trackingCode, setTrackingCode] = useState("");
 
   const handleSubmit = async () => {
-    if (trackingCode) {
+    if (!trackingCode) {
       setErrorMessage("Please provide tracking code");
       return;
     }
