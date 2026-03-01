@@ -10,13 +10,15 @@ export function BookFormContainer({
   children,
   canContinue = false,
   loading=false,
-  buttonTitle="Continue"
+  buttonTitle="Continue",
+  isNextDisabled = false
 }: {
   currentStep?: number;
   children: ReactNode;
   onPrev?: () => void;
   onNext?: () => void;
   canContinue?: boolean;
+  isNextDisabled?: boolean;
   loading?: boolean;
   buttonTitle?:string
 }) {
@@ -49,9 +51,9 @@ export function BookFormContainer({
         </button>
         {canContinue && (
           <button
-            disabled={loading}
+            disabled={loading || isNextDisabled}
             onClick={onNext}
-            className="bg-theme flex gap-x-2 text-xs lg:text-base justify-center items-center ml-auto px-4 lg:px-10 py-2 w-full lg:w-auto lg:py-4 rounded-lg text-white"
+            className="bg-theme disabled:opacity-60 flex gap-x-2 text-xs lg:text-base justify-center items-center ml-auto px-4 lg:px-10 py-2 w-full lg:w-auto lg:py-4 rounded-lg text-white"
           >
              {loading && (
               <LoaderCircle className="animate-spin"/>

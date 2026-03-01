@@ -5,6 +5,7 @@ import { LocationAutocomplete } from "./LocationDetailsForm";
 import { useCallback, useMemo } from "react";
 import { CreateMoveRequest, MoveItem } from "@/services/MoveRequest";
 import { Place } from "@/services";
+import { DateTime } from "luxon";
 
 export default function StarrySpace() {
   const stars = useMemo(() => {
@@ -56,6 +57,9 @@ export function MovingSummary({
 }) {
   const getMoveItemCountByRoom = useCallback(
     (room: string) => {
+
+      console.log({room,moveItems})
+
       return moveItems.filter((item) => item.room == room).length;
     },
     [moveItems],
@@ -124,17 +128,6 @@ export function MovingSummary({
               </div>
             </div>
             <div className="space-y-3 max-w-130">
-              <p className="text-dark text-sm lg:text-base">Toilet and Bath</p>
-              <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
-                <input
-                  readOnly
-                  value={`${getMoveItemCountByRoom("Toilet")} Items Selected`}
-                  className="text-grey placeholder:text-grey text-xs outline-0  lg:text-sm"
-                  placeholder="Remarks for the location "
-                />
-              </div>
-            </div>
-            <div className="space-y-3 max-w-130">
               <p className="text-dark text-sm lg:text-base">Kitchen </p>
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <input
@@ -172,18 +165,7 @@ export function MovingSummary({
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <input
                   readOnly
-                  value={formData.moveDate}
-                  className="text-grey placeholder:text-grey text-xs outline-0  lg:text-sm"
-                  placeholder="Remarks for the location "
-                />
-              </div>
-            </div>
-            <div className="space-y-3 max-w-130">
-              <p className="text-dark text-sm lg:text-base">Day</p>
-              <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
-                <input
-                  readOnly
-                  value={formData.moveDate}
+                  value={DateTime.fromJSDate(new Date(formData.moveDate)).toFormat("LLLL dd, yyyy")}
                   className="text-grey placeholder:text-grey text-xs outline-0  lg:text-sm"
                   placeholder="Remarks for the location "
                 />

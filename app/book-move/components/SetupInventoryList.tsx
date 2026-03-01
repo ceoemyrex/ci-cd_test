@@ -60,7 +60,7 @@ export function SetupInventoryListForm({
                 rooms={[
                   moveSize,
                   "Living Room",
-                  "Dinning Room",
+                  "Dining Room",
                   "Kitchen",
                 ]}
                 moveItems={moveItems}
@@ -92,7 +92,7 @@ export function SetupInventoryListForm({
           icon={<DiningTableIcon />}
           moveItems={moveItems}
           handleUpdateMoveItems={handleUpdateMoveItems}
-          roomName={"Dinning Room"}
+          roomName={"Dining Room"}
         />
         <RoomItem
           icon={<KitchenUtensilsIcon />}

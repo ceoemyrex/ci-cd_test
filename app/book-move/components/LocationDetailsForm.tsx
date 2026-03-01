@@ -291,7 +291,7 @@ export function LocationAutocomplete({
         </div>
 
         {/* DROPDOWN */}
-        {!readOnly && location.popupOpen && location.places.length > 0 && (
+        {!readOnly && location.popupOpen && (
           <div className="absolute left-0 top-full w-full z-50">
             <ul className="mt-3 bg-white rounded-xl shadow-lg border border-grey/20 max-h-60 overflow-y-auto">
               {location.places.map((place) => (

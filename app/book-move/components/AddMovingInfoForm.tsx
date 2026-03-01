@@ -28,7 +28,8 @@ export function AddMovingInfoForm({
 
   return (
     <BookFormContainer
-      canContinue={termsAccepted}
+      canContinue
+      isNextDisabled={!termsAccepted}
       currentStep={3}
       onPrev={onPrev}
       onNext={onNext}
