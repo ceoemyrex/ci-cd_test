@@ -5,11 +5,67 @@ import { FreeMode, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/free-mode";
 
-const images = [
-  "/images/stats-image-1.jpg",
-  "/images/stats-image-2.jpg",
-  "/images/stats-image-3.jpg",
-  "/images/stats-image-4.jpg",
+const stats = [
+  {
+    image: "/images/stats-image-1.jpg",
+    description: "20,000+ Moves completed in 2024 alone",
+    avatars: [
+      <div key={"stats_1_avatar_1"} className="bg-[#DFDFDF] h-6 lg:h-8 w-6 lg:w-8 relative rounded-full">
+        <img src="/stats/stats-profile-4.png" className="h-full w-full rounded-full absolute object-cover" alt="" />
+      </div>,
+      <div key={"stats_1_avatar_2"} className="bg-[#FFFFFF] relative -mx-3.5 h-6 lg:h-8 w-6 lg:w-8 rounded-full">
+        <img src="/stats/stats-profile-5.png" className="h-full w-full rounded-full absolute object-cover" alt="" />
+      </div>,
+      <div key={"stats_1_avatar_3"} className="bg-[#CDCCCC] relative h-6 lg:h-8 w-6 lg:w-8 rounded-full">
+        <img src="/stats/stats-profile-6.png" className="h-full w-full rounded-full absolute object-cover" alt="" />
+      </div>,
+    ],
+  },
+  {
+    image: "/images/stats-image-2.jpg",
+    description: "6000+ Active users are happy with Zinter",
+     avatars: [
+      <div key={"stats_1_avatar_1"} className="bg-[#DFDFDF] h-6 lg:h-8 w-6 lg:w-8 relative rounded-full">
+        <img src="/stats/stats-profile-1.png" className="h-full w-full rounded-full absolute object-cover" alt="" />
+      </div>,
+      <div key={"stats_1_avatar_2"} className="bg-[#FFFFFF] relative -mx-3.5 h-6 lg:h-8 w-6 lg:w-8 rounded-full">
+        <img src="/stats/stats-profile-2.png" className="h-full w-full rounded-full absolute object-cover" alt="" />
+      </div>,
+      <div key={"stats_1_avatar_3"} className="bg-[#CDCCCC] relative h-6 lg:h-8 w-6 lg:w-8 rounded-full">
+        <img src="/stats/stats-profile-3.png" className="h-full w-full rounded-full absolute object-cover" alt="" />
+      </div>,
+      ]
+  },
+  {
+    image: "/images/stats-image-3.jpg",
+    description: "20,000+ Moves completed in 2024 alone",
+     avatars: [
+      <div key={"stats_1_avatar_1"} className="bg-[#DFDFDF] h-6 lg:h-8 w-6 lg:w-8 relative rounded-full">
+        <img src="/stats/stats-profile-4.png" className="h-full w-full rounded-full absolute object-cover" alt="" />
+      </div>,
+      <div key={"stats_1_avatar_2"} className="bg-[#FFFFFF] relative -mx-3.5 h-6 lg:h-8 w-6 lg:w-8 rounded-full">
+        <img src="/stats/stats-profile-5.png" className="h-full w-full rounded-full absolute object-cover" alt="" />
+      </div>,
+      <div key={"stats_1_avatar_3"} className="bg-[#CDCCCC] relative h-6 lg:h-8 w-6 lg:w-8 rounded-full">
+        <img src="/stats/stats-profile-6.png" className="h-full w-full rounded-full absolute object-cover" alt="" />
+      </div>,
+      ]
+  },
+  {
+    image: "/images/stats-image-4.jpg",
+    description: "800+ Moving companies fully verified",
+    avatars: [
+      <div key={"stats_1_avatar_1"} className="bg-[#DFDFDF] h-6 lg:h-8 w-6 lg:w-8 relative rounded-full">
+        <img src="/stats/stats-profile-7.png" className="h-full w-full rounded-full absolute object-cover" alt="" />
+      </div>,
+      <div key={"stats_1_avatar_2"} className="bg-[#FFFFFF] relative -mx-3.5 h-6 lg:h-8 w-6 lg:w-8 rounded-full">
+        <img src="/stats/stats-profile-8.png" className="h-full w-full rounded-full absolute object-cover" alt="" />
+      </div>,
+      <div key={"stats_1_avatar_3"} className="bg-[#CDCCCC] relative h-6 lg:h-8 w-6 lg:w-8 rounded-full">
+        <img src="/stats/stats-profile-9.png" className="h-full w-full rounded-full absolute object-cover" alt="" />
+      </div>,
+      ]
+  },
 ];
 
 export function StatsSwiper() {
@@ -33,7 +89,7 @@ export function StatsSwiper() {
           1024: {
             slidesPerView: 2.5,
             spaceBetween: 40,
-          },  
+          },
           1200: {
             slidesPerView: 3,
             spaceBetween: 20,
@@ -44,7 +100,7 @@ export function StatsSwiper() {
           },
         }}
       >
-        {images.map((src, index) => {
+        {stats.map((stat, index) => {
           const topMargin =
             index % 3 === 0 ? "mt-0" : index % 3 === 1 ? "mt-6" : "mt-12";
 
@@ -53,7 +109,7 @@ export function StatsSwiper() {
               <div className="border border-white px-4 py-3 rounded-2xl">
                 <div className="relative w-full h-80 rounded-2xl overflow-hidden">
                   <img
-                    src={src}
+                    src={stat.image}
                     alt={`Stats Image ${index + 1}`}
                     className="absolute inset-0 w-full h-full object-cover"
                   />
@@ -62,12 +118,10 @@ export function StatsSwiper() {
                   >
                     <div className="border lg:flex items-center gap-x-3 border-white p-4 bg-black/25 backdrop-blur-sm rounded-2xl">
                       <div className="flex items-center">
-                        <div className="bg-[#DFDFDF] h-6 lg:h-8 w-6 lg:w-8 rounded-full"></div>
-                        <div className="bg-[#FFFFFF] -mx-3.5 h-6 lg:h-8 w-6 lg:w-8 rounded-full"></div>
-                        <div className="bg-[#CDCCCC] h-6 lg:h-8 w-6 lg:w-8 rounded-full"></div>
+                        {...stat.avatars}
                       </div>
-                      <p className="text-white font-semibold text-[10px] lg:text-sm">
-                        6000+ Active users are happy with Zinter
+                      <p className="text-white font-semibold text-[8px] lg:text-xs">
+                        {stat.description}
                       </p>
                     </div>
                   </div>

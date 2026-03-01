@@ -91,7 +91,8 @@ export function MovingInfoForm({
   handleUpdate,
   setMoveFrom,
   setMoveTo,
-  termsAccepted, setTermsAccepted,
+  termsAccepted,
+  setTermsAccepted,
   formData,
 }: {
   formData: CreateMoveRequest;
@@ -100,8 +101,8 @@ export function MovingInfoForm({
   moveFrom: Place | null;
   setMoveFrom: (place: Place) => void;
   setMoveTo: (place: Place) => void;
-  termsAccepted:boolean,
-  setTermsAccepted:(value:boolean)=>void
+  termsAccepted: boolean;
+  setTermsAccepted: (value: boolean) => void;
 }) {
   const [promotionsAccepted, setPromotionsAccepted] = useState(false);
   /**
@@ -110,7 +111,7 @@ export function MovingInfoForm({
   const isoToLocalInput = (iso?: string | null) => {
     if (!iso) return "";
 
-    return DateTime.fromISO(iso).toLocal().toFormat("yyyy-MM-dd'T'HH:mm");
+    return DateTime.fromISO(iso).toLocal().toFormat("mm/dd/yyyy");
   };
 
   /**
@@ -119,7 +120,7 @@ export function MovingInfoForm({
   const localInputToISO = (value: string) => {
     if (!value) return "";
 
-    return DateTime.fromFormat(value, "yyyy-MM-dd'T'HH:mm").toUTC().toISO();
+    return DateTime.fromFormat(value, "mm/dd/yyyy").toUTC().toISO();
   };
 
   return (
@@ -135,7 +136,7 @@ export function MovingInfoForm({
           <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
             <input
               id="movingDate"
-              type="datetime-local"
+              type="date"
               className="placeholder:text-grey outline-0 w-full text-xs lg:text-sm"
               value={isoToLocalInput(formData.moveDate)}
               onChange={(e) =>
@@ -190,13 +191,15 @@ export function MovingInfoForm({
       </div>
       <div className="p-4 lg:p-8 space-y-8 border-t border-black/10">
         <div className="space-y-6">
-          <p className="text-secondary text-base lg:text-xl font-medium">Pickup Details</p>
+          <p className="text-secondary text-base lg:text-xl font-medium">
+            Pickup Details
+          </p>
           <div className="max-w-130">
             <LocationAutocomplete
               theme="light"
               label={"From *"}
-              selectedPlace={moveFrom}
               onSelectPlace={setMoveFrom}
+              locationText={moveFrom?.formattedAddress}
               placeholder={""}
               icon={<LocationIcon />}
             />
@@ -214,7 +217,9 @@ export function MovingInfoForm({
           </div>
           <div className="border rounded-xl max-w-130 border-black/10">
             <header className="flex p-4 border-b border-black/10">
-              <p className="font-medium text-secondary lg:text-xl">Restrictions</p>
+              <p className="font-medium text-secondary lg:text-xl">
+                Restrictions
+              </p>
             </header>
             <div>
               <div className="p-4 space-y-4 lg:space-y-0 lg:p-8 lg:flex gap-x-8 items-center">
@@ -222,25 +227,17 @@ export function MovingInfoForm({
                   <p className="text-dark text-sm lg:text-base">
                     Number Of Floors *
                   </p>
-                  <Dropdown
-                    placeholder={"Number of floors"}
-                    options={[
-                      {
-                        value: "1",
-                        label: "1",
-                      },
-                      {
-                        value: "2",
-                        label: "2",
-                      },
-                    ]}
-                    value={formData.fromNumberOfFloors.toString()}
-                    onChange={(val) => {
-                      handleUpdate({
-                        fromNumberOfFloors: parseInt(val),
-                      });
-                    }}
-                  />
+                  <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
+                    <input
+                      type="number"
+                      className="placeholder:text-grey w-full text-xs outline-0  lg:text-sm"
+                      placeholder="Remarks for the location "
+                      value={formData.fromNumberOfFloors}
+                      onChange={(e) =>
+                        handleUpdate({ fromNumberOfFloors: parseFloat(e.target.value) })
+                      }
+                    />
+                  </div>
                 </div>
                 <div className="space-y-3 flex-1">
                   <p className="text-dark text-base lg:text-sm">Elevator</p>
@@ -272,13 +269,15 @@ export function MovingInfoForm({
       </div>
       <div className="p-4 lg:p-8 space-y-8 border-t border-black/10">
         <div className="space-y-6">
-          <p className="text-secondary lg:text-xl font-medium">Drop-off Details</p>
+          <p className="text-secondary lg:text-xl font-medium">
+            Drop-off Details
+          </p>
           <div className="max-w-130">
             <LocationAutocomplete
               theme="light"
               label={"From *"}
-              selectedPlace={moveTo}
               onSelectPlace={setMoveTo}
+              locationText={moveTo?.formattedAddress}
               placeholder={""}
               icon={<LocationIcon />}
             />
@@ -296,7 +295,9 @@ export function MovingInfoForm({
           </div>
           <div className="border rounded-xl max-w-130 border-black/10">
             <header className="flex p-4 border-b border-black/10">
-              <p className="font-medium text-secondary lg:text-xl">Restrictions</p>
+              <p className="font-medium text-secondary lg:text-xl">
+                Restrictions
+              </p>
             </header>
             <div>
               <div className="p-4 lg:p-8 space-y-4 lg:space-y-0 lg:flex gap-x-8 items-center">
@@ -304,33 +305,17 @@ export function MovingInfoForm({
                   <p className="text-dark text-sm lg:text-base">
                     Number Of Floors *
                   </p>
-                  <Dropdown
-                    placeholder={"Number of floors"}
-                    options={[
-                      {
-                        value: "1",
-                        label: "1",
-                      },
-                      {
-                        value: "2",
-                        label: "2",
-                      },
-                      {
-                        value: "3",
-                        label: "3",
-                      },
-                      {
-                        value: "4",
-                        label: "4",
-                      },
-                    ]}
-                    value={formData.toNumberOfFloors.toString()}
-                    onChange={(val) => {
-                      handleUpdate({
-                        toNumberOfFloors: parseInt(val),
-                      });
-                    }}
-                  />
+                 <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
+                    <input
+                      type="number"
+                      className="placeholder:text-grey w-full text-xs outline-0  lg:text-sm"
+                      placeholder="Remarks for the location "
+                      value={formData.toNumberOfFloors}
+                      onChange={(e) =>
+                        handleUpdate({ toNumberOfFloors: parseFloat(e.target.value) })
+                      }
+                    />
+                  </div>
                 </div>
                 <div className="space-y-3 flex-1">
                   <p className="text-dark text-base lg:text-sm">Elevator</p>
@@ -420,14 +405,22 @@ export function MovingInfoForm({
           checked={termsAccepted}
           onChange={setTermsAccepted}
           label={
-            <a target="_blank" href={"/terms-and-conditions"} className="text-secondary text-xs underline lg:text-base">Accept terms and condition *</a>
+            <a
+              target="_blank"
+              href={"/terms-and-conditions"}
+              className="text-secondary text-xs underline lg:text-base"
+            >
+              Accept terms and condition *
+            </a>
           }
         />
         <CheckboxButton
           checked={promotionsAccepted}
           onChange={setPromotionsAccepted}
           label={
-            <span className="text-xs lg:text-base">Receive Promotions and moving tips</span>
+            <span className="text-xs lg:text-base">
+              Receive Promotions and moving tips
+            </span>
           }
         />
       </footer>

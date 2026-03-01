@@ -1,7 +1,54 @@
+"use client"
+import { MailingProvider } from "@/services";
+import { CheckCircle, CircleAlertIcon, LoaderCircle } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
 
 /* eslint-disable @next/next/no-img-element */
 export function Footer() {
+  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<"error" | "success" | null>(null);
+
+
+  useEffect(()=>{
+    if(message){
+      setTimeout(()=>{
+        setStatus(null)
+      },10000)
+    }
+  },[message])
+
+  const joinMailingList = async () => {
+    if (!email) {
+      setStatus("error");
+      setMessage("Please enter your email");
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await MailingProvider.addMailingList(email);
+      if (!res.responseStatus) {
+        throw new Error(
+          res.responseMessage ??
+            "An error occurred could not add to mailing list",
+        );
+      }
+      setMessage("email successfully added to mailing list");
+      setStatus("success");
+    } catch (error) {
+      const err =
+        (error as Error)?.message ??
+        "An error occurred could not add to mailing list";
+      setStatus("error");
+      setMessage(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <footer className="relative">
       <img
@@ -70,22 +117,52 @@ export function Footer() {
               </div>
             </div>
             <div className="flex-1 pt-6 lg:pt-0">
-                <p className="font-medium text-dark">Get Updates</p>
-                <div className="bg-white mt-3 lg:mt-6 flex rounded-2xl p-2">
-                    <input type="text" placeholder="Enter your email" className="w-full text-sm lg:text-base px-1 lg:px-3 text-dark placeholder:text-[#CCCCCC] outline-0" />
-                    <button className="bg-theme px-6 py-2 lg:py-4 text-white font-medium text-sm lg:text-base rounded-lg lg:rounded-2xl">Submit</button>
-                </div>
+              <p className="font-medium text-dark">Get Updates</p>
+              <div className="bg-white mt-3 lg:mt-6 flex rounded-2xl p-2">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e)=>setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className="w-full text-sm lg:text-base px-1 lg:px-3 text-dark placeholder:text-[#CCCCCC] outline-0"
+                />
+                <button 
+                disabled={loading}
+                onClick={joinMailingList}
+                className="bg-theme disabled:opacity-70 px-6 py-2 flex items-center gap-x-2 lg:py-4 text-white font-medium text-sm lg:text-base rounded-lg lg:rounded-2xl">
+                  {loading && (
+                    <LoaderCircle className="animate-spin"/>
+                  )}
+                  <span>Submit</span>
+                </button>
+              </div>
+              {status && (
+                status == "success"
+                ?<p className="text-secondary flex items-center gap-x-1 text-xs lg:text-sm p-2 font-medium">
+                  <CheckCircle size={"16"}/>
+                  <span className="capitalize">{message}</span>
+                  </p>
+                :<p className="text-red-400 gap-x-1 flex items-center text-xs p-2 font-medium lg:text-sm">
+                  <CircleAlertIcon size={"16"}/>
+                  <span>{message}</span>
+                </p>
+              )}
             </div>
           </div>
         </div>
         <div className="border-t py-5 relative border-dark/10">
           <div className="lg:flex items-center max-w-310 text-xs space-y-4 lg:text-sm mx-auto px-10">
-            <p className="text-grey text-center lg:text-left">© 2026 Zinter. All rights reserved.</p>
-            <p className="text-grey text-center lg:text-left ml-auto">AI is optional. Manual inventory is always available. Inventory data and images are handled securely.</p>
+            <p className="text-grey text-center lg:text-left">
+              © 2026 Zinter. All rights reserved.
+            </p>
+            <p className="text-grey text-center lg:text-left ml-auto">
+              AI is optional. Manual inventory is always available. Inventory
+              data and images are handled securely.
+            </p>
           </div>
         </div>
         <div className="px-10 max-w-310 mt-8 lg:mt-16 mx-auto">
-           <img src={"/zinter.png"} alt="Zinter Watermark"/>
+          <img src={"/zinter.png"} alt="Zinter Watermark" />
         </div>
       </div>
     </footer>

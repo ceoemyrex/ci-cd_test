@@ -22,6 +22,8 @@ export function useGetLocation(
     useState<PlacePredictionObject | null>(null);
   const [placeDetails, setPlaceDetails] = useState<Place | null>(null);
 
+  const isProgrammaticUpdate = useRef(false);
+
   const [loading, setLoading] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
 
@@ -44,29 +46,32 @@ export function useGetLocation(
   if(sessionRef.current > 0) return;
   if (!locationText) return;
 
-  const resolveLocation = async () => {
-    try {
-      setLoading(true);
+ const resolveLocation = async () => {
+  try {
+    setLoading(true);
 
-      // get predictions from text
-      const res =
-        await MapProvider.getPlacePrediction(locationText);
+    const res =
+      await MapProvider.getPlacePrediction(locationText);
 
-      const firstSuggestion = res?.suggestions?.[0];
+    const firstSuggestion = res?.suggestions?.[0];
+    if (!firstSuggestion) return;
 
-      if (!firstSuggestion) return;
+    // ✅ mark as programmatic
+    isProgrammaticUpdate.current = true;
 
-      // simulate user selection
-      setIsSelecting(true);
-      setSelectedPlace(firstSuggestion);
-      setQueryText(firstSuggestion.placePrediction.text.text);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-      sessionRef.current = 1;
-    }
-  };
+    setSelectedPlace(firstSuggestion);
+    setPlaces(res.suggestions);
+    setQueryText(firstSuggestion.placePrediction.text.text);
+
+    setPopupOpen(false);
+    setPlaces([]);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoading(false);
+    sessionRef.current = 1;
+  }
+};
 
   resolveLocation();
 }, [locationText]);
@@ -74,6 +79,7 @@ export function useGetLocation(
   /* ---------------------------- SELECT PLACE ---------------------------- */
 
   const selectPlace = useCallback((place: PlacePredictionObject) => {
+    isProgrammaticUpdate.current = true;
     setIsSelecting(true);
     setSelectedPlace(place);
     setQueryText(place.placePrediction.text.text);
@@ -116,6 +122,13 @@ export function useGetLocation(
   /* --------------------------- AUTOCOMPLETE ---------------------------- */
 
   useEffect(() => {
+
+    // ✅ ignore system-driven updates
+  if (isProgrammaticUpdate.current) {
+    isProgrammaticUpdate.current = false;
+    return;
+  }
+
     if (isSelecting) {
       setIsSelecting(false);
       return;

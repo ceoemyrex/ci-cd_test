@@ -3,7 +3,7 @@ import { useState, ChangeEventHandler, useMemo, useEffect } from "react";
 
 // Define inventories once at the top
 export const inventories = [
-  { name: "Glass Lounge Table", image: "/inventories/glass-table.png" },
+  { name: "Glass Lounge Table", image: "/inventories/glass-table.png" ,categories:["default","Dining Room"]},
   { name: "Arm Chair", image: "/inventories/arm-chair.png" },
   { name: "Picture / Painting", image: "/inventories/painting.jpg" },
   { name: "Mirror", image: "/inventories/mirror.png" },
@@ -13,6 +13,28 @@ export const inventories = [
   { name: "Sectional Sofa", image: "/inventories/sofa.png" },
   { name: "TV Stand", image: "/inventories/tv-stand.png" },
   { name: "TV", image: "/inventories/tv.png" },
+  { name: "Desk", image: "/inventories/tv.png" },
+  { name: "Night Stand", image: "/inventories/tv.png" },
+  { name: "Mattress", image: "/inventories/tv.png" },
+  { name: "Walk-in Closet", image: "/inventories/tv.png" },
+  { name: "Bed(all parts included)", image: "/inventories/tv.png" },
+  { name: "Dresser", image: "/inventories/tv.png" },
+  { name: "Lamp", image: "/inventories/tv.png" },
+  { name: "Bar Stool", image: "/inventories/tv.png" },
+  { name: "Dining Chairs", image: "/inventories/tv.png" },
+  { name: "Dining Table", image: "/inventories/tv.png" },
+  { name: "Area Rug", image: "/inventories/tv.png" },
+  { name: "Cabinet", image: "/inventories/tv.png" },
+  { name: "China Cabinet", image: "/inventories/tv.png" },
+  { name: "Lounge Table", image: "/inventories/tv.png" },
+  { name: "Bench", image: "/inventories/tv.png" },
+  { name: "Toaster", image: "/inventories/tv.png" },
+  { name: "Refrigerator", image: "/inventories/tv.png" },
+  { name: "Trash Can", image: "/inventories/tv.png" },
+  { name: "Blender", image: "/inventories/tv.png" },
+  { name: "Microwave Oven", image: "/inventories/tv.png" },
+  { name: "Electric Broom", image: "/inventories/tv.png" },
+  { name: "Washer", image: "/inventories/tv.png" },
 ];
 
 

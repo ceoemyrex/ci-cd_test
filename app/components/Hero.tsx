@@ -143,8 +143,8 @@ export function Hero() {
         />
         <div className="relative max-w-310 2xl:max-w-350 mx-auto p-4 lg:py-10">
           <Navbar />
-          <div className="pt-22 lg:pt-36.25 lg:flex space-y-8 gap-x-8 items-center">
-            <div className="space-y-4 flex-2">
+          <div className="pt-22 lg:pt-36.25 lg:flex space-y-8 gap-x-8">
+            <div className="space-y-4 flex-2 mt-0 lg:mt-14">
               <div className="text-center lg:text-left">
                 <span className="bg-[#CACACA1A]/10 px-4 text-xs lg:text-sm py-1.5 lg:py-2.5 rounded-[100px] text-secondary inline-flex items-center gap-x-1.5 border border-[#B6DDA8]">
                   <HexagonIcon />
