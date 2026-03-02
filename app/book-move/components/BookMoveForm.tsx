@@ -11,6 +11,7 @@ import { Place } from "@/services";
 import { notification } from "antd";
 import { Portal } from "@/components";
 import StarrySpace from "./MovingSummary";
+import { DateTime } from "luxon";
 
 export function BookMoveForm() {
   const [notificationApi, context] = notification.useNotification();
@@ -37,7 +38,7 @@ export function BookMoveForm() {
     dropOffLatitude: "",
 
     moveDate: "",
-    pickUpTime: "",
+    pickUpTime: DateTime.now().toISO(),
 
     fromNumberOfFloors: "",
     toNumberOfFloors: "",

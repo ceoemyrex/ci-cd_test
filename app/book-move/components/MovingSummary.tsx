@@ -111,8 +111,7 @@ export function MovingSummary({
                 <input
                   readOnly
                   value={moveSize}
-                  className="text-grey placeholder:text-grey text-xs outline-0  lg:text-sm"
-                  placeholder="Remarks for the location "
+                  className="text-grey w-full placeholder:text-grey text-xs outline-0  lg:text-sm"
                 />
               </div>
             </div>
@@ -122,8 +121,7 @@ export function MovingSummary({
                 <input
                   readOnly
                   value={`${getMoveItemCountByRoom("Living Room")} Items Selected`}
-                  className="text-grey placeholder:text-grey text-xs outline-0  lg:text-sm"
-                  placeholder="Remarks for the location "
+                  className="text-grey w-full placeholder:text-grey text-xs outline-0  lg:text-sm"
                 />
               </div>
             </div>
@@ -133,8 +131,7 @@ export function MovingSummary({
                 <input
                   readOnly
                   value={`${getMoveItemCountByRoom("Kitchen")} Items Selected`}
-                  className="text-grey placeholder:text-grey text-xs outline-0  lg:text-sm"
-                  placeholder="Remarks for the location "
+                  className="text-grey w-full placeholder:text-grey text-xs outline-0  lg:text-sm"
                 />
               </div>
             </div>
@@ -144,8 +141,7 @@ export function MovingSummary({
                 <input
                   readOnly
                   value={`${getMoveItemCountByRoom("Dining Room")} Items Selected`}
-                  className="text-grey placeholder:text-grey text-xs outline-0  lg:text-sm"
-                  placeholder="Remarks for the location "
+                  className="text-grey w-full placeholder:text-grey text-xs outline-0  lg:text-sm"
                 />
               </div>
             </div>
@@ -155,8 +151,7 @@ export function MovingSummary({
                 <input
                   readOnly
                   value={`${getMoveItemCountByRoom(moveSize)} Items Selected`}
-                  className="text-grey placeholder:text-grey text-xs outline-0  lg:text-sm"
-                  placeholder="Remarks for the location "
+                  className="text-grey w-full placeholder:text-grey text-xs outline-0  lg:text-sm"
                 />
               </div>
             </div>
@@ -166,8 +161,7 @@ export function MovingSummary({
                 <input
                   readOnly
                   value={DateTime.fromJSDate(new Date(formData.moveDate)).toFormat("LLLL dd, yyyy")}
-                  className="text-grey placeholder:text-grey text-xs outline-0  lg:text-sm"
-                  placeholder="Remarks for the location "
+                  className="text-grey w-full placeholder:text-grey text-xs outline-0  lg:text-sm"
                 />
               </div>
             </div>
@@ -177,8 +171,7 @@ export function MovingSummary({
                 <input
                   readOnly
                   value={formData.phoneNumber}
-                  className="text-grey placeholder:text-grey text-xs outline-0  lg:text-sm"
-                  placeholder="Remarks for the location "
+                  className="text-grey w-full placeholder:text-grey text-xs outline-0  lg:text-sm"
                 />
               </div>
             </div>
@@ -188,8 +181,7 @@ export function MovingSummary({
                 <input
                   readOnly
                   value={formData.email}
-                  className="text-grey placeholder:text-grey text-xs outline-0  lg:text-sm"
-                  placeholder="Remarks for the location "
+                  className="text-grey w-full placeholder:text-grey text-xs outline-0  lg:text-sm"
                 />
               </div>
             </div>
@@ -199,8 +191,8 @@ export function MovingSummary({
                 <input
                   readOnly
                   value={moveFrom?.formattedAddress}
-                  className="text-grey placeholder:text-grey text-xs outline-0  lg:text-sm"
-                  placeholder="Remarks for the location "
+                  className="text-grey w-full placeholder:text-grey text-xs outline-0  lg:text-sm"
+                  placeholder="Address "
                 />
               </div>
             </div>
