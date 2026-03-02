@@ -133,7 +133,9 @@ export function RoomItem({
                   {/* Inventory Grid */}
                   <div className="p-4 space-y-4 lg:space-y-0 lg:p-8 lg:grid grid-cols-3 gap-8">
                     {filteredInventoryItems.length ? (
-                      filteredInventoryItems.map((item) => (
+                      filteredInventoryItems
+                      .filter(item=>item.categories.includes(roomName))
+                      .map((item) => (
                         <InventoryItem
                           key={item.name}
                           name={item.name}

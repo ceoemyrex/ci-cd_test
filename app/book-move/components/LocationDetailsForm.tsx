@@ -113,13 +113,13 @@ export function LocationDetailsForm({
 }) {
   const [currentTab, setCurrentTab] = useState("house");
   const [sizeOpen, setSizeOpen] = useState(false);
-  const [moveFromText] = useParamFilter("moveFrom")
-  const [moveToText] = useParamFilter("moveTo")
-  const [moveSizeText] = useParamFilter("moveSize")
+  const [moveFromText] = useParamFilter("moveFrom");
+  const [moveToText] = useParamFilter("moveTo");
+  const [moveSizeText] = useParamFilter("moveSize");
 
-  useEffect(()=>{
-    setMoveSize(moveSizeText)
-  },[moveSizeText,setMoveSize])
+  useEffect(() => {
+    setMoveSize(moveSizeText);
+  }, [moveSizeText, setMoveSize]);
 
   const options = useMemo(() => {
     const selectedOption = tabs.find((item) => item.value == currentTab);
@@ -153,15 +153,17 @@ export function LocationDetailsForm({
         <div className="space-y-3">
           <p className="text-dark">Moving Size</p>
 
-          <div className="bg-white flex items-center gap-x-2.5 rounded-xl p-2.5 lg:p-5">
+          <div
+            onClick={() => setSizeOpen((prev) => !prev)}
+            className="bg-white flex items-center gap-x-2.5 rounded-xl p-2.5 lg:p-5"
+          >
             <PackageMovingIcon />
-            {moveSize
-            ?<p className="text-dark text-xs lg:text-sm">{moveSize}</p>
-            :<p className="text-grey text-xs lg:text-sm">Moving Size</p>}
-            <button
-              onClick={() => setSizeOpen((prev) => !prev)}
-              className={`ml-auto ${sizeOpen ? "rotate-180" : ""}`}
-            >
+            {moveSize ? (
+              <p className="text-dark text-xs lg:text-sm">{moveSize}</p>
+            ) : (
+              <p className="text-grey text-xs lg:text-sm">Moving Size</p>
+            )}
+            <button className={`ml-auto ${sizeOpen ? "rotate-180" : ""}`}>
               <ArrowDropDownIcon />
             </button>
           </div>
@@ -198,8 +200,8 @@ export function LocationDetailsForm({
                       className="p-4 border text-dark border-[#E5E5E5] w-full text-left last:border-0"
                       key={option.label}
                       onClick={() => {
-                        setMoveSize(option.label)
-                        setSizeOpen(false)
+                        setMoveSize(option.label);
+                        setSizeOpen(false);
                       }}
                     >
                       {option.label}{" "}
@@ -229,8 +231,8 @@ interface LocationAutocompleteProps {
   theme?: "white" | "light" | "grey";
   selectedPlace?: Place | null;
   onSelectPlace?: (place: Place) => void;
-  readOnly?:boolean;
-  locationText?:string
+  readOnly?: boolean;
+  locationText?: string;
 }
 
 export function LocationAutocomplete({
@@ -243,9 +245,8 @@ export function LocationAutocomplete({
   theme = "white",
   locationText,
 }: LocationAutocompleteProps) {
-  const location = useGetLocation(selectedPlace, onSelectPlace,locationText);
+  const location = useGetLocation(selectedPlace, onSelectPlace, locationText);
   const containerRef = useRef<HTMLDivElement>(null);
-
 
   /**
    * ✅ Close dropdown on outside click
@@ -268,7 +269,7 @@ export function LocationAutocomplete({
       <div className="relative">
         {/* INPUT */}
         <div
-          className={`${theme == "white" ? "bg-white" : theme == "grey"?"bg-[#F3F3F4] border border-black/10" :"bg-[#F9FCF9] border border-black/10"} flex items-center gap-x-2.5 rounded-xl p-2.5 lg:p-5`}
+          className={`${theme == "white" ? "bg-white" : theme == "grey" ? "bg-[#F3F3F4] border border-black/10" : "bg-[#F9FCF9] border border-black/10"} flex items-center gap-x-2.5 rounded-xl p-2.5 lg:p-5`}
         >
           {icon}
 
@@ -277,16 +278,18 @@ export function LocationAutocomplete({
             value={location.queryString}
             onChange={(e) => location.setQueryText(e.target.value)}
             placeholder={placeholder}
-            className="w-full outline-none capitalize text-xs lg:text-sm"
+            className="w-full outline-none capitalize text-base lg:text-sm"
           />
 
           <button
             className="ml-auto cursor-pointer"
             onClick={() => location.setPopupOpen((p) => !p)}
           >
-            {location.loading
-            ?<LoaderCircle strokeWidth={1} className="animate-spin"/>
-            :<ArrowDropDownIcon />}
+            {location.loading ? (
+              <LoaderCircle strokeWidth={1} className="animate-spin" />
+            ) : (
+              <ArrowDropDownIcon />
+            )}
           </button>
         </div>
 
