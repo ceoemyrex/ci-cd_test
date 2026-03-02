@@ -1,6 +1,6 @@
 import {Footer} from "@/components"
 import { FAQHero } from "./components"
-import { Testimonials } from "../components"
+import { Testimonials } from "@/app/components"
 import { StillHaveQuestions } from "./components/StillHaveQuestions"
 
 export default function Page(){
