@@ -1,48 +1,262 @@
 import { MoveItem, MoveRequestProvider } from "@/services/MoveRequest";
 import { useState, ChangeEventHandler, useMemo, useEffect } from "react";
 
-// Define inventories once at the top
 export const inventories = [
-  { name: "Glass Lounge Table", image: "/inventories/glass-table.png" ,categories:["default","Dining Room"]},
-  { name: "Arm Chair", image: "/inventories/arm-chair.png" },
-  { name: "Picture / Painting", image: "/inventories/painting.jpg" },
-  { name: "Mirror", image: "/inventories/mirror.png" },
-  { name: "Book Case", image: "/inventories/book-case.png" },
-  { name: "Center Table", image: "/inventories/center-table.png" },
-  { name: "Elegant Floor Lamp", image: "/inventories/lamp.png" },
-  { name: "Sectional Sofa", image: "/inventories/sofa.png" },
-  { name: "TV Stand", image: "/inventories/tv-stand.png" },
-  { name: "TV", image: "/inventories/tv.png" },
-  { name: "Desk", image: "/inventories/tv.png" },
-  { name: "Night Stand", image: "/inventories/tv.png" },
-  { name: "Mattress", image: "/inventories/tv.png" },
-  { name: "Walk-in Closet", image: "/inventories/tv.png" },
-  { name: "Bed(all parts included)", image: "/inventories/tv.png" },
-  { name: "Dresser", image: "/inventories/tv.png" },
-  { name: "Lamp", image: "/inventories/tv.png" },
-  { name: "Bar Stool", image: "/inventories/tv.png" },
-  { name: "Dining Chairs", image: "/inventories/tv.png" },
-  { name: "Dining Table", image: "/inventories/tv.png" },
-  { name: "Area Rug", image: "/inventories/tv.png" },
-  { name: "Cabinet", image: "/inventories/tv.png" },
-  { name: "China Cabinet", image: "/inventories/tv.png" },
-  { name: "Lounge Table", image: "/inventories/tv.png" },
-  { name: "Bench", image: "/inventories/tv.png" },
-  { name: "Toaster", image: "/inventories/tv.png" },
-  { name: "Refrigerator", image: "/inventories/tv.png" },
-  { name: "Trash Can", image: "/inventories/tv.png" },
-  { name: "Blender", image: "/inventories/tv.png" },
-  { name: "Microwave Oven", image: "/inventories/tv.png" },
-  { name: "Electric Broom", image: "/inventories/tv.png" },
-  { name: "Washer", image: "/inventories/tv.png" },
+  {
+    name: "Glass Lounge Table",
+    image: "/inventories/glass-table.png",
+    categories: [
+      "Living Room",
+      "Few items",
+      "Studio",
+      "1 Bedroom",
+      "2 Bedroom",
+    ],
+  },
+  {
+    name: "Arm Chair",
+    image: "/inventories/arm-chair.png",
+    categories: [
+      "Living Room",
+      "Dining Room",
+      "Few items",
+      "Studio",
+      "1 Bedroom",
+      "2 Bedroom",
+      "3 Bedroom",
+    ],
+  },
+  {
+    name: "Picture / Painting",
+    image: "/inventories/painting.jpg",
+    categories: [
+      "Living Room",
+      "Dining Room",
+      "Bedroom",
+      "Few items",
+      "Studio",
+      "1 Bedroom",
+      "2 Bedroom",
+      "3 Bedroom",
+      "4 Bedroom",
+    ],
+  },
+  {
+    name: "Mirror",
+    image: "/inventories/mirror.png",
+    categories: [
+      "Living Room",
+      "Bedroom",
+      "Studio",
+      "1 Bedroom",
+      "2 Bedroom",
+      "3 Bedroom",
+    ],
+  },
+  {
+    name: "Book Case",
+    image: "/inventories/book-case.png",
+    categories: [
+      "Living Room",
+      "Bedroom",
+      "1 Bedroom",
+      "2 Bedroom",
+      "3 Bedroom",
+    ],
+  },
+  {
+    name: "Elegant Floor Lamp",
+    image: "/inventories/lamp.png",
+    categories: [
+      "Living Room",
+      "Studio",
+      "1 Bedroom",
+      "2 Bedroom",
+      "3 Bedroom",
+    ],
+  },
+  {
+    name: "Sectional Sofa",
+    image: "/inventories/sofa.png",
+    categories: [
+      "Living Room",
+      "Studio",
+      "1 Bedroom",
+      "2 Bedroom",
+      "3 Bedroom",
+      "4 Bedroom",
+      "5 Bedroom",
+      "6 Bedroom",
+    ],
+  },
+  {
+    name: "TV Stand",
+    image: "/inventories/tv-stand.png",
+    categories: [
+      "Living Room",
+      "Studio",
+      "1 Bedroom",
+      "2 Bedroom",
+      "3 Bedroom",
+    ],
+  },
+  {
+    name: "TV",
+    image: "/inventories/tv.png",
+    categories: [
+      "Living Room",
+      "Bedroom",
+      "Few items",
+      "Studio",
+      "1 Bedroom",
+      "2 Bedroom",
+      "3 Bedroom",
+      "4 Bedroom",
+      "5 Bedroom",
+      "6 Bedroom",
+    ],
+  },
+  {
+    name: "Bed(all parts included)",
+    image: "/inventories/full-bed.png",
+    categories: [
+      "Bedroom",
+      "1 Bedroom",
+      "2 Bedroom",
+      "3 Bedroom",
+      "4 Bedroom",
+      "5 Bedroom",
+      "6 Bedroom",
+    ],
+  },
+  {
+    name: "Mattress",
+    image: "/inventories/mattress.png",
+    categories: [
+      "Bedroom",
+      "Studio",
+      "1 Bedroom",
+      "2 Bedroom",
+      "3 Bedroom",
+      "4 Bedroom",
+    ],
+  },
+  {
+    name: "Night Stand",
+    image: "/inventories/nightstand.png",
+    categories: [
+      "Bedroom",
+      "1 Bedroom",
+      "2 Bedroom",
+      "3 Bedroom",
+    ],
+  },
+  {
+    name: "Dresser",
+    image: "/inventories/dresser.png",
+    categories: [
+      "Bedroom",
+      "1 Bedroom",
+      "2 Bedroom",
+      "3 Bedroom",
+      "4 Bedroom",
+    ],
+  },
+  {
+    name: "Dining Table",
+    image: "/inventories/dining-table.png",
+    categories: [
+      "Dining Room",
+      "2 Bedroom",
+      "3 Bedroom",
+      "4 Bedroom",
+      "5 Bedroom",
+      "6 Bedroom",
+    ],
+  },
+  {
+    name: "Dining Chairs",
+    image: "/inventories/dining-chairs.png",
+    categories: [
+      "Dining Room",
+      "2 Bedroom",
+      "3 Bedroom",
+      "4 Bedroom",
+      "5 Bedroom",
+      "6 Bedroom",
+    ],
+  },
+  {
+    name: "China Cabinet",
+    image: "/inventories/china-cabinet.png",
+    categories: [
+      "Dining Room",
+      "3 Bedroom",
+      "4 Bedroom",
+      "5 Bedroom",
+      "6 Bedroom",
+    ],
+  },
+  {
+    name: "Refrigerator",
+    image: "/inventories/fridge.png",
+    categories: [
+      "Kitchen",
+      "Studio",
+      "1 Bedroom",
+      "2 Bedroom",
+      "3 Bedroom",
+      "4 Bedroom",
+    ],
+  },
+  {
+    name: "Microwave Oven",
+    image: "/inventories/microwave-oven.png",
+    categories: [
+      "Kitchen",
+      "Few items",
+      "Studio",
+      "1 Bedroom",
+      "2 Bedroom",
+    ],
+  },
+  {
+    name: "Toaster",
+    image: "/inventories/toaster.png",
+    categories: ["Kitchen", "Few items", "Studio", "1 Bedroom"],
+  },
+  {
+    name: "Blender",
+    image: "/inventories/blender.png",
+    categories: ["Kitchen", "Few items", "Studio", "1 Bedroom"],
+  },
+  {
+    name: "Washer",
+    image: "/inventories/washer.png",
+    categories: [
+      "Kitchen",
+      "2 Bedroom",
+      "3 Bedroom",
+      "4 Bedroom",
+      "5 Bedroom",
+    ],
+  },
+  {
+    name: "Electric Broom",
+    image: "/inventories/electric-broom.png",
+    categories: ["Kitchen", "Few items", "Studio"],
+  },
 ];
 
-
-export function useUpdateRoom({roomName,moveItems,handleUpdateMoveItems}:{
+export function useUpdateRoom({
+  roomName,
+  moveItems,
+  handleUpdateMoveItems,
+}: {
   roomName: string;
   moveItems: MoveItem[];
   handleUpdateMoveItems: (items: MoveItem[]) => void;
-}){
+}) {
   const [open, setOpen] = useState(false);
   const [listOpen, setListOpen] = useState(false);
   const [currentTab, setCurrentTab] = useState("inventory");
@@ -148,7 +362,7 @@ export function useUpdateRoom({roomName,moveItems,handleUpdateMoveItems}:{
     }
   };
 
-  return{
+  return {
     open,
     handleUploadImage,
     selectedCount,
@@ -169,5 +383,5 @@ export function useUpdateRoom({roomName,moveItems,handleUpdateMoveItems}:{
     setDraftItems,
     itemsInRoom,
     setCurrentTab,
-  }
+  };
 }

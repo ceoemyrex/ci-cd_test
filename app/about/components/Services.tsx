@@ -17,7 +17,7 @@ function ServiceItem({service}:{
               <p className="text-lg lg:text-2xl font-medium text-dark">{service.title}</p>
               <div dangerouslySetInnerHTML={{__html:service.content}} className="text-xs lg:text-sm text-grey line-clamp-3">
               </div>
-              <Link href={`/blogs/${service.id}`} className="text-theme text-sm lg:text-base inline-flex items-center gap-x-3 border-b border-theme" >
+              <Link href={`/blog/${service.id}`} className="text-theme text-sm lg:text-base inline-flex items-center gap-x-3 border-b border-theme" >
                 Read More
                 <span className="-rotate-180">
                   <ArrowRight width={24} height={24} fill="currentColor" />

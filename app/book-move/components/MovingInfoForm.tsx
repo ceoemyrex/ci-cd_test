@@ -3,8 +3,10 @@ import { ArrowDropDownIcon, LocationIcon } from "@/app/icons";
 import { LocationAutocomplete } from "./LocationDetailsForm";
 import { Place } from "@/services";
 import { CreateMoveRequest } from "@/services/MoveRequest";
-import { ReactNode, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { DateTime } from "luxon";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/style.css";
 import { Check } from "lucide-react"; // Lucide icon
 /* -------------------- Dropdown Component -------------------- */
 export function Dropdown({
@@ -105,23 +107,13 @@ export function MovingInfoForm({
   setTermsAccepted: (value: boolean) => void;
 }) {
   const [promotionsAccepted, setPromotionsAccepted] = useState(false);
-  /**
-   * Convert ISO date → datetime-local value
-   */
-  const isoToLocalInput = (iso?: string | null) => {
-    if (!iso) return "";
+  const [dateOpen,setDateOpen] = useState(false)
 
-    return DateTime.fromISO(iso).toLocal().toFormat("mm/dd/yyyy");
-  };
-
-  /**
-   * Convert datetime-local value → ISO date
-   */
-  const localInputToISO = (value: string) => {
-    if (!value) return "";
-
-    return DateTime.fromFormat(value, "mm/dd/yyyy").toUTC().toISO();
-  };
+  const moveDateJS = useMemo(() => {
+    if (formData.moveDate) {
+      return new Date(formData.moveDate);
+    }
+  }, [formData.moveDate]);
 
   return (
     <div className="bg-white border mt-4 lg:mt-0 border-black/10 rounded-lg min-h-screen mb-18">
@@ -133,22 +125,35 @@ export function MovingInfoForm({
       <div className="p-4 pb-8 lg:px-8 space-y-8">
         <div className="space-y-3 max-w-130">
           <p className="text-dark text-sm lg:text-base">Moving Date *</p>
-          <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
-            <input
+          <div  onClick={() => setDateOpen(p=>!p)} className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
+            <p
               id="movingDate"
-              type="date"
-              className="placeholder:text-grey outline-0 w-full text-xs lg:text-sm"
-              value={isoToLocalInput(formData.moveDate)}
-              onChange={(e) =>
-                handleUpdate({
-                  moveDate: localInputToISO(e.target.value) ?? undefined,
-                })
-              }
-            />
+              className="placeholder:text-grey outline-0 w-full text-left text-xs lg:text-sm"
+            >
+              {formData.moveDate}
+            </p>
             {/* <label htmlFor="movingDate" className="ml-auto">
-              <ArrowDropDownIcon />
             </label> */}
+            <div className={`transition-all ease-in-out duration-500 ${dateOpen?"rotate-180":""}`}>
+              <ArrowDropDownIcon />
+            </div>
           </div>
+          {dateOpen && (
+            <div className="border flex items-center justify-center border-black/10 p-4 rounded-lg">
+            <DayPicker
+              animate
+              mode="single"
+              selected={moveDateJS}
+              onSelect={(date) => {
+                if (date) {
+                  handleUpdate({
+                    moveDate: DateTime.fromJSDate(date).toFormat("yyyy-MM-dd") as string,
+                  });
+                }
+              }}
+            />
+          </div>
+          )}
         </div>
         <div className="space-y-6">
           <p className="text-secondary text-xl font-medium">
@@ -234,7 +239,7 @@ export function MovingInfoForm({
                       placeholder="Remarks for the location "
                       value={formData.fromNumberOfFloors}
                       onChange={(e) =>
-                        handleUpdate({ fromNumberOfFloors: parseFloat(e.target.value) })
+                        handleUpdate({ fromNumberOfFloors: e.target.value })
                       }
                     />
                   </div>
@@ -305,14 +310,14 @@ export function MovingInfoForm({
                   <p className="text-dark text-sm lg:text-base">
                     Number Of Floors *
                   </p>
-                 <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
+                  <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                     <input
                       type="number"
                       className="placeholder:text-grey w-full text-xs outline-0  lg:text-sm"
                       placeholder="Remarks for the location "
                       value={formData.toNumberOfFloors}
                       onChange={(e) =>
-                        handleUpdate({ toNumberOfFloors: parseFloat(e.target.value) })
+                        handleUpdate({ toNumberOfFloors: e.target.value })
                       }
                     />
                   </div>

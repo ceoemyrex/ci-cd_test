@@ -196,7 +196,7 @@ export function Navbar() {
                   />
                 </span>
               </span>
-              <span className="text-sm lg:text-base">NL (French)</span>
+              <span className="text-sm lg:text-base">NL (Dutch)</span>
             </button>
           </div>
         </div>

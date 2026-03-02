@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from "next/link";
 import { HexagonIcon, Star } from "../icons";
 import { ArrowRight } from "../icons/arrow";
 
@@ -86,7 +87,7 @@ export function Testimonials({theme="light"}:{theme?:"light"|"white"}) {
           </div>
         </div>
         <div className="max-w-129 flex-wrap  mx-auto flex justify-center items-center gap-4">
-            <button className="bg-theme lg:flex-1 text-white text-xs lg:text-lg rounded-xl lg:rounded-2xl px-5 lg:px-10 py-2.5 w-full lg:w-auto lg:py-5 font-medium">Start Your Move</button>
+            <Link href={"/book-move"} className="bg-theme inline-flex items-center justify-center lg:flex-1 text-white text-xs lg:text-lg rounded-xl lg:rounded-2xl px-5 lg:px-10 py-2.5 w-full lg:w-auto lg:py-5 font-medium">Start Your Move</Link>
             <button className="bg-white lg:flex-1 text-dark border border-black/10  text-xs lg:text-lg rounded-xl lg:rounded-2xl px-5 w-full lg:w-auto lg:px-10 py-2.5 lg:py-5 font-medium">Give Review </button>
         </div>
       </div>

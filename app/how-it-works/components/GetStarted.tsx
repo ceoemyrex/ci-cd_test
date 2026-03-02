@@ -1,4 +1,5 @@
 import { HexagonIcon } from "@/app/icons";
+import Link from "next/link";
 
 /* eslint-disable @next/next/no-img-element */
 export function GetStarted() {
@@ -26,7 +27,7 @@ export function GetStarted() {
                 <p className="text-white text-2xl lg:text-6xl text-center lg:text-left font-bold">Ready to get started?</p>
                 <p className="text-sm lg:text-base text-center lg:text-left">Create your inventory and take the first step toward a smoother move.</p>
             </div>
-            <button className="bg-theme px-6 lg:px-13 min-h-12 lg:py-5 text-sm lg:text-lg text-white rounded-2xl font-medium">Start Your Move</button>
+            <Link href={"/book-move"} className="bg-theme inline-flex items-center justify-center px-6 lg:px-13 min-h-12 lg:py-5 text-sm lg:text-lg text-white rounded-2xl font-medium">Start Your Move</Link>
           </div>
         </div>
       </div>

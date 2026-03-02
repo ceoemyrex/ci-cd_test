@@ -36,11 +36,11 @@ export function BookMoveForm() {
     dropOffLongitude: "",
     dropOffLatitude: "",
 
-    moveDate: new Date().toISOString(),
-    pickUpTime: new Date().toISOString(),
+    moveDate: "",
+    pickUpTime: "",
 
-    fromNumberOfFloors: 0,
-    toNumberOfFloors: 0,
+    fromNumberOfFloors: "",
+    toNumberOfFloors: "",
 
     fromLongCarry: "",
     toLongCarry: "",
