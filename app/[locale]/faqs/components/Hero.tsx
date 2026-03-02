@@ -1,10 +1,13 @@
 "use client";
 import { FAQCard, faqs } from "@/app/components";
+import { AppTranslator, Locale } from "@/app/utils";
 import { AppTag, Navbar } from "@/components";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 
 /* eslint-disable @next/next/no-img-element */
 export function FAQHero() {
+  const {locale} = useParams<{locale:Locale}>()
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleFAQ = (index: number) => {
@@ -39,8 +42,14 @@ export function FAQHero() {
             {faqs.map((faq, index) => (
               <FAQCard
                 key={index}
-                question={faq.question}
-                answer={faq.answer}
+                question={AppTranslator.getLocaleText({
+                  translations:faq.translations.question,
+                  locale,
+                }) ?? ""}
+                 answer={AppTranslator.getLocaleText({
+                  translations:faq.translations.answer,
+                  locale,
+                }) ?? ""}
                 isOpen={openIndex === index}
                 onToggle={() => toggleFAQ(index)}
               />

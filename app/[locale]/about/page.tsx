@@ -1,6 +1,6 @@
 import { Footer } from "@/components";
 import { AboutHero, JoinUs, Services, Vision } from "./components";
-import { Testimonials } from "../components";
+import { Testimonials } from "@/app/components";
 import { ContentfulProvider } from "@/services";
 import { Suspense } from "react";
 
