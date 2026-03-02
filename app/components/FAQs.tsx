@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CancelIcon, HexagonIcon } from "../icons";
 import { PlusIcon } from "../icons/add";
 import { useState } from "react";
+import { AppTranslator, Locale } from "../utils";
 
 /* ============================= */
 /*        FAQ DATA               */
@@ -12,31 +13,89 @@ import { useState } from "react";
 
 export const faqs = [
   {
-    question: "Do I have to use AI?",
-    answer:
-      "No. AI is completely optional. You can manually manage your inventory and bookings if you prefer full control.",
+    translations: {
+      question: {
+        en: "Do I have to use AI?",
+        nl: "Moet ik AI gebruiken?",
+      },
+      answer: {
+        en: "No. AI is completely optional. You can manually manage your inventory and bookings if you prefer full control.",
+        nl: "Nee. AI is volledig optioneel. Je kunt je inventaris en boekingen handmatig beheren als je volledige controle wilt.",
+      },
+    },
   },
   {
-    question: "How does pricing work?",
-    answer:
-      "Pricing is calculated based on distance, inventory size, and service type. You receive transparent estimates before confirming your booking.",
+    translations: {
+      question: {
+        en: "How does pricing work?",
+        nl: "Hoe werkt de prijsberekening?",
+      },
+      answer: {
+        en: "Pricing is calculated based on distance, inventory size, and service type. You receive transparent estimates before confirming your booking.",
+        nl: "Prijzen worden berekend op basis van afstand, inventarisgrootte en type service. Je ontvangt transparante schattingen voordat je je boeking bevestigt.",
+      },
+    },
   },
   {
-    question: "Can I edit my inventory later?",
-    answer:
-      "Yes. You can update your inventory at any time before your move date to ensure accurate pricing and avoid surprises.",
+    translations: {
+      question: {
+        en: "Can I edit my inventory later?",
+        nl: "Kan ik mijn inventaris later bewerken?",
+      },
+      answer: {
+        en: "Yes. You can update your inventory at any time before your move date to ensure accurate pricing and avoid surprises.",
+        nl: "Ja. Je kunt je inventaris op elk moment vóór je verhuisdatum bijwerken om nauwkeurige prijzen te garanderen en verrassingen te voorkomen.",
+      },
+    },
   },
   {
-    question: "Is my data secure?",
-    answer:
-      "Absolutely. We use industry-standard encryption and secure servers to protect your personal and payment information.",
+    translations: {
+      question: {
+        en: "Is my data secure?",
+        nl: "Zijn mijn gegevens veilig?",
+      },
+      answer: {
+        en: "Absolutely. We use industry-standard encryption and secure servers to protect your personal and payment information.",
+        nl: "Absoluut. We gebruiken encryptie volgens industrienormen en beveiligde servers om je persoonlijke gegevens en betalingsinformatie te beschermen.",
+      },
+    },
   },
   {
-    question: "How do I contact support?",
-    answer:
-      "You can reach our support team via the Contact page or through live chat inside your dashboard.",
+    translations: {
+      question: {
+        en: "How do I contact support?",
+        nl: "Hoe neem ik contact op met support?",
+      },
+      answer: {
+        en: "You can reach our support team via the Contact page or through live chat inside your dashboard.",
+        nl: "Je kunt ons ondersteuningsteam bereiken via de contactpagina of via de livechat in je dashboard.",
+      },
+    },
   },
 ];
+
+/* ============================= */
+/*        FAQ TRANSLATIONS       */
+/* ============================= */
+
+const faqText = {
+  badge: {
+    en: "FAQ",
+    nl: "Veelgestelde Vragen",
+  },
+  title: {
+    en: "Frequently Asked Questions!",
+    nl: "Veelgestelde Vragen!",
+  },
+  stillHaveQuestions: {
+    en: "Still Have Questions?",
+    nl: "Nog steeds vragen?",
+  },
+  contactUs: {
+    en: "Contact Us,",
+    nl: "Neem contact op,",
+  },
+};
 
 /* ============================= */
 /*        FAQ CARD               */
@@ -59,11 +118,7 @@ export function FAQCard({ question, answer, isOpen, onToggle }: FAQCardProps) {
       >
         <p className="text-sm lg:text-xl text-dark">{question}</p>
 
-        <div
-          className={`transition-transform duration-300 ${
-            isOpen ? "rotate-180" : ""
-          }`}
-        >
+        <div className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}>
           {isOpen ? null : <PlusIcon />}
         </div>
       </div>
@@ -73,11 +128,7 @@ export function FAQCard({ question, answer, isOpen, onToggle }: FAQCardProps) {
         className={`
           absolute z-50 w-full p-4 lg:p-8 top-[105%] bg-white shadow-lg border rounded-2xl border-[#2D2F361A]/10
           transform transition-all duration-300 ease-in-out origin-top
-          ${
-            isOpen
-              ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
-              : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
-          }
+          ${isOpen ? "opacity-100 scale-100 translate-y-0 pointer-events-auto" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"}
         `}
       >
         <header className="flex items-center justify-between">
@@ -88,9 +139,7 @@ export function FAQCard({ question, answer, isOpen, onToggle }: FAQCardProps) {
           </button>
         </header>
 
-        <p className="mt-5 lg:mt-10 text-xs lg:text-base text-grey">
-          {answer}
-        </p>
+        <p className="mt-5 lg:mt-10 text-xs lg:text-base text-grey">{answer}</p>
       </div>
     </div>
   );
@@ -100,7 +149,7 @@ export function FAQCard({ question, answer, isOpen, onToggle }: FAQCardProps) {
 /*        FAQ SECTION            */
 /* ============================= */
 
-export function FAQs() {
+export function FAQs({ locale = "nl" }: { locale?: Locale }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleFAQ = (index: number) => {
@@ -116,23 +165,23 @@ export function FAQs() {
           <header>
             <span className="bg-[#CACACA1A]/10 px-4 text-xs lg:text-sm py-1.5 lg:py-2.5 rounded-[100px] text-secondary inline-flex items-center gap-x-1.5 border border-[#B6DDA8]">
               <HexagonIcon />
-              Faq
+              {AppTranslator.getLocaleText({ locale, translations: faqText.badge })}
             </span>
 
             <div className="mt-6 space-y-4">
               <p className="font-bold text-2xl lg:text-5xl">
-                Frequently Asked Questions!
+                {AppTranslator.getLocaleText({ locale, translations: faqText.title })}
               </p>
             </div>
 
             <div className="mt-11 lg:mt-22 border text-dark bg-white border-black/10 p-3 lg:p-6 rounded-2xl">
               <p className="text-base lg:text-2xl font-medium">
-                Still Have Questions?
+                {AppTranslator.getLocaleText({ locale, translations: faqText.stillHaveQuestions })}
               </p>
 
               <p className="text-xs lg:text-lg">
                 <Link href={"/contact"} className="text-theme">
-                  Contact Us,
+                  {AppTranslator.getLocaleText({ locale, translations: faqText.contactUs })}
                 </Link>{" "}
                 We are happy to help you
               </p>
@@ -171,8 +220,8 @@ export function FAQs() {
           {faqs.map((faq, index) => (
             <FAQCard
               key={index}
-              question={faq.question}
-              answer={faq.answer}
+              question={AppTranslator.getLocaleText({ locale, translations: faq.translations.question }) ?? ""}
+              answer={AppTranslator.getLocaleText({ locale, translations: faq.translations.answer }) ?? ""}
               isOpen={openIndex === index}
               onToggle={() => toggleFAQ(index)}
             />

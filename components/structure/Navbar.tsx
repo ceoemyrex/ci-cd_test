@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowDropDownIcon } from "@/app/icons";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { XCircle } from "lucide-react";
+import { defaultLocale, languages, Locale } from "@/app/utils";
 
 /* eslint-disable @next/next/no-img-element */
 
@@ -17,11 +18,20 @@ const navLinks = [
   { url: "/contact", title: "Contact" },
 ];
 
+
+
 export function Navbar() {
+  const { locale } = useParams<{ locale: Locale }>();
   const [isOpen, setIsOpen] = useState(false);
-  const [languageSwitchOpen,setLanguageOpen] = useState(false);
+  const [languageSwitchOpen, setLanguageOpen] = useState(false);
   const [hasBackground, setHasBackground] = useState(false);
   const pathname = usePathname();
+
+
+  const siteLocale = useMemo(()=>{
+    const currentLocale = languages.find((item)=>item.locale == locale)
+    return currentLocale ?? defaultLocale
+  },[locale])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,15 +70,18 @@ export function Navbar() {
           {/* Desktop Nav */}
           <div className="mx-auto border-b-2 border-[#D3E6FA] hidden xl:flex gap-x-5 justify-center">
             {navLinks.map((link) => {
+
+              console.log(pathname.replace(`${locale}`,""))
+
               const matchedLink = navLinks.find((l) => l.url === pathname);
 
               const isActive = matchedLink
-                ? pathname === link.url
-                : link.url === "/";
+                ? pathname.replace(`/${locale}`,"") === link.url
+                : link.url === `/${locale}`;
 
               return (
                 <Link
-                  href={link.url}
+                  href={`/${locale}${link.url}`}
                   key={link.title}
                   className={`pb-1.5 px-2 ${
                     isActive
@@ -83,18 +96,21 @@ export function Navbar() {
           </div>
 
           {/* Desktop Right */}
-          <div onClick={()=>setLanguageOpen(true)} className="hidden xl:flex items-center gap-x-8">
-            <div className="flex rounded-[80px] gap-x-2 items-center p-2 border border-dark/10">
-              <div className="h-8.5 w-8.5 border relative border-dark-shade rounded-full">
+          <div
+            onClick={() => setLanguageOpen(true)}
+            className="hidden xl:flex items-center gap-x-8"
+          >
+            <button className="flex rounded-[80px] gap-x-2 items-center p-2 border border-dark/10">
+              <span className="h-8.5 block w-8.5 border relative border-dark-shade rounded-full">
                 <img
-                  src="/flag.png"
-                  className="absolute top-0 left-0 w-full h-full rounded-full"
+                  src={siteLocale.flag}
+                  className="absolute top-0 object-cover left-0 w-full h-full rounded-full"
                   alt="Flag"
                 />
-              </div>
-              <p className="text-lg text-dark">NL</p>
+              </span>
+              <p className="text-lg text-dark">{siteLocale.locale.toUpperCase()}</p>
               <ArrowDropDownIcon />
-            </div>
+            </button>
 
             <button className="bg-theme text-sm lg:text-xl font-medium rounded-lg lg:rounded-2xl py-2.5 lg:py-5 px-6 lg:px-10 text-white">
               Partner
@@ -135,7 +151,7 @@ export function Navbar() {
             {navLinks.map((link) => (
               <Link
                 key={link.title}
-                href={link.url}
+                href={`${locale}${link.url}`}
                 onClick={() => setIsOpen(false)}
                 className={`
                 font-medium text-sm
@@ -152,56 +168,40 @@ export function Navbar() {
           </div>
         </div>
       </div>
-     {languageSwitchOpen && (
-       <div className="bg-black/10 backdrop-blur fixed top-0 left-0 h-full w-full z-1000 flex items-end lg:items-center justify-center">
-        <div className="bg-white flex-1 max-w-80 rounded-t-2xl lg:rounded-2xl">
-          <header className="p-4 border flex items-center justify-between border-black/10">
-            <p className="font-medium text-black text-sm lg:text-xl">Select Language</p>
-            <button onClick={()=>setLanguageOpen(false)}>
-              <XCircle/>
-            </button>
-          </header>
-          <div className="py-2 lg:py-4">
-            <button className="flex p-2 w-full items-center gap-x-2">
-              <span>
-                 <span className="bg-black/10 h-6 w-6 lg:h-10 lg:w-10 inline-block rounded-full relative">
-                  <img
-                    src="/images/usa.png"
-                    className="absolute top-0 left-0 w-full h-full rounded-full"
-                    alt="Flag"
-                  />
+      {languageSwitchOpen && (
+        <div className="bg-black/10 backdrop-blur fixed top-0 left-0 h-full w-full z-1000 flex items-end lg:items-center justify-center">
+          <div className="bg-white flex-1 max-w-80 rounded-t-2xl lg:rounded-2xl">
+            <header className="p-4 border flex items-center justify-between border-black/10">
+              <p className="font-medium text-black text-sm lg:text-xl">
+                Select Language
+              </p>
+              <button onClick={() => setLanguageOpen(false)}>
+                <XCircle />
+              </button>
+            </header>
+            <div className="py-2 lg:py-4">
+             {languages.map(language=>{
+              return (
+                 <a
+                 onClick={()=>setLanguageOpen(false)}
+                 href={`/${language.locale}`} key={language.title} className="flex items-center w-full gap-x-2 p-2">
+                <span>
+                  <span className="bg-black/10 h-6 w-6 lg:h-10 lg:w-10 inline-block rounded-full relative">
+                    <img
+                      src={language.flag}
+                      className="absolute top-0 object-cover left-0 w-full h-full rounded-full"
+                      alt="Flag"
+                    />
+                  </span>
                 </span>
-              </span>
-              <span className="text-sm lg:text-base">USA (English)</span>
-            </button>
-            <button className="flex p-2 w-full items-center gap-x-2">
-             <span>
-                 <span className="bg-black/10 h-6 w-6 lg:h-10 lg:w-10 inline-block rounded-full relative">
-                  <img
-                    src="/images/uk.svg"
-                    className="absolute object-cover top-0 left-0 w-full h-full rounded-full"
-                    alt="Flag"
-                  />
-                </span>
-              </span>
-              <span className="text-sm lg:text-base">UK (English)</span>
-            </button>
-            <button className="flex items-center w-full gap-x-2 p-2">
-              <span>
-                <span className="bg-black/10 h-6 w-6 lg:h-10 lg:w-10 inline-block rounded-full relative">
-                  <img
-                    src="/flag.png"
-                    className="absolute top-0 left-0 w-full h-full rounded-full"
-                    alt="Flag"
-                  />
-                </span>
-              </span>
-              <span className="text-sm lg:text-base">NL (Dutch)</span>
-            </button>
+                <span className="text-sm lg:text-base">{language.title}</span>
+              </a>
+              )
+             })}
+            </div>
           </div>
         </div>
-      </div>
-     )}
+      )}
     </>
   );
 }
