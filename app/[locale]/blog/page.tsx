@@ -1,6 +1,6 @@
 import { Footer } from "@/components";
 import { BlogHero } from "./components";
-import { Blogs, ReadyToMove, Testimonials } from "../components";
+import { Blogs, ReadyToMove, Testimonials } from "@/app/components";
 import { ContentfulProvider } from "@/services";
 import { Suspense } from "react";
 

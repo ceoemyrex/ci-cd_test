@@ -1,6 +1,6 @@
 import { Footer } from "@/components";
 import { CommitmentSection, TrustAndSafetyHero } from "./components";
-import { ReadyToMove, Testimonials } from "../components";
+import { ReadyToMove, Testimonials } from "@/app/components";
 
 export default function Page() {
   return (

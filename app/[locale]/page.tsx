@@ -30,7 +30,7 @@ export default async function Page({params}:{params:Promise<{
       <HowItWorks locale={locale}/>
       <Testimonials locale={locale}/>
       <Suspense fallback={null}>
-         <Blogs blogs={blogs ?? []} limit={3} />
+         <Blogs locale={locale} blogs={blogs ?? []} limit={3} />
       </Suspense>
       <FAQs locale={locale}/>
       <Footer />
