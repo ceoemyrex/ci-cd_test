@@ -66,6 +66,8 @@ export function Navbar() {
     return currentLocale ?? defaultLocale;
   }, [locale]);
 
+  const navLinksUrls = navLinks.map(item=>item.url)
+
   useEffect(() => {
     const handleScroll = () => {
       const passedViewport = window.scrollY >= 50;
@@ -107,7 +109,13 @@ export function Navbar() {
               const normalizedPath = pathname.replace(`/${locale}`, "") || "/";
               const normalizedLink = link.url || "/";
 
-              const isActive = normalizedPath === normalizedLink;
+              const linkIncludesPath = navLinksUrls.includes(normalizedPath)
+
+              const isActive = linkIncludesPath
+              ?normalizedPath === normalizedLink
+              :normalizedLink == "/";
+
+              
 
               return (
                 <Link

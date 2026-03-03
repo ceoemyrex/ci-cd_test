@@ -28,7 +28,7 @@ export function FAQHero() {
           <div className="pt-22 max-w-140 mx-auto lg:pt-36.25 text-center space-y-4">
             <AppTag title={AppTranslator.getLocaleText({
               locale,
-              translations: { en: "Faq", nl: "Veelgestelde vragen" }
+              translations: { en: "Faq", nl: "Faq" }
             })} />
 
             <p className="font-bold text-dark text-3xl lg:text-5xl leading-[120%]">
@@ -36,7 +36,7 @@ export function FAQHero() {
                 locale,
                 translations: {
                   en: "Frequently asked questions",
-                  nl: "Veelgestelde vragen",
+                  nl: " Veelgestelde vragen",
                 },
               })}
             </p>
@@ -46,7 +46,7 @@ export function FAQHero() {
                 locale,
                 translations: {
                   en: "Find answers to common questions about inventory options, booking, pricing, and privacy.",
-                  nl: "Vind antwoorden op veelgestelde vragen over inventarisopties, boeking, prijzen en privacy.",
+                  nl: "Bekijk hier de meest gestelde vragen.",
                 },
               })}
             </p>

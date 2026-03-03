@@ -35,7 +35,7 @@ export function CommitmentSection({ locale }: { locale: Locale }) {
                   locale,
                   translations: {
                     en: "Best & Trusted Place",
-                    nl: "Beste & Betrouwbare Plek",
+                    nl: "Beste en meest vertrouwde plek  ",
                   },
                 })}
               />
@@ -47,7 +47,7 @@ export function CommitmentSection({ locale }: { locale: Locale }) {
                   locale,
                   translations: {
                     en: "Our commitment to you",
-                    nl: "Onze toewijding aan u",
+                    nl: "Onze belofte aan jou",
                   },
                 })}
               </p>
@@ -57,7 +57,7 @@ export function CommitmentSection({ locale }: { locale: Locale }) {
                   locale,
                   translations: {
                     en: "We understand that moving involves sharing personal information and trusting others with your belongings. That's why we've built Zinter with security and transparency at its core.",
-                    nl: "Wij begrijpen dat verhuizen betekent dat u persoonlijke informatie deelt en anderen uw bezittingen toevertrouwt. Daarom hebben wij Zinter gebouwd met veiligheid en transparantie als kern.",
+                    nl: "Bij verhuizen komt veel meer kijken dan alleen dozen verplaatsen. Je deelt persoonlijke gegevens en vertrouwt anderen met je waardevolle spullen. Daarom hebben we Zinter gebouwd met veiligheid en transparantie als basis.",
                   },
                 })}
               </p>
@@ -69,7 +69,7 @@ export function CommitmentSection({ locale }: { locale: Locale }) {
                   locale,
                   translations: {
                     en: "Your data is never sold to third parties",
-                    nl: "Uw gegevens worden nooit aan derden verkocht",
+                    nl: "We verkopen je gegevens nooit",
                   },
                 })}
               />
@@ -79,7 +79,7 @@ export function CommitmentSection({ locale }: { locale: Locale }) {
                   locale,
                   translations: {
                     en: "AI is always optional — manual options are always available",
-                    nl: "AI is altijd optioneel — handmatige opties blijven beschikbaar",
+                    nl: "Je kiest zelf of je AI gebruikt",
                   },
                 })}
               />
@@ -89,7 +89,7 @@ export function CommitmentSection({ locale }: { locale: Locale }) {
                   locale,
                   translations: {
                     en: "You control what information is shared with movers",
-                    nl: "U bepaalt welke informatie met verhuizers wordt gedeeld",
+                    nl: "Jij bepaalt wat je deelt met verhuisbedrijven",
                   },
                 })}
               />
@@ -99,7 +99,7 @@ export function CommitmentSection({ locale }: { locale: Locale }) {
                   locale,
                   translations: {
                     en: "Delete your data at any time",
-                    nl: "Verwijder uw gegevens op elk moment",
+                    nl: "Je kunt je gegevens altijd verwijderen",
                   },
                 })}
               />
