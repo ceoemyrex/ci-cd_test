@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useCallback, useState } from "react";
@@ -25,7 +26,7 @@ export function BookMoveForm() {
     fullName: "",
     phoneNumber: "",
     email: "",
-    provinceId: 0,
+    provinceId: "",
 
     pickUpAddress: "",
     pickUpAddressNumber: "",
@@ -132,7 +133,7 @@ export function BookMoveForm() {
             pickUpLatitude: place.location.latitude.toString(),
             pickUpLongitude: place.location.longitude.toString(),
           });
-        },[])}
+        }, [])}
         setMoveTo={useCallback((place) => {
           setMoveTo(place);
           handleUpdateForm({
@@ -141,14 +142,14 @@ export function BookMoveForm() {
             dropOffLatitude: place.location.latitude.toString(),
             dropOffLongitude: place.location.longitude.toString(),
           });
-        },[])}
+        }, [])}
         onNext={next}
         moveSize={moveSize}
         setMoveSize={setMoveSize}
         onPrev={prev}
         moveItems={formData.items}
         handleUpdateMoveItems={(moveItems) => {
-          handleUpdateForm({ items:moveItems });
+          handleUpdateForm({ items: moveItems });
         }}
         handleUpdate={handleUpdateForm}
         formData={formData}
@@ -160,16 +161,25 @@ export function BookMoveForm() {
           <div className="fixed overflow-auto flex items-center justify-center top-0 left-0 w-full h-full bg-white/20 backdrop-blur z-1000000">
             <div className="bg-white flex-1 max-w-135 border border-black/10 rounded-2xl">
               <StarrySpace />
+              <img
+                src="/success.png"
+                className="h-15 w-15 lg:h-30 lg:w-30 mx-auto -mt-7.5 lg:-mt-15 relative rounded-full"
+                alt="Success"
+              />
+
               <div>
-                <div className="mt-14 p-8">
-                  <p className="font-bold text-center text-3xl">
+                <div className=" p-8">
+                  <p className="font-bold text-center text-xl lg:text-3xl">
                     Thank you for questing a quote {formData.fullName}{" "}
                   </p>
-                  <p className="text-grey text-center">
+                  <p className="text-grey text-sm lg:text-base text-center">
                     Your quotes are on their way to your email
                   </p>
                   <div className="my-10 text-center">
-                    <button onClick={()=>setSuccess(false)} className="bg-theme text-white rounded-lg px-10 py-4 font-medium">
+                    <button
+                      onClick={() => setSuccess(false)}
+                      className="bg-theme text-white text-sm lg:text-base rounded-lg px-10 py-4 font-medium"
+                    >
                       Ok Got It
                     </button>
                   </div>

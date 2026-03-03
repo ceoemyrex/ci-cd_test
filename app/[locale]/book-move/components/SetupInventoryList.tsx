@@ -11,6 +11,8 @@ import { MoveItem } from "@/services/MoveRequest";
 import { BedDoubleIcon, Sofa } from "lucide-react";
 import { RoomItem } from "./RoomItem";
 import { ScanWithAiButton } from "./ScanWithAiButton";
+import { AppTranslator, Locale } from "@/app/utils";
+import { useParams } from "next/navigation";
 
 /* -------------------- SetupInventoryListForm -------------------- */
 export function SetupInventoryListForm({
@@ -22,16 +24,30 @@ export function SetupInventoryListForm({
   handleUpdateMoveItems: (items: MoveItem[]) => void;
   moveSize: string;
 }) {
+
+  const {locale} = useParams<{locale:Locale}>()
   return (
     <div className="mt-4 lg:mt-0">
       {/* Header */}
       <header className="lg:flex items-center justify-between">
         <p className="lg:text-2xl font-medium">
-          Add items to your (<span className="text-grey">{moveSize}</span>)
+          {AppTranslator.getLocaleText({
+            locale,
+            translations:{
+              en:"Add items to your",
+              nl:"Spullen toevoegen"
+            }
+          })} (<span className="text-grey">{moveSize}</span>)
         </p>
         <button className="bg-white border text-sm lg:text-base flex items-center rounded-xl px-5 lg:py-4 lg:px-10 py-2 border-[#E5E5E5]">
           <PlusIcon />
-          <span>Additional Room</span>
+          <span>{AppTranslator.getLocaleText({
+            locale,
+            translations:{
+              en:"Additonal Room",
+              nl:"Kamer toevoegen"
+            }
+          })} </span>
         </button>
       </header>
 
@@ -49,10 +65,25 @@ export function SetupInventoryListForm({
               <ImageIcon />
             </div>
             <div className="text-center mt-3 space-y-2">
-              <p className="text-lg lg:text-2xl font-medium">Image Recognition</p>
+              <p className="text-lg lg:text-2xl font-medium">{
+                AppTranslator.getLocaleText({
+                  locale,
+                  translations:{
+                    en:"Image Recognition",
+                    nl:"AI-herkenning"
+                  }
+                })
+                }</p>
               <p className="text-xs lg:text-base">
-                Take photos of each room and let the AI create a personalized
-                checklist for your move or relocation
+                 {AppTranslator.getLocaleText({
+                  locale,
+                  translations:{
+                    en:"Take photos of each room and let the AI create a personalized checklist for your move or relocation",
+                    nl:"Maak foto’s van beide kamers en onze AI-herkenning doet de rest."
+                  }
+                })
+                }
+                
               </p>
             </div>
             <div className="mt-4 lg:mt-8 text-center">
@@ -70,7 +101,13 @@ export function SetupInventoryListForm({
           </div>
         </div>
         <p className="p-4 text-sm lg:text-lg font-medium text-center">
-          Secure & Confidential
+          {AppTranslator.getLocaleText({
+            locale,
+            translations:{
+              nl:"Veilig en vetrouwd",
+              en:"Secure & Confidential"
+            }
+          })}
         </p>
       </div>
 

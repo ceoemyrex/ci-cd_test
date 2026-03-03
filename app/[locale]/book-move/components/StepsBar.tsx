@@ -1,4 +1,6 @@
 import { TickIcon } from "@/app/icons";
+import { AppTranslator, Locale } from "@/app/utils";
+import { useParams } from "next/navigation";
 import { Fragment } from "react/jsx-runtime";
 
 function StepButton({
@@ -70,35 +72,72 @@ export function StepBar({
 }) {
   const steps = [
     {
-      title: "Location Details",
-      description: "Details of you are moving from",
+      title: {
+        en: "Location Details",
+        nl: "Locatiegegevens",
+      },
+      description: {
+        en: "Details of you are moving from",
+        nl: "Vanaf welk adres verhuis je?",
+      },
     },
     {
-      title: "Setup Inventory List",
-      description: "Detailed list of items to be move",
+      title: {
+        en: "Setup Inventory List",
+        nl: "Inventarislijst maken ",
+      },
+      description: {
+        en: "Detailed list of items to be move",
+        nl: "Overzicht van alle spullen die je gaat verhuizen.",
+      },
     },
     {
-      title: "Moving Information",
-      description: "Date, contacts, restrictions, etc...",
+      title: {
+        en: "Moving Information",
+        nl: "Verhuisgegevens",
+      },
+      description: {
+        en: "Date, contacts, restrictions, etc...",
+        nl: "Datum, contract en bijzonderheden.",
+      },
     },
     {
-      title: "View Summary",
-      description: "Full Summary Of Your Move",
+      title: {
+        en: "View Summary",
+        nl: "Overzicht bekijken",
+      },
+      description: {
+        en: "Full Summary Of Your Move",
+        nl: "Volledig overzicht van je verhuizing.",
+      },
     },
   ];
 
   const selectedStep = steps.find((_, index) => index + 1 == currentStep);
+
+  const { locale } = useParams<{ locale: Locale }>();
 
   return (
     <>
       <div className=" bg-white p-4 rounded-lg space-y-4 lg:hidden">
         <div className="flex items-center">
           {steps.map((step, index) => (
-            <Fragment key={step.title}>
-              <div key={step.title}>
+            <Fragment
+              key={AppTranslator.getLocaleText({
+                locale,
+                translations: step.title,
+              })}
+            >
+              <div>
                 <StepButton
-                  title={step.title}
-                  description={step.description}
+                  title={AppTranslator.getLocaleText({
+                    locale,
+                    translations: step.title,
+                  })}
+                  description={AppTranslator.getLocaleText({
+                    locale,
+                    translations: step.description,
+                  })}
                   active={currentStep > index}
                   completed={currentStep > index + 1}
                 />
@@ -111,26 +150,43 @@ export function StepBar({
             </Fragment>
           ))}
         </div>
-       
-       <div className="flex gap-x-2">
-         {selectedStep && (
-          <div className="text-dark">
-            <p className="text-sm lg:text-lg font-medium">
-              {selectedStep.title}
-            </p>
-            <p className="text-grey text-xs lg:text-sm">
-              {selectedStep.description}
-            </p>
-          </div>
-        )}
-       </div>
+
+        <div className="flex gap-x-2">
+          {selectedStep && (
+            <div className="text-dark">
+              <p className="text-sm lg:text-lg font-medium">
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: selectedStep.title,
+                })}
+              </p>
+              <p className="text-grey text-xs lg:text-sm">
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: selectedStep.description,
+                })}
+              </p>
+            </div>
+          )}
+        </div>
       </div>
       <div className="bg-white rounded-2xl hidden lg:block relative p-6 border border-[#E5E5E5]">
         {steps.map((step, index) => (
-          <div key={step.title}>
+          <div
+            key={AppTranslator.getLocaleText({
+              locale,
+              translations: step.title,
+            })}
+          >
             <StepButton
-              title={step.title}
-              description={step.description}
+              title={AppTranslator.getLocaleText({
+                locale,
+                translations: step.title,
+              })}
+              description={AppTranslator.getLocaleText({
+                locale,
+                translations: step.description,
+              })}
               active={currentStep > index}
               completed={currentStep > index + 1}
             />
