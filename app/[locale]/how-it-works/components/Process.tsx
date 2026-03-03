@@ -15,7 +15,7 @@ export function Process({ locale = "nl" }: { locale?: Locale }) {
     {
       title: {
         en: "Create Inventory",
-        nl: "Inventaris maken",
+        nl: "Stel je inboedel samen",
       },
       image: "/images/how-it-works-1.png",
       icon: <CheckListIcon />,
@@ -23,7 +23,7 @@ export function Process({ locale = "nl" }: { locale?: Locale }) {
     {
       title: {
         en: "Plan and Coordinate",
-        nl: "Plan en coördineer",
+        nl: "Plan en regel",
       },
       image: "/images/how-it-works-2.png",
       icon: <SettingIcon />,
@@ -31,7 +31,7 @@ export function Process({ locale = "nl" }: { locale?: Locale }) {
     {
       title: {
         en: "Finalize and move",
-        nl: "Afronden en verhuizen",
+        nl: "Plan en regel",
       },
       image: "/images/how-it-works-3.png",
       icon: <CheckCircle />,
@@ -42,14 +42,14 @@ export function Process({ locale = "nl" }: { locale?: Locale }) {
     <section className="py-18.5 lg:py-37.5">
       <div className="max-w-310 px-4 2xl:max-w-350 mx-auto">
         <header className="text-center max-w-153.75 mx-auto">
-          <AppTag title={AppTranslator.getLocaleText({ locale, translations: { en: "Smooth Process", nl: "Vloeiend Proces" } })} />
+          <AppTag title={AppTranslator.getLocaleText({ locale, translations: { en: "Smooth Process", nl: "Soepel proces" } })} />
           <div className="mt-6 space-y-4">
             <p className="font-bold text-2xl lg:text-5xl">
               {AppTranslator.getLocaleText({
                 locale,
                 translations: {
                   en: "Simple, clear, and focused",
-                  nl: "Eenvoudig, duidelijk en gefocust",
+                  nl: "Overzicht van begin tot eind",
                 },
               })}
             </p>
@@ -58,7 +58,7 @@ export function Process({ locale = "nl" }: { locale?: Locale }) {
                 locale,
                 translations: {
                   en: "By starting with inventory, everything else falls into place. No hidden steps, no confusion just a clear path from start to finish.",
-                  nl: "Door te beginnen met de inventaris valt alles op zijn plek. Geen verborgen stappen, geen verwarring, gewoon een duidelijk pad van begin tot eind.",
+                  nl: "Door eerst je inboedel op te stellen, valt alles op zijn plek. Geen verborgen stappen, geen verwarring - Gewoon een duidelijk traject van begin tot eind.",
                 },
               })}
             </p>

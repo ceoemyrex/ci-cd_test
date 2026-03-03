@@ -57,11 +57,11 @@ export function Steps({ locale = "nl" }: { locale?: Locale }) {
     {
       title: {
         en: "Create your inventory",
-        nl: "Maak uw inventaris",
+        nl: "Stel je inboedel samen",
       },
       description: {
         en: "You can upload photos for AI-based item recognition or manually list your items. Both options are available from the start.",
-        nl: "U kunt foto's uploaden voor AI-gebaseerde itemherkenning of uw items handmatig opsommen. Beide opties zijn vanaf het begin beschikbaar.",
+        nl: "Maak foto’s van je inboedel of maak zelf een lijst. Je kunt meteen beginnen.",
       },
       icon: <CheckListIcon />,
       stepIcon: <CheckListIcon fill="#7C7C8E" />,
@@ -70,11 +70,11 @@ export function Steps({ locale = "nl" }: { locale?: Locale }) {
     {
       title: {
         en: "Plan and coordinate",
-        nl: "Plan en coördineer",
+        nl: "Plan en regel je verhuizing",
       },
       description: {
         en: "Your inventory helps structure the move, allowing better planning and coordination without confusion or guesswork.",
-        nl: "Uw inventaris helpt bij het structureren van de verhuizing, waardoor betere planning en coördinatie mogelijk is zonder verwarring of giswerk.",
+        nl: "Met je inboedellijst houd je je verhuizing overzichtelijk en duidelijk gepland.",
       },
       icon: <SettingIcon />,
       stepIcon: <SettingIcon fill="#7C7C8E" />,
@@ -83,11 +83,11 @@ export function Steps({ locale = "nl" }: { locale?: Locale }) {
     {
       title: {
         en: "Finalize and move",
-        nl: "Afronden en verhuizen",
+        nl: "Rond je verhuizing af",
       },
       description: {
         en: "Confirm details, review your inventory, and complete the move with full visibility.",
-        nl: "Bevestig de details, controleer uw inventaris en voltooi de verhuizing met volledig overzicht.",
+        nl: "Klaar? Loop alles rustig na en rond je verhuizing met een gerust gevoel af.",
       },
       icon: <CheckCircle />,
       stepIcon: <CheckCircle fill="#7C7C8E" />,

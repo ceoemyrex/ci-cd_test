@@ -10,23 +10,24 @@ export function HowItWorksHero({ locale = "nl" }: { locale?: Locale }) {
   const heroText = {
     tagTitle: {
       en: "Smooth Process",
-      nl: "Vloeiend Proces",
+      nl: "Zorgeloos geregeld",
     },
     heading: {
       en: "How Zinter helps coordinate Your Move",
-      nl: "Hoe Zinter helpt bij het coördineren van uw verhuizing",
+      nl: "Zo regelt Zinter jouw verhuizing",
     },
     headingHighlight: {
       en: "Your Move",
-      nl: "Uw Verhuizing",
+      nl: "",
     },
     description: {
       en: "Zinter focuses on one thing first: creating a clear inventory. Once that's done, move coordination becomes faster, easier, and more accurate.",
-      nl: "Zinter richt zich eerst op één ding: een duidelijke inventaris maken. Zodra dat klaar is, wordt het coördineren van de verhuizing sneller, eenvoudiger en nauwkeuriger.",
+      nl: `Zinter start met een duidelijk overzicht van je inboedel. 
+Daarna verloopt je verhuizing sneller en met meer zekerheid.`,
     },
     buttonText: {
       en: "Start your move",
-      nl: "Begin uw verhuizing",
+      nl: "Begin direct",
     },
   };
 
@@ -49,9 +50,7 @@ export function HowItWorksHero({ locale = "nl" }: { locale?: Locale }) {
               </div>
 
               <p className="font-bold text-dark text-center text-3xl lg:text-6xl leading-[120%]">
-                {AppTranslator.getLocaleText({ locale, translations: heroText.heading }).split(
-                  AppTranslator.getLocaleText({ locale, translations: heroText.headingHighlight })
-                )[0]}
+                {AppTranslator.getLocaleText({ locale, translations: heroText.heading })}
                 <span className="text-secondary">
                   {AppTranslator.getLocaleText({ locale, translations: heroText.headingHighlight })}
                 </span>
