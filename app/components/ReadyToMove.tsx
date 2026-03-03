@@ -1,18 +1,20 @@
-import { HexagonIcon } from "@/app/icons";
-
 /* eslint-disable @next/next/no-img-element */
-export function ReadyToMove(
-  {
-    title="Ready to start your move?",
-    description="Create your inventory and move forward in just a few steps.",
-    buttonText="Book a Move",
-    ctaText="CTA"
-  }:{
-    title?:string
-    description?:string
-    buttonText?:string
-    ctaText?:string
-  }) {
+import { HexagonIcon } from "@/app/icons";
+import { Locale, AppTranslator } from "@/app/utils";
+
+export function ReadyToMove({
+  locale = "nl",
+  title,
+  description,
+  buttonText,
+  ctaText,
+}: {
+  locale?: Locale;
+  title?: string;
+  description?: string;
+  buttonText?: string;
+  ctaText?: string;
+}) {
   return (
     <section className="max-w-310 2xl:max-w-350 mx-auto px-4">
       <div className="relative rounded-4xl overflow-clip lg:min-h-140">
@@ -31,18 +33,42 @@ export function ReadyToMove(
           <div className="flex-1 text-center lg:text-left">
             <span className="border gap-x-2 items-center border-[#B6DDA8] bg-[#CACACA1A]/10 backdrop-blur-xs inline-flex rounded-[100px] text-white px-3 lg:px-6 py-2 text-xs lg:text-sm lg:py-3">
               <HexagonIcon fill="#ffffff" />
-              <span>{ctaText}</span>
+              <span>
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: { en: "CTA", nl: "CTA" },
+                  defaultText: ctaText,
+                })}
+              </span>
             </span>
             <div className="mt-6 max-w-125 mb-12 space-y-4 text-white">
               <p className="text-white text-2xl lg:text-6xl text-center lg:text-left font-bold">
-               {title}
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Ready to start your move?",
+                    nl: "Klaar om te beginnen met verhuizen?",
+                  },
+                  defaultText: title,
+                })}
               </p>
               <p className="text-sm lg:text-base text-center lg:text-left">
-                {description}
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Create your inventory and move forward in just a few steps.",
+                    nl: "Maak je inventaris en ga in slechts een paar stappen verder.",
+                  },
+                  defaultText: description,
+                })}
               </p>
             </div>
             <button className="bg-theme px-6 lg:px-13 min-h-12 lg:py-5 text-sm lg:text-lg text-white rounded-2xl font-medium">
-              {buttonText}
+              {AppTranslator.getLocaleText({
+                locale,
+                translations: { en: "Book a Move", nl: "Boek een Verhuizing" },
+                defaultText: buttonText,
+              })}
             </button>
           </div>
         </div>

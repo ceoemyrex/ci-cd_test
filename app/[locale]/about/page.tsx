@@ -3,22 +3,28 @@ import { AboutHero, JoinUs, Services, Vision } from "./components";
 import { Testimonials } from "@/app/components";
 import { ContentfulProvider } from "@/services";
 import { Suspense } from "react";
+import { Locale } from "@/app/utils";
 
 export const revalidate = 60;
 
-export default async function Page(){
+export default async function Page({params}:{
+    params:Promise<{
+        locale:Locale
+    }>
+}){
 
     const blogs = await ContentfulProvider.getBlogEntries();
+    const locale = (await params).locale
 
     return(
         <>
-        <AboutHero/>
-        <Vision/>
+        <AboutHero locale={locale}/>
+        <Vision locale={locale}/>
         <Suspense>
-            <Services blogs={blogs ?? []}/>
+            <Services locale={locale} blogs={blogs ?? []}/>
         </Suspense>
-        <Testimonials theme="white"/>
-        <JoinUs/>
+        <Testimonials locale={locale} theme="white"/>
+        <JoinUs locale={locale}/>
         <Footer/>
         </>
     )
