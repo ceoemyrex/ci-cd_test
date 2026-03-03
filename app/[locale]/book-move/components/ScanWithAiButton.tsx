@@ -12,6 +12,8 @@ import { MoveItem, MoveRequestProvider } from "@/services/MoveRequest";
 import { Info, LoaderCircle, Search, X } from "lucide-react";
 import { ChangeEventHandler, useEffect, useMemo, useState } from "react";
 import { InventoryItem } from "./InventoryItem";
+import { AppTranslator, Locale } from "@/app/utils";
+import { useParams } from "next/navigation";
 
 function RoomInventoryCard({
   roomName,
@@ -249,6 +251,7 @@ export function ScanWithAiButton({
   handleUpdateMoveItems: (items: MoveItem[]) => void;
   tab?: string;
 }) {
+  const {locale} = useParams<{locale:Locale}>()
   const [draftItems, setDraftItems] = useState<MoveItem[]>([]);
   const [draftItemsFromInventory, setDraftItemsFromInventory] = useState<
     MoveItem[]
@@ -559,7 +562,13 @@ export function ScanWithAiButton({
         onClick={() => setOpen(true)}
         className="bg-theme py-2.5 text-xs lg:text-sm lg:py-4 px-6 lg:px-8 font-medium rounded-2xl text-white"
       >
-        Scan With AI
+        {AppTranslator.getLocaleText({
+          locale,
+          translations:{
+            nl:"Gebruik AI-herkenning",
+            en:"Scan with AI"
+          }
+        })}
       </button>
     </>
   );

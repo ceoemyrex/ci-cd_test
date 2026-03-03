@@ -16,11 +16,11 @@ export function GetStarted({ locale = "nl" }: { locale?: Locale }) {
     },
     description: {
       en: "Create your inventory and take the first step toward a smoother move.",
-      nl: "Maak uw inventaris aan en zet de eerste stap naar een soepelere verhuizing.",
+      nl: "Breng je inboedel in kaart en zet de eerste stap naar een soepele verhuizing.",
     },
     buttonText: {
       en: "Start Your Move",
-      nl: "Begin uw verhuizing",
+      nl: "Start je verhuizing",
     },
   };
 

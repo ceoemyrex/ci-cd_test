@@ -47,7 +47,7 @@ export function TrustAndSafetyHero({ locale }: { locale: Locale }) {
                   locale,
                   translations: {
                     en: "Trust and Safety",
-                    nl: "Vertrouwen en Veiligheid",
+                    nl: "Vertrouwen en veiliheid",
                   },
                 })}
               />
@@ -57,7 +57,7 @@ export function TrustAndSafetyHero({ locale }: { locale: Locale }) {
                   locale,
                   translations: {
                     en: "How inventory reduces ",
-                    nl: "Hoe inventaris ",
+                    nl: "Zo voorkom je onverwachte kosten met een duidelijke lijst van je inboedel ",
                   },
                 })}
                 <span className="text-secondary">
@@ -65,7 +65,7 @@ export function TrustAndSafetyHero({ locale }: { locale: Locale }) {
                     locale,
                     translations: {
                       en: "Surprise Costs",
-                      nl: "Onverwachte Kosten Vermindert",
+                      nl: "",
                     },
                   })}
                 </span>
@@ -76,7 +76,7 @@ export function TrustAndSafetyHero({ locale }: { locale: Locale }) {
                   locale,
                   translations: {
                     en: "One of the most common complaints about moving is unexpected costs. Here's how creating a clear inventory helps avoid pricing surprises.",
-                    nl: "Een van de meest voorkomende klachten bij verhuizen zijn onverwachte kosten. Zo helpt een duidelijke inventaris om prijsverrassingen te voorkomen.",
+                    nl: "Onverwachte kosten zijn een van de grootste frustraties bij een verhuizing. Met een duidelijke inboedellijst voorkom je verrassingen in de prijs.",
                   },
                 })}
               </p>
@@ -90,14 +90,14 @@ export function TrustAndSafetyHero({ locale }: { locale: Locale }) {
                 locale,
                 translations: {
                   en: "Data Protection",
-                  nl: "Gegevensbescherming",
+                  nl: "Bescherming van je gegevens",
                 },
               })}
               description={AppTranslator.getLocaleText({
                 locale,
                 translations: {
                   en: "Inventory data and images are handled securely and responsibly. We use industry-standard encryption to protect your information.",
-                  nl: "Inventarisgegevens en afbeeldingen worden veilig en verantwoord verwerkt. We gebruiken industriestandaard encryptie om uw informatie te beschermen.",
+                  nl: "Gegevens en foto’s worden veilig verwerkt. wij gebruiken moderne versleutelingen om al jouw informatie te beschermen.",
                 },
               })}
             />
@@ -108,14 +108,14 @@ export function TrustAndSafetyHero({ locale }: { locale: Locale }) {
                 locale,
                 translations: {
                   en: "Privacy First",
-                  nl: "Privacy Eerst",
+                  nl: "Privacy staat voorop",
                 },
               })}
               description={AppTranslator.getLocaleText({
                 locale,
                 translations: {
                   en: "AI is optional. We never force you to use features you're not comfortable with. Your choices are always respected.",
-                  nl: "AI is optioneel. We dwingen u nooit om functies te gebruiken waar u zich niet prettig bij voelt. Uw keuzes worden altijd gerespecteerd.",
+                  nl: "Zinter dwingt je nooit iets te gebruiken. Je bepaalt altijd zelf welke functies je gebruikt. AI is altijd optioneel.",
                 },
               })}
             />
@@ -133,7 +133,7 @@ export function TrustAndSafetyHero({ locale }: { locale: Locale }) {
                 locale,
                 translations: {
                   en: "No hidden fees, no surprise charges. Clear inventory leads to clear pricing and honest communication.",
-                  nl: "Geen verborgen kosten, geen verrassingen. Een duidelijke inventaris zorgt voor transparante prijzen en eerlijke communicatie.",
+                  nl: "Geen verborgen kosten en geen verrassingen. Een duidelijke lijst van je spullen zorgt voor heldere prijzen en eerlijke communicatie.",
                 },
               })}
             />
@@ -144,14 +144,14 @@ export function TrustAndSafetyHero({ locale }: { locale: Locale }) {
                 locale,
                 translations: {
                   en: "Verified Partners",
-                  nl: "Geverifieerde Partners",
+                  nl: "Geverifieerde partners",
                 },
               })}
               description={AppTranslator.getLocaleText({
                 locale,
                 translations: {
                   en: "We work with trusted moving partners who meet our quality and reliability standards.",
-                  nl: "Wij werken samen met betrouwbare verhuispartners die voldoen aan onze kwaliteits- en betrouwbaarheidsnormen.",
+                  nl: "Zinter werkt samen met betrouwbare verhuisbedrijven die voldoen aan onze kwaliteits- en betrouwbaarheidseisen.",
                 },
               })}
             />

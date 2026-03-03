@@ -14,11 +14,11 @@ export function StillHaveQuestions({locale="nl"}:{locale?:Locale}) {
     },
     title: {
       en: "Still have questions?",
-      nl: "Nog vragen?",
+      nl: "Nog meer vragen?",
     },
     description: {
       en: "Our team is here to help you with any questions about your move.",
-      nl: "Ons team staat klaar om je te helpen met al je vragen over je verhuizing.",
+      nl: "Ons team is hier om al jouw verhuisvragen te beantwoorden.",
     },
     buttonText: {
       en: "Contact Us",

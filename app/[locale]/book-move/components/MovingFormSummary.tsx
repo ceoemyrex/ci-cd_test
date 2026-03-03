@@ -2,6 +2,8 @@ import { MovingSummary } from "./MovingSummary";
 import { CreateMoveRequest, MoveItem } from "@/services/MoveRequest";
 import { Place } from "@/services";
 import { BookFormContainer } from "./BookFormContainer";
+import { AppTranslator, Locale } from "@/app/utils";
+import { useParams } from "next/navigation";
 
 export function MovingFormSummary({
   onPrev,
@@ -23,6 +25,9 @@ export function MovingFormSummary({
   moveItems: MoveItem[];
   handleSubmit: () => void;
 }) {
+
+  const {locale} = useParams<{locale:Locale}>()
+
   return (
     <BookFormContainer
       canContinue
@@ -30,7 +35,10 @@ export function MovingFormSummary({
       onPrev={onPrev}
       onNext={handleSubmit}
       loading={loading}
-      buttonTitle="Get Quotes"
+      buttonTitle={AppTranslator.getLocaleText({locale,translations:{
+        nl:"Offerte aanvragen",
+        en:"Get Quotes"
+      }})}
     >
       <MovingSummary
         formData={formData}

@@ -1,24 +1,28 @@
 "use client";
 import { ArrowDropDownIcon, LocationIcon } from "@/app/icons";
 import { LocationAutocomplete } from "./LocationDetailsForm";
-import { Place } from "@/services";
+import { Place, ProvinceProvider } from "@/services";
 import { CreateMoveRequest } from "@/services/MoveRequest";
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { DateTime } from "luxon";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
-import { Check } from "lucide-react"; // Lucide icon
+import { CalendarDaysIcon, Check, LoaderCircle } from "lucide-react"; // Lucide icon
+import { AppTranslator, Locale } from "@/app/utils";
+import { useParams } from "next/navigation";
 /* -------------------- Dropdown Component -------------------- */
 export function Dropdown({
   placeholder,
   options,
   value,
   onChange,
+  loading = false
 }: {
   placeholder?: string;
   options: { label: string; value: string }[];
   value: string;
   onChange: (val: string) => void;
+  loading?:boolean
 }) {
   const [open, setOpen] = useState(false);
 
@@ -28,14 +32,19 @@ export function Dropdown({
   return (
     <div className="space-y-3 flex-1 relative">
       <div
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={() => {
+          if(loading) return;
+          setOpen((prev) => !prev)
+        }}
         className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center cursor-pointer"
       >
         <p className="text-grey text-xs lg:text-sm">
           {selectedOption?.label || placeholder || "Select an option"}
         </p>
         <span className="ml-auto">
-          <ArrowDropDownIcon />
+          {loading
+          ?<LoaderCircle className="animate-spin"/>
+          :<ArrowDropDownIcon />}
         </span>
       </div>
 
@@ -107,7 +116,32 @@ export function MovingInfoForm({
   setTermsAccepted: (value: boolean) => void;
 }) {
   const [promotionsAccepted, setPromotionsAccepted] = useState(false);
-  const [dateOpen,setDateOpen] = useState(false)
+  const [dateOpen, setDateOpen] = useState(false);
+  const { locale } = useParams<{ locale: Locale }>();
+  const [provinceOptions,setProvinceOptions] = useState<{label:string,value:string}[]>([])
+  const [loadingProvinces,setLoadingProvinces] = useState(true)
+
+
+  const getProvinces = useCallback(async()=>{
+    setLoadingProvinces(true)
+    try {
+      const res = await ProvinceProvider.getProvinces()
+      if(res.result.length){
+        const options = res.result.map(item=>({
+          label:item.provinceName,
+          value:item.provinceId.toString()
+        }))
+        setProvinceOptions(options)
+      }
+    }finally{
+      setLoadingProvinces(false)
+    }
+  },[])
+
+  useEffect(()=>{
+    getProvinces()
+  },[getProvinces])
+
 
   const moveDateJS = useMemo(() => {
     if (formData.moveDate) {
@@ -119,74 +153,162 @@ export function MovingInfoForm({
     <div className="bg-white border mt-4 lg:mt-0 border-black/10 rounded-lg min-h-screen mb-18">
       <header className="flex p-4 lg:px-8 items-center justify-between">
         <p className="text-lg lg:text-2xl font-medium">
-          Moving Information (<span className="text-grey">Few Items</span>)
+          {AppTranslator.getLocaleText({
+            locale,
+            translations: {
+              en: "Moving Information",
+              nl: "Verhuisgegevens",
+            },
+          })}{" "}
+          (<span className="text-grey">Few Items</span>)
         </p>
       </header>
       <div className="p-4 pb-8 lg:px-8 space-y-8">
         <div className="space-y-3 max-w-130">
-          <p className="text-dark text-sm lg:text-base">Moving Date *</p>
-          <div  onClick={() => setDateOpen(p=>!p)} className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
+          <p className="text-dark text-sm lg:text-base">
+            {AppTranslator.getLocaleText({
+              locale,
+              translations: {
+                en: "Moving Date",
+                nl: "Verhuisdatum",
+              },
+            })}{" "}
+            *
+          </p>
+          <div
+            onClick={() => setDateOpen((p) => !p)}
+            className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center"
+          >
+            <CalendarDaysIcon className="text-grey" />
+
             <p
               id="movingDate"
-              className="placeholder:text-grey outline-0 w-full text-left text-xs lg:text-sm"
+              className="outline-0 w-full text-left text-xs lg:text-sm"
             >
-              {formData.moveDate}
+              {formData.moveDate
+              ? formData.moveDate
+              : <span className="text-grey">{
+                AppTranslator.getLocaleText({
+                locale,
+                translations:{
+                  en:"dd/mm/yyyy",
+                  nl:"dd/mm/jjjj"
+                }
+              })
+                }</span>
+              }
             </p>
             {/* <label htmlFor="movingDate" className="ml-auto">
             </label> */}
-            <div className={`transition-all ease-in-out duration-500 ${dateOpen?"rotate-180":""}`}>
+            <div
+              className={`transition-all ease-in-out duration-500 ${dateOpen ? "rotate-180" : ""}`}
+            >
               <ArrowDropDownIcon />
             </div>
           </div>
           {dateOpen && (
             <div className="border flex items-center justify-center border-black/10 p-4 rounded-lg">
-            <DayPicker
-              animate
-              mode="single"
-              selected={moveDateJS}
-              onSelect={(date) => {
-                if (date) {
-                  handleUpdate({
-                    moveDate: DateTime.fromJSDate(date).toFormat("yyyy-MM-dd") as string,
-                  });
-                }
-              }}
-            />
-          </div>
+              <DayPicker
+                animate
+                mode="single"
+                selected={moveDateJS}
+                onSelect={(date) => {
+                  if (date) {
+                    handleUpdate({
+                      moveDate: DateTime.fromJSDate(date).toFormat(
+                        "yyyy-MM-dd",
+                      ) as string,
+                    });
+                    setDateOpen(false)
+                  }
+                }}
+              />
+            </div>
           )}
         </div>
         <div className="space-y-6">
           <p className="text-secondary text-xl font-medium">
-            Contact Information
+            {AppTranslator.getLocaleText({
+              locale,
+              translations: {
+                nl: "Contactgegevens",
+                en: "Contact Information",
+              },
+            })}
           </p>
           <div className="space-y-3 max-w-130">
-            <p className="text-dark text-sm lg:text-base">Full Name *</p>
+            <p className="text-dark text-sm lg:text-base">
+              {AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "Full Name",
+                  nl: "Naam",
+                },
+              })}
+              *
+            </p>
             <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
               <input
                 className="placeholder:text-grey w-full text-xs outline-0  lg:text-sm"
-                placeholder="Enter your full name"
+                placeholder={AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    nl: "Vul je volledige naam in",
+                    en: "Enter your full name",
+                  },
+                })}
                 value={formData.fullName}
                 onChange={(e) => handleUpdate({ fullName: e.target.value })}
               />
             </div>
           </div>
           <div className="space-y-3 max-w-130">
-            <p className="text-dark text-sm lg:text-base">Email Address *</p>
+            <p className="text-dark text-sm lg:text-base">
+              {AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "Email Address",
+                  nl: "E-mailadres",
+                },
+              })}
+              *
+            </p>
             <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
               <input
                 className="placeholder:text-grey w-full text-xs outline-0  lg:text-sm"
-                placeholder="Enter your email address"
+                placeholder={AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    nl: "Vul je e-mailadres in ",
+                    en: "Enter your email address",
+                  },
+                })}
                 value={formData.email}
                 onChange={(e) => handleUpdate({ email: e.target.value })}
               />
             </div>
           </div>
           <div className="space-y-3 max-w-130">
-            <p className="text-dark text-sm lg:text-base">Phone Number *</p>
+            <p className="text-dark text-sm lg:text-base">
+              {AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  nl: "Telefoonnummer",
+                  en: "Phone Number",
+                },
+              })}{" "}
+              *
+            </p>
             <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
               <input
                 className="placeholder:text-grey w-full text-xs outline-0  lg:text-sm"
-                placeholder="Enter your phone number"
+                placeholder={AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Enter your phone number",
+                    nl: "Vul je telefoonnummer in",
+                  },
+                })}
                 value={formData.phoneNumber}
                 onChange={(e) => handleUpdate({ phoneNumber: e.target.value })}
               />
@@ -197,24 +319,74 @@ export function MovingInfoForm({
       <div className="p-4 lg:p-8 space-y-8 border-t border-black/10">
         <div className="space-y-6">
           <p className="text-secondary text-base lg:text-xl font-medium">
-            Pickup Details
+            {AppTranslator.getLocaleText({
+              locale,
+              translations: {
+                nl: "Ophaalgegevens",
+                en: "Pickup Details",
+              },
+            })}
           </p>
           <div className="max-w-130">
             <LocationAutocomplete
               theme="light"
-              label={"From *"}
+              label={`${AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "From",
+                  nl: "Ophaaladres",
+                },
+              })}*`}
               onSelectPlace={setMoveFrom}
               locationText={moveFrom?.formattedAddress}
               placeholder={""}
               icon={<LocationIcon />}
             />
           </div>
+          <div className="max-w-130">
+            <p className="text-dark text-sm lg:text-base">
+              {AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "Province*",
+                  nl: "Provincie*",
+                },
+              })}
+            </p>
+            <Dropdown
+              options={provinceOptions}
+              loading={loadingProvinces}
+              placeholder={AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "Province",
+                  nl: "Provincie",
+                },
+              })}
+              value={formData.provinceId}
+              onChange={(provinceId) => handleUpdate({ provinceId })}
+            />
+          </div>
           <div className="space-y-3 max-w-130">
-            <p className="text-dark text-sm lg:text-base">Remark</p>
+            <p className="text-dark text-sm lg:text-base">{`${AppTranslator.getLocaleText(
+              {
+                locale,
+                translations: {
+                  en: "Remark",
+                  nl: "Opmerkingen",
+                },
+              },
+            )}*`}</p>
             <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
               <input
                 className="placeholder:text-grey text-xs w-full outline-0  lg:text-sm"
-                placeholder="Remarks for the location "
+                placeholder={AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Remarks for the location ",
+                    nl: "Opmerkingen over het ophaaladres ",
+                  },
+                })}
                 value={formData.fromRemark}
                 onChange={(e) => handleUpdate({ fromRemark: e.target.value })}
               />
@@ -223,20 +395,39 @@ export function MovingInfoForm({
           <div className="border rounded-xl max-w-130 border-black/10">
             <header className="flex p-4 border-b border-black/10">
               <p className="font-medium text-secondary lg:text-xl">
-                Restrictions
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Restrictions",
+                    nl: "Bijzonderheden",
+                  },
+                })}
               </p>
             </header>
             <div>
               <div className="p-4 space-y-4 lg:space-y-0 lg:p-8 lg:flex gap-x-8 items-center">
                 <div className="space-y-3 flex-1">
                   <p className="text-dark text-sm lg:text-base">
-                    Number Of Floors *
+                    {AppTranslator.getLocaleText({
+                      locale,
+                      translations: {
+                        en: " Number Of Floors",
+                        nl: "Aantal verdiepingen",
+                      },
+                    })}
+                    *
                   </p>
                   <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                     <input
                       type="number"
                       className="placeholder:text-grey w-full text-xs outline-0  lg:text-sm"
-                      placeholder="Remarks for the location "
+                      placeholder={AppTranslator.getLocaleText({
+                        locale,
+                        translations: {
+                          en: "Enter Number of Floors",
+                          nl: "Aantal verdiepingen ",
+                        },
+                      })}
                       value={formData.fromNumberOfFloors}
                       onChange={(e) =>
                         handleUpdate({ fromNumberOfFloors: e.target.value })
@@ -245,10 +436,24 @@ export function MovingInfoForm({
                   </div>
                 </div>
                 <div className="space-y-3 flex-1">
-                  <p className="text-dark text-base lg:text-sm">Elevator</p>
+                  <p className="text-dark text-base lg:text-sm">
+                    {AppTranslator.getLocaleText({
+                      locale,
+                      translations: {
+                        en: "Elevator",
+                        nl: "Lift aanwezig?",
+                      },
+                    })}
+                  </p>
                   <div className="bg-[#F9FCF9]  text-xs lg:text-sm justify-between border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                     <CheckboxButton
-                      label={"Yes"}
+                      label={AppTranslator.getLocaleText({
+                        locale,
+                        translations: {
+                          en: "Yes",
+                          nl: "Ja",
+                        },
+                      })}
                       checked={formData.fromHasElevator}
                       onChange={(val) => {
                         handleUpdate({
@@ -257,7 +462,13 @@ export function MovingInfoForm({
                       }}
                     />
                     <CheckboxButton
-                      label={"No"}
+                      label={AppTranslator.getLocaleText({
+                        locale,
+                        translations: {
+                          en: "No",
+                          nl: "Nee",
+                        },
+                      })}
                       checked={!formData.fromHasElevator}
                       onChange={(val) => {
                         handleUpdate({
@@ -275,12 +486,24 @@ export function MovingInfoForm({
       <div className="p-4 lg:p-8 space-y-8 border-t border-black/10">
         <div className="space-y-6">
           <p className="text-secondary lg:text-xl font-medium">
-            Drop-off Details
+            {AppTranslator.getLocaleText({
+              locale,
+              translations: {
+                en: "Drop-off Details",
+                nl: "Aflevergegevens",
+              },
+            })}
           </p>
           <div className="max-w-130">
             <LocationAutocomplete
               theme="light"
-              label={"From *"}
+              label={AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "From *",
+                  nl: "Afleveradres*",
+                },
+              })}
               onSelectPlace={setMoveTo}
               locationText={moveTo?.formattedAddress}
               placeholder={""}
@@ -288,11 +511,25 @@ export function MovingInfoForm({
             />
           </div>
           <div className="space-y-3 max-w-130">
-            <p className="text-dark text-sm lg:text-base">Remark</p>
+            <p className="text-dark text-sm lg:text-base">
+              {AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "Remark",
+                  nl: "Opmerkingen",
+                },
+              })}
+            </p>
             <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
               <input
                 className="placeholder:text-grey w-full text-xs outline-0  lg:text-sm"
-                placeholder="Remarks for the location "
+                placeholder={AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Remarks for the location ",
+                    nl: "Opmerkingen over het ophaaladres ",
+                  },
+                })}
                 value={formData.toRemark}
                 onChange={(e) => handleUpdate({ toRemark: e.target.value })}
               />
@@ -301,20 +538,39 @@ export function MovingInfoForm({
           <div className="border rounded-xl max-w-130 border-black/10">
             <header className="flex p-4 border-b border-black/10">
               <p className="font-medium text-secondary lg:text-xl">
-                Restrictions
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Restrictions",
+                    nl: "Bijzonderheden",
+                  },
+                })}
               </p>
             </header>
             <div>
               <div className="p-4 lg:p-8 space-y-4 lg:space-y-0 lg:flex gap-x-8 items-center">
                 <div className="space-y-3 flex-1">
                   <p className="text-dark text-sm lg:text-base">
-                    Number Of Floors *
+                    {AppTranslator.getLocaleText({
+                      locale,
+                      translations: {
+                        en: " Number Of Floors",
+                        nl: "Aantal verdiepingen",
+                      },
+                    })}
+                    *
                   </p>
                   <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                     <input
                       type="number"
                       className="placeholder:text-grey w-full text-xs outline-0  lg:text-sm"
-                      placeholder="Remarks for the location "
+                      placeholder={AppTranslator.getLocaleText({
+                        locale,
+                        translations: {
+                          en: "Enter Number of Floors",
+                          nl: "Aantal verdiepingen ",
+                        },
+                      })}
                       value={formData.toNumberOfFloors}
                       onChange={(e) =>
                         handleUpdate({ toNumberOfFloors: e.target.value })
@@ -323,10 +579,25 @@ export function MovingInfoForm({
                   </div>
                 </div>
                 <div className="space-y-3 flex-1">
-                  <p className="text-dark text-base lg:text-sm">Elevator</p>
+                  <p className="text-dark text-base lg:text-sm">
+                    {" "}
+                    {AppTranslator.getLocaleText({
+                      locale,
+                      translations: {
+                        en: "Elevator",
+                        nl: "Lift aanwezig?",
+                      },
+                    })}
+                  </p>
                   <div className="bg-[#F9FCF9]  text-xs lg:text-sm justify-between border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                     <CheckboxButton
-                      label={"Yes"}
+                      label={AppTranslator.getLocaleText({
+                        locale,
+                        translations: {
+                          en: "Yes",
+                          nl: "Ja",
+                        },
+                      })}
                       checked={formData.toHasElevator}
                       onChange={(val) => {
                         handleUpdate({
@@ -335,7 +606,13 @@ export function MovingInfoForm({
                       }}
                     />
                     <CheckboxButton
-                      label={"No"}
+                      label={AppTranslator.getLocaleText({
+                        locale,
+                        translations: {
+                          en: "No",
+                          nl: "Nee",
+                        },
+                      })}
                       checked={!formData.toHasElevator}
                       onChange={(val) => {
                         handleUpdate({
@@ -351,32 +628,73 @@ export function MovingInfoForm({
 
           <div className="max-w-130 space-y-4 lg:space-y-0 lg:grid grid-cols-3 gap-x-4">
             <div className="space-y-3 flex-1">
-              <p className="text-dark text-base lg:text-sm">Moving Boxes</p>
+              <p className="text-dark text-base lg:text-sm">
+                {" "}
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Moving Boxes",
+                    nl: "Verhuisdozen",
+                  },
+                })}
+              </p>
               <div className="bg-[#F9FCF9]  text-xs lg:text-sm justify-between border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <CheckboxButton
-                  label={"Yes"}
+                  label={AppTranslator.getLocaleText({
+                    locale,
+                    translations: {
+                      en: "Yes",
+                      nl: "Ja",
+                    },
+                  })}
                   checked={formData.toNeedShuttle}
                   onChange={(val) => handleUpdate({ toNeedShuttle: val })}
                 />
                 <CheckboxButton
-                  label={"No"}
+                  label={AppTranslator.getLocaleText({
+                    locale,
+                    translations: {
+                      en: "No",
+                      nl: "Nee",
+                    },
+                  })}
                   checked={!formData.toNeedShuttle}
                   onChange={(val) => handleUpdate({ toNeedShuttle: !val })}
                 />
               </div>
             </div>
             <div className="space-y-3 flex-1">
-              <p className="text-dark text-base lg:text-sm">Moving Insurance</p>
+              <p className="text-dark text-base lg:text-sm">
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Moving Insurance",
+                    nl: "Verhuisverzekering",
+                  },
+                })}
+              </p>
               <div className="bg-[#F9FCF9]  text-xs lg:text-sm justify-between border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <CheckboxButton
-                  label={"Yes"}
+                  label={AppTranslator.getLocaleText({
+                    locale,
+                    translations: {
+                      en: "Yes",
+                      nl: "Ja",
+                    },
+                  })}
                   checked={formData.toHasBuildingInsurance}
                   onChange={(val) =>
                     handleUpdate({ toHasBuildingInsurance: val })
                   }
                 />
                 <CheckboxButton
-                  label={"No"}
+                  label={AppTranslator.getLocaleText({
+                    locale,
+                    translations: {
+                      en: "No",
+                      nl: "Nee",
+                    },
+                  })}
                   checked={!formData.toHasBuildingInsurance}
                   onChange={(val) =>
                     handleUpdate({ toHasBuildingInsurance: !val })
@@ -386,16 +704,34 @@ export function MovingInfoForm({
             </div>
             <div className="space-y-3 flex-1">
               <p className="text-dark text-base lg:text-sm">
-                Packing Assistance
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Packing Assistance",
+                    nl: "Inpakservice",
+                  },
+                })}
               </p>
               <div className="bg-[#F9FCF9]  text-xs lg:text-sm justify-between border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <CheckboxButton
-                  label={"Yes"}
+                  label={AppTranslator.getLocaleText({
+                    locale,
+                    translations: {
+                      en: "Yes",
+                      nl: "Ja",
+                    },
+                  })}
                   checked={formData.toNeedHelpPacking}
                   onChange={(val) => handleUpdate({ toNeedHelpPacking: val })}
                 />
                 <CheckboxButton
-                  label={"No"}
+                  label={AppTranslator.getLocaleText({
+                    locale,
+                    translations: {
+                      en: "No",
+                      nl: "Nee",
+                    },
+                  })}
                   checked={!formData.toNeedHelpPacking}
                   onChange={(val) => handleUpdate({ toNeedHelpPacking: !val })}
                 />
@@ -415,7 +751,13 @@ export function MovingInfoForm({
               href={"/terms-and-conditions"}
               className="text-secondary text-xs underline lg:text-base"
             >
-              Accept terms and condition *
+              {AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "Accept terms and condition *",
+                  nl: "Ik ga akkoord met de algemene voorwaarden*",
+                },
+              })}
             </a>
           }
         />
@@ -424,7 +766,13 @@ export function MovingInfoForm({
           onChange={setPromotionsAccepted}
           label={
             <span className="text-xs lg:text-base">
-              Receive Promotions and moving tips
+              {AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "Receive Promotions and moving tips",
+                  nl: "Ik ontvang graag aanbiedingen en verhuistips",
+                },
+              })}
             </span>
           }
         />

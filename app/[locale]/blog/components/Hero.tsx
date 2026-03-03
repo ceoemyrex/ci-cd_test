@@ -33,13 +33,13 @@ export function BlogHero({ locale = "nl" }: { locale?: Locale }) {
                   locale,
                   translations: {
                     en: "Moving and inventory",
-                    nl: "Verhuizen en Inventaris",
+                    nl: "Tips voor je verhuizing",
                   },
                 })}{" "}
                 <span className="text-secondary">
                   {AppTranslator.getLocaleText({
                     locale,
-                    translations: { en: "Guides", nl: "Gidsen" },
+                    translations: { en: "Guides", nl: "" },
                   })}
                 </span>
               </p>
@@ -48,7 +48,7 @@ export function BlogHero({ locale = "nl" }: { locale?: Locale }) {
                   locale,
                   translations: {
                     en: "Explore practical articles on move planning, inventory creation, pricing, and logistics.",
-                    nl: "Ontdek praktische artikelen over verhuisplanning, inventarisatie, prijsstelling en logistiek.",
+                    nl: "Lees handige tips over het plannen van je verhuizing, het maken van een inboedellijst en alles wat daarbij komt kijken.",
                   },
                 })}
               </p>
@@ -56,7 +56,7 @@ export function BlogHero({ locale = "nl" }: { locale?: Locale }) {
               <button className="bg-theme rounded-2xl text-white h-12 lg:h-17.5 px-12 lg:px-16 mt-5 lg:mt-10 font-medium text-base lg:text-xl">
                 {AppTranslator.getLocaleText({
                   locale,
-                  translations: { en: "Start your move", nl: "Begin je verhuizing" },
+                  translations: { en: "Start your move", nl: "Start je verhuizing" },
                 })}
               </button>
             </div>

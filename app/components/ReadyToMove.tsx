@@ -47,7 +47,7 @@ export function ReadyToMove({
                   locale,
                   translations: {
                     en: "Ready to start your move?",
-                    nl: "Klaar om te beginnen met verhuizen?",
+                    nl: "Klaar om te beginnen?",
                   },
                   defaultText: title,
                 })}
@@ -57,16 +57,16 @@ export function ReadyToMove({
                   locale,
                   translations: {
                     en: "Create your inventory and move forward in just a few steps.",
-                    nl: "Maak je inventaris en ga in slechts een paar stappen verder.",
+                    nl: "Breng je spullen in kaart en zet de eerste stap naar een soepele verhuizing.",
                   },
                   defaultText: description,
                 })}
               </p>
             </div>
-            <button className="bg-theme px-6 lg:px-13 min-h-12 lg:py-5 text-sm lg:text-lg text-white rounded-2xl font-medium">
+            <button className="bg-theme px-6 lg:px-13 lg:pr-20 min-h-12 lg:py-5 text-sm lg:text-lg text-white rounded-2xl font-medium">
               {AppTranslator.getLocaleText({
                 locale,
-                translations: { en: "Book a Move", nl: "Boek een Verhuizing" },
+                translations: { en: "Book a Move", nl: "Start je verhuizing" },
                 defaultText: buttonText,
               })}
             </button>

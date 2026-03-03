@@ -34,7 +34,7 @@ export function ContactHero({ locale = "nl" }: { locale?: Locale }) {
                   locale,
                   translations: {
                     en: "Questions about your move or inventory options? Send a message and we'll help you move forward with clarity.",
-                    nl: "Vragen over uw verhuizing of inventarisopties? Stuur een bericht en wij helpen u duidelijk verder.",
+                    nl: "Vragen over je verhuizing of spullen? Wij helpen je graag verder.",
                   },
                 })}
               </p>
@@ -47,14 +47,14 @@ export function ContactHero({ locale = "nl" }: { locale?: Locale }) {
                     {AppTranslator.getLocaleText({ locale, translations: { en: "Name", nl: "Naam" } })}
                   </p>
                   <input
-                    placeholder={AppTranslator.getLocaleText({ locale, translations: { en: "Your name", nl: "Uw naam" } })}
+                    placeholder={AppTranslator.getLocaleText({ locale, translations: { en: "Your name", nl: "Je naam:" } })}
                     type="text"
                     className="w-full outline-theme/30 bg-[#F3F3F4] rounded-lg p-3 lg:p-5 placeholder:text-grey"
                   />
                 </div>
                 <div>
                   <p className="text-dark lg:text-lg">
-                    {AppTranslator.getLocaleText({ locale, translations: { en: "Email", nl: "E-mail" } })}
+                    {AppTranslator.getLocaleText({ locale, translations: { en: "Email", nl: "E-mailadres" } })}
                   </p>
                   <input
                     placeholder="johndoe@example.com"
@@ -64,10 +64,10 @@ export function ContactHero({ locale = "nl" }: { locale?: Locale }) {
                 </div>
                 <div>
                   <p className="text-dark lg:text-lg">
-                    {AppTranslator.getLocaleText({ locale, translations: { en: "Message", nl: "Bericht" } })}
+                    {AppTranslator.getLocaleText({ locale, translations: { en: "Message", nl: "Je vraag" } })}
                   </p>
                   <textarea
-                    placeholder={AppTranslator.getLocaleText({ locale, translations: { en: "How can we help?", nl: "Hoe kunnen wij helpen?" } })}
+                    placeholder={AppTranslator.getLocaleText({ locale, translations: { en: "How can we help?", nl: "Waarmee kunnen wij je helpen?" } })}
                     className="w-full resize-none h-50 outline-theme/30 bg-[#F3F3F4] rounded-lg p-3 lg:p-5 placeholder:text-grey"
                   />
                 </div>
@@ -77,7 +77,7 @@ export function ContactHero({ locale = "nl" }: { locale?: Locale }) {
                 <button className="w-full bg-theme lg:text-lg font-medium p-3 lg:p-5 text-white rounded-xl flex items-center justify-center gap-x-2">
                   <SendIcon />
                   <span>
-                    {AppTranslator.getLocaleText({ locale, translations: { en: "Send Message", nl: "Verstuur Bericht" } })}
+                    {AppTranslator.getLocaleText({ locale, translations: { en: "Send Message", nl: "Versturen" } })}
                   </span>
                 </button>
               </footer>
@@ -89,7 +89,7 @@ export function ContactHero({ locale = "nl" }: { locale?: Locale }) {
                   <MailIcon />
                 </div>
                 <div>
-                  <p className="text-dark text-sm lg:text-base">{AppTranslator.getLocaleText({ locale, translations: { en: "Email", nl: "E-mail" } })}</p>
+                  <p className="text-dark text-sm lg:text-base">{AppTranslator.getLocaleText({ locale, translations: { en: "Email", nl: "E-mailadres" } })}</p>
                   <p className="text-grey text-xs lg:text-sm">support@zinter.com</p>
                 </div>
               </div>
@@ -100,7 +100,7 @@ export function ContactHero({ locale = "nl" }: { locale?: Locale }) {
                 </div>
                 <div>
                   <p className="text-dark text-sm lg:text-base">{AppTranslator.getLocaleText({ locale, translations: { en: "Response Time", nl: "Reactietijd" } })}</p>
-                  <p className="text-grey text-xs lg:text-sm">{AppTranslator.getLocaleText({ locale, translations: { en: "Usually within 24 hours", nl: "Meestal binnen 24 uur" } })}</p>
+                  <p className="text-grey text-xs lg:text-sm">{AppTranslator.getLocaleText({ locale, translations: { en: "Usually within 24 hours", nl: "wij reageren meestal binnen 24 uur." } })}</p>
                 </div>
               </div>
             </div>

@@ -1,9 +1,11 @@
 "use client";
 import { LocationIcon, GeoLocationIcon, ArrowDropDownIcon } from "@/app/icons";
 import { PackageMovingIcon } from "@/app/icons/package";
+import { AppTranslator, Locale } from "@/app/utils";
 import { useGetLocation, useParamFilter } from "@/hooks";
 import { Place } from "@/services";
 import { LoaderCircle } from "lucide-react";
+import { useParams } from "next/navigation";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
 export const tabs = [
@@ -116,6 +118,7 @@ export function LocationDetailsForm({
   const [moveFromText] = useParamFilter("moveFrom");
   const [moveToText] = useParamFilter("moveTo");
   const [moveSizeText] = useParamFilter("moveSize");
+  const { locale } = useParams<{ locale: Locale }>();
 
   useEffect(() => {
     setMoveSize(moveSizeText);
@@ -128,30 +131,71 @@ export function LocationDetailsForm({
 
   return (
     <div>
-      <p className="text-lg lg:text-2xl font-medium">Location Details</p>
+      <p className="text-lg lg:text-2xl font-medium">
+        {" "}
+        {AppTranslator.getLocaleText({
+          locale,
+          translations: {
+            en: "Location Details",
+            nl: "Locatiegegevens",
+          },
+        })}
+      </p>
 
       <div className="space-y-6 mt-8">
         <LocationAutocomplete
-          label="Moving From"
+          label={AppTranslator.getLocaleText({
+            locale,
+            translations: {
+              en: "Moving From",
+              nl: "Verhuizen vanaf",
+            },
+          })}
           selectedPlace={moveFrom}
           onSelectPlace={setMoveFrom}
-          placeholder="Moving From"
+          placeholder={AppTranslator.getLocaleText({
+            locale,
+            translations: {
+              en: "Moving From",
+              nl: "Verhuizen vanaf",
+            },
+          })}
           icon={<LocationIcon />}
           locationText={moveFromText}
         />
 
         <LocationAutocomplete
-          label="Moving To"
+          label={AppTranslator.getLocaleText({
+            locale,
+            translations: {
+              en: "Moving To",
+              nl: "Verhuizen naar",
+            },
+          })}
           selectedPlace={moveTo}
           onSelectPlace={setMoveTo}
-          placeholder="Moving To"
+          placeholder={AppTranslator.getLocaleText({
+            locale,
+            translations: {
+              en: "Moving To",
+              nl: "Verhuizen naar",
+            },
+          })}
           locationText={moveToText}
           icon={<GeoLocationIcon />}
         />
 
         {/* Moving Size */}
         <div className="space-y-3">
-          <p className="text-dark">Moving Size</p>
+          <p className="text-dark">
+            {AppTranslator.getLocaleText({
+              locale,
+              translations: {
+                en: "Moving Size",
+                nl: "Verhuisinformatie:",
+              },
+            })}
+          </p>
 
           <div
             onClick={() => setSizeOpen((prev) => !prev)}
@@ -161,7 +205,16 @@ export function LocationDetailsForm({
             {moveSize ? (
               <p className="text-dark text-xs lg:text-sm">{moveSize}</p>
             ) : (
-              <p className="text-grey text-xs lg:text-sm">Moving Size</p>
+              <p className="text-grey text-xs lg:text-sm">
+                {" "}
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Moving Size",
+                    nl: "Verhuisinformatie:",
+                  },
+                })}
+              </p>
             )}
             <button className={`ml-auto ${sizeOpen ? "rotate-180" : ""}`}>
               <ArrowDropDownIcon />

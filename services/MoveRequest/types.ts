@@ -9,7 +9,7 @@ export interface CreateMoveRequest {
   fullName: string;
   phoneNumber: string;
   email: string;
-  provinceId: number;
+  provinceId: string;
 
   pickUpAddress: string;
   pickUpAddressNumber: string;

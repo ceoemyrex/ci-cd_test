@@ -27,16 +27,19 @@ export function AboutHero({ locale = "nl" }: { locale?: Locale }) {
               <p className="font-bold text-dark text-center text-3xl lg:text-6xl leading-[120%]">
                 {AppTranslator.getLocaleText({
                   locale,
-                  translations: { en: "About", nl: "Over" },
+                  translations: { en: "About", nl: "Over Zinter" },
                 })}
-                <span className="text-secondary"> Zinter</span>
+                <span className="text-secondary">  {AppTranslator.getLocaleText({
+                  locale,
+                  translations: { en: "Zinter", nl: "" },
+                })}</span>
               </p>
               <p className="text-center text-sm lg:text-lg text-grey">
                 {AppTranslator.getLocaleText({
                   locale,
                   translations: {
                     en: "Our mission is to revolutionize the logistics industry.",
-                    nl: "Onze missie is om de logistieke sector te transformeren.",
+                    nl: "Wij zorgen voor een soepel en efficiënt logistiek proces.",
                   },
                 })}
               </p>
@@ -79,7 +82,7 @@ export function AboutHero({ locale = "nl" }: { locale?: Locale }) {
                         locale,
                         translations: {
                           en: "A strong team of highly skilled and disciplined people",
-                          nl: "Een sterk team van zeer bekwame en gedisciplineerde mensen",
+                          nl: "Een sterk team van ervaren professionals.",
                         },
                       })}
                     </p>
@@ -101,7 +104,7 @@ export function AboutHero({ locale = "nl" }: { locale?: Locale }) {
                     locale,
                     translations: {
                       en: "Our mission is to ",
-                      nl: "Onze missie is om ",
+                      nl: "",
                     },
                   })}
                   <span className="text-grey">
@@ -109,7 +112,7 @@ export function AboutHero({ locale = "nl" }: { locale?: Locale }) {
                       locale,
                       translations: {
                         en: "revolutionize the logistics industry",
-                        nl: "de logistieke sector te transformeren",
+                        nl: "",
                       },
                     })}
                   </span>{" "}
@@ -117,7 +120,7 @@ export function AboutHero({ locale = "nl" }: { locale?: Locale }) {
                     locale,
                     translations: {
                       en: "by offering seamless, tech-driven solutions",
-                      nl: "door naadloze, op technologie gebaseerde oplossingen te bieden",
+                      nl: "Onze missie is om de logistieke sector te vernieuwen met een soepele en efficiënte aanpak.",
                     },
                   })}
                 </p>
@@ -148,7 +151,7 @@ export function AboutHero({ locale = "nl" }: { locale?: Locale }) {
                     locale,
                     translations: {
                       en: "That simplify and optimize the moving experience for individuals and businesses alike. Zinter BV is committed to innovation, efficiency, and customer satisfaction.",
-                      nl: "Die de verhuiservaring voor zowel individuen als bedrijven vereenvoudigen en optimaliseren. Zinter BV zet zich in voor innovatie, efficiëntie en klanttevredenheid.",
+                      nl: "Wij vereenvoudigen en optimaliseren de verhuizing voor zowel particulieren als bedrijven. Zinter BV zet zich in voor innovatie, efficiëntie en klanttevredenheid.",
                     },
                   })}
                 </p>

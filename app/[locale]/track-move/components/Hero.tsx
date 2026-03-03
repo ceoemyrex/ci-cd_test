@@ -17,15 +17,15 @@ const trackMoveText = {
   },
   title: {
     en: "Track your move progress",
-    nl: "Volg de voortgang van uw verhuizing",
+    nl: "Verhuizing volgen",
   },
   enterCodeText: {
     en: "Enter code to tracking move",
-    nl: "Voer de code in om uw verhuizing te volgen",
+    nl: "Voer je code in",
   },
   buttonText: {
     en: "Start Tracking Move",
-    nl: "Start met volgen van verhuizing",
+    nl: "Verhuizing volgen",
   },
   errorMessage: {
     empty: {

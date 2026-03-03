@@ -6,6 +6,8 @@ import { useCallback, useMemo } from "react";
 import { CreateMoveRequest, MoveItem } from "@/services/MoveRequest";
 import { Place } from "@/services";
 import { DateTime } from "luxon";
+import { AppTranslator, Locale } from "@/app/utils";
+import { useParams } from "next/navigation";
 
 export default function StarrySpace() {
   const stars = useMemo(() => {
@@ -57,18 +59,25 @@ export function MovingSummary({
 }) {
   const getMoveItemCountByRoom = useCallback(
     (room: string) => {
-
-      console.log({room,moveItems})
-
       return moveItems.filter((item) => item.room == room).length;
     },
     [moveItems],
   );
 
+  const { locale } = useParams<{ locale: Locale }>();
+
   return (
     <>
       <section>
-        <p className="text-lg lg:text-2xl font-medium">Location Details</p>
+        <p className="text-lg lg:text-2xl font-medium">
+          {AppTranslator.getLocaleText({
+            locale,
+            translations: {
+              en: "Move Summary ",
+              nl: "Overzicht bekijken",
+            },
+          })}
+        </p>
         <div className="mt-8">
           <div className="flex items-center gap-x-4 lg:gap-x-8">
             <div className="mt-8">
@@ -78,7 +87,13 @@ export function MovingSummary({
             </div>
             <div className="flex-1">
               <LocationAutocomplete
-                label={"Moving From"}
+                label={AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Moving From",
+                    nl: "Verhuizen vanaf",
+                  },
+                })}
                 selectedPlace={moveFrom}
                 placeholder={""}
                 readOnly
@@ -95,7 +110,13 @@ export function MovingSummary({
             </div>
             <div className="flex-1">
               <LocationAutocomplete
-                label={"Moving to"}
+                label={AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Moving To",
+                    nl: "Verhuizen naar",
+                  },
+                })}
                 selectedPlace={moveTo}
                 readOnly
                 placeholder={""}
@@ -106,7 +127,15 @@ export function MovingSummary({
 
           <div className="space-y-4 lg;space-y-0 lg:grid grid-cols-2 mt-12 gap-x-8 gap-y-6">
             <div className="space-y-3 max-w-130">
-              <p className="text-dark text-sm lg:text-base">Move Size</p>
+              <p className="text-dark text-sm lg:text-base">
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Moving Size",
+                    nl: "Verhuisinformatie:",
+                  },
+                })}
+              </p>
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <input
                   readOnly
@@ -156,17 +185,35 @@ export function MovingSummary({
               </div>
             </div>
             <div className="space-y-3 max-w-130">
-              <p className="text-dark text-sm lg:text-base">Move Date</p>
+              <p className="text-dark text-sm lg:text-base">
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Move Date",
+                    nl: "Verhuisdatum:",
+                  },
+                })}
+              </p>
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <input
                   readOnly
-                  value={DateTime.fromJSDate(new Date(formData.moveDate)).toFormat("LLLL dd, yyyy")}
+                  value={DateTime.fromJSDate(new Date(formData.moveDate))
+                    .setLocale(locale)
+                    .toFormat("LLLL dd, yyyy")}
                   className="text-grey w-full placeholder:text-grey text-xs outline-0  lg:text-sm"
                 />
               </div>
             </div>
             <div className="space-y-3 max-w-130">
-              <p className="text-dark text-sm lg:text-base">Movers Phone</p>
+              <p className="text-dark text-sm lg:text-base">
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Movers Phone",
+                    nl: "Telefoonnummer:",
+                  },
+                })}
+              </p>
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <input
                   readOnly
@@ -176,7 +223,13 @@ export function MovingSummary({
               </div>
             </div>
             <div className="space-y-3 max-w-130">
-              <p className="text-dark text-sm lg:text-base">Movers Email</p>
+              <p className="text-dark text-sm lg:text-base">  {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Movers Email",
+                    nl: "E-mailadres:",
+                  },
+                })}</p>
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <input
                   readOnly
@@ -185,8 +238,31 @@ export function MovingSummary({
                 />
               </div>
             </div>
+            <div className="space-y-3 max-w-130">
+              <p className="text-dark text-sm lg:text-base">  {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Province Id",
+                    nl: "Provinciecode",
+                  },
+                })}</p>
+              <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
+                <input
+                  readOnly
+                  value={formData.provinceId}
+                  className="text-grey w-full placeholder:text-grey text-xs outline-0  lg:text-sm"
+                />
+              </div>
+            </div>
             <div className="space-y-3 col-span-2">
-              <p className="text-dark text-sm lg:text-base">Address</p>
+              <p className="text-dark text-sm lg:text-base">{
+                AppTranslator.getLocaleText({
+                  locale,
+                  translations:{
+                    en:"Address",
+                    nl:"Adres"
+                  }
+                })}</p>
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <input
                   readOnly
