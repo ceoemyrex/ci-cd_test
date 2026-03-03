@@ -11,11 +11,11 @@ import { AppTranslator, Locale } from "../utils";
 const heroBookFormText = {
   title: {
     en: "Get started in seconds",
-    nl: "Begin binnen enkele seconden",
+    nl: "                               Offerte aanvragen",
   },
   subtitle: {
     en: "Create a clear inventory first, then coordinate the move details.",
-    nl: "Maak eerst een duidelijke inventaris en coördineer daarna de verhuisdetails.",
+    nl: "                                                             Vind dé verhuizer voor je project.",
   },
   movingFrom: {
     en: "Moving From",
