@@ -19,14 +19,14 @@ export type GetLocaleTextConfig = {
     {
       locale: "nl",
       title: "Netherlands(Dutch)",
-      flag: "flag.png",
+      flag: "/flag.png",
     },
   ];
 
   export const defaultLocale =  {
       locale: "nl",
       title: "Netherlands(Dutch)",
-      flag: "flag.png",
+      flag: "/flag.png",
     }
 
 export class AppTranslator {
@@ -37,6 +37,6 @@ export class AppTranslator {
   }: GetLocaleTextConfig) {
     const translated = translations[locale];
     if (translated) return translated;
-    return defaultText;
+    return defaultText ?? "";
   }
 }

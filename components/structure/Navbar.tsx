@@ -18,8 +18,6 @@ const navLinks = [
   { url: "/contact", title: "Contact" },
 ];
 
-
-
 export function Navbar() {
   const { locale } = useParams<{ locale: Locale }>();
   const [isOpen, setIsOpen] = useState(false);
@@ -27,11 +25,10 @@ export function Navbar() {
   const [hasBackground, setHasBackground] = useState(false);
   const pathname = usePathname();
 
-
-  const siteLocale = useMemo(()=>{
-    const currentLocale = languages.find((item)=>item.locale == locale)
-    return currentLocale ?? defaultLocale
-  },[locale])
+  const siteLocale = useMemo(() => {
+    const currentLocale = languages.find((item) => item.locale == locale);
+    return currentLocale ?? defaultLocale;
+  }, [locale]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,14 +67,11 @@ export function Navbar() {
           {/* Desktop Nav */}
           <div className="mx-auto border-b-2 border-[#D3E6FA] hidden xl:flex gap-x-5 justify-center">
             {navLinks.map((link) => {
+              // Ensure pathname and link.url both start without the locale prefix
+              const normalizedPath = pathname.replace(`/${locale}`, "") || "/";
+              const normalizedLink = link.url || "/";
 
-              console.log(pathname.replace(`${locale}`,""))
-
-              const matchedLink = navLinks.find((l) => l.url === pathname);
-
-              const isActive = matchedLink
-                ? pathname.replace(`/${locale}`,"") === link.url
-                : link.url === `/${locale}`;
+              const isActive = normalizedPath === normalizedLink;
 
               return (
                 <Link
@@ -108,7 +102,9 @@ export function Navbar() {
                   alt="Flag"
                 />
               </span>
-              <p className="text-lg text-dark">{siteLocale.locale.toUpperCase()}</p>
+              <p className="text-lg text-dark">
+                {siteLocale.locale.toUpperCase()}
+              </p>
               <ArrowDropDownIcon />
             </button>
 
@@ -180,24 +176,29 @@ export function Navbar() {
               </button>
             </header>
             <div className="py-2 lg:py-4">
-             {languages.map(language=>{
-              return (
-                 <a
-                 onClick={()=>setLanguageOpen(false)}
-                 href={`/${language.locale}`} key={language.title} className="flex items-center w-full gap-x-2 p-2">
-                <span>
-                  <span className="bg-black/10 h-6 w-6 lg:h-10 lg:w-10 inline-block rounded-full relative">
-                    <img
-                      src={language.flag}
-                      className="absolute top-0 object-cover left-0 w-full h-full rounded-full"
-                      alt="Flag"
-                    />
-                  </span>
-                </span>
-                <span className="text-sm lg:text-base">{language.title}</span>
-              </a>
-              )
-             })}
+              {languages.map((language) => {
+                return (
+                  <a
+                    onClick={() => setLanguageOpen(false)}
+                    href={`/${language.locale}`}
+                    key={language.title}
+                    className="flex items-center w-full gap-x-2 p-2"
+                  >
+                    <span>
+                      <span className="bg-black/10 h-6 w-6 lg:h-10 lg:w-10 inline-block rounded-full relative">
+                        <img
+                          src={language.flag}
+                          className="absolute top-0 object-cover left-0 w-full h-full rounded-full"
+                          alt="Flag"
+                        />
+                      </span>
+                    </span>
+                    <span className="text-sm lg:text-base">
+                      {language.title}
+                    </span>
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>

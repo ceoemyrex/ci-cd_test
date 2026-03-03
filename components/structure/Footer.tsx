@@ -137,10 +137,10 @@ export function Footer() {
               <div>
                 <p className="font-medium text-dark">{footerText.sections.zinter[locale]}</p>
                 <div className="mt-6 space-y-4 text-grey">
-                  <Link href={"/how-it-works"} className="block">{footerText.links.howItWorks[locale]}</Link>
-                  <Link href={"/trust-and-safety"} className="block">{footerText.links.inventoryOptions[locale]}</Link>
-                  <Link href={"/trust-and-safety"} className="block">{footerText.links.trustAndSafety[locale]}</Link>
-                  <Link href={"/faqs"} className="block">{footerText.links.faq[locale]}</Link>
+                  <Link href={`/${locale}/how-it-works`} className="block">{footerText.links.howItWorks[locale]}</Link>
+                  <Link href={`/${locale}/trust-and-safety`} className="block">{footerText.links.inventoryOptions[locale]}</Link>
+                  <Link href={`/${locale}/trust-and-safety`} className="block">{footerText.links.trustAndSafety[locale]}</Link>
+                  <Link href={`/${locale}/faqs`} className="block">{footerText.links.faq[locale]}</Link>
                 </div>
               </div>
 
@@ -148,8 +148,8 @@ export function Footer() {
               <div>
                 <p className="font-medium text-dark">{footerText.sections.resources[locale]}</p>
                 <div className="mt-6 space-y-4 text-grey">
-                  <Link href={"/blog"} className="block">{footerText.links.blog[locale]}</Link>
-                  <Link href={"/contact"} className="block">{footerText.links.contact[locale]}</Link>
+                  <Link href={`/${locale}/blog`} className="block">{footerText.links.blog[locale]}</Link>
+                  <Link href={`/${locale}/contact`} className="block">{footerText.links.contact[locale]}</Link>
                 </div>
               </div>
 
@@ -157,10 +157,10 @@ export function Footer() {
               <div>
                 <p className="font-medium text-dark">{footerText.sections.social[locale]}</p>
                 <div className="mt-6 space-y-4 text-grey">
-                  <Link href={"/"} className="block">{footerText.links.facebook[locale]}</Link>
-                  <Link href={"/"} className="block">{footerText.links.twitter[locale]}</Link>
-                  <Link href={"/"} className="block">{footerText.links.instagram[locale]}</Link>
-                  <Link href={"/"} className="block">{footerText.links.linkedin[locale]}</Link>
+                  <Link href={`/${locale}`} className="block">{footerText.links.facebook[locale]}</Link>
+                  <Link href={`/${locale}`} className="block">{footerText.links.twitter[locale]}</Link>
+                  <Link href={`/${locale}`} className="block">{footerText.links.instagram[locale]}</Link>
+                  <Link href={`/${locale}`} className="block">{footerText.links.linkedin[locale]}</Link>
                 </div>
               </div>
             </div>

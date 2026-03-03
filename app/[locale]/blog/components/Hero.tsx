@@ -2,13 +2,14 @@
 "use client";
 import { AppTag, Navbar } from "@/components";
 import { StatsSwiper } from "@/app/components";
+import { Locale, AppTranslator } from "@/app/utils";
 
-export function BlogHero() {
+export function BlogHero({ locale = "nl" }: { locale?: Locale }) {
   return (
-    <section className={``}>
-      <div className=" relative pb-15 lg:pb-30 lg:rounded-t-4xl">
+    <section>
+      <div className="relative pb-15 lg:pb-30 lg:rounded-t-4xl">
         <img
-          src={"/hero-bg.png"}
+          src="/hero-bg.png"
           alt="hero-bg"
           className="absolute lg:rounded-t-4xl top-0 left-0 w-full h-full object-center object-cover"
         />
@@ -17,19 +18,46 @@ export function BlogHero() {
           <div className="pt-22 lg:pt-36.25">
             <div className="space-y-4 max-w-150 mx-auto text-center">
               <div className="text-center">
-                <AppTag title="Quick Booking" />
+                <AppTag
+                  title={AppTranslator.getLocaleText({
+                    locale,
+                    translations: {
+                      en: "Quick Booking",
+                      nl: "Snelle Boeking",
+                    },
+                  })}
+                />
               </div>
               <p className="font-bold text-dark text-center text-3xl lg:text-6xl leading-[120%]">
-                Moving and inventory
-                <span className="text-secondary">Guides</span>
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Moving and inventory",
+                    nl: "Verhuizen en Inventaris",
+                  },
+                })}{" "}
+                <span className="text-secondary">
+                  {AppTranslator.getLocaleText({
+                    locale,
+                    translations: { en: "Guides", nl: "Gidsen" },
+                  })}
+                </span>
               </p>
               <p className="text-center text-sm lg:text-lg text-grey">
-                Explore practical articles on move planning, inventory creation,
-                pricing, and logistics.
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Explore practical articles on move planning, inventory creation, pricing, and logistics.",
+                    nl: "Ontdek praktische artikelen over verhuisplanning, inventarisatie, prijsstelling en logistiek.",
+                  },
+                })}
               </p>
 
               <button className="bg-theme rounded-2xl text-white h-12 lg:h-17.5 px-12 lg:px-16 mt-5 lg:mt-10 font-medium text-base lg:text-xl">
-                Start your move
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: { en: "Start your move", nl: "Begin je verhuizing" },
+                })}
               </button>
             </div>
           </div>
