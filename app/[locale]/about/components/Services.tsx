@@ -62,7 +62,7 @@ export function Services({ blogs = [], locale = "nl" }: { blogs?: FlattenedBlogP
                 locale,
                 translations: {
                   en: "Zinter BV does not carry out moves directly",
-                  nl: "Zinter BV voert verhuizingen niet direct uit",
+                  nl: "Zinter BV werkt samen met professionele verhuispartners",
                 },
               })}
             </p>
@@ -71,7 +71,7 @@ export function Services({ blogs = [], locale = "nl" }: { blogs?: FlattenedBlogP
                 locale,
                 translations: {
                   en: "Instead, we connect customers with trusted and professional third-party moving service providers. We ensure a seamless booking and logistics experience",
-                  nl: "In plaats daarvan verbinden we klanten met betrouwbare en professionele externe verhuisbedrijven. We zorgen voor een naadloze boeking en logistieke ervaring",
+                  nl: "Zinter BV werkt samen met professionele verhuispartners. Wij zorgen voor een duidelijke boeking en een snel verloop van de verhuizing.",
                 },
               })}
             </p>

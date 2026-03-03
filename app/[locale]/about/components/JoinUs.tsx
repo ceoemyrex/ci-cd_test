@@ -20,7 +20,7 @@ export function JoinUs({ locale = "nl" }: { locale?: Locale }) {
                 locale,
                 translations: {
                   en: "Join us on our journey to redefine logistics!",
-                  nl: "Sluit je bij ons aan om de logistiek opnieuw vorm te geven!",
+                  nl: "Bouw met ons mee aan de toekomst van logistiek!",
                 },
               })}
             </p>
@@ -29,7 +29,7 @@ export function JoinUs({ locale = "nl" }: { locale?: Locale }) {
                 locale,
                 translations: {
                   en: "For inquiries, partnerships, or service bookings, reach out to us",
-                  nl: "Voor vragen, samenwerkingen of serviceboekingen, neem contact met ons op",
+                  nl: "Voor vragen, samenwerkingen of boekingen kun je contact met ons opnemen.",
                 },
               })}
             </p>
@@ -37,7 +37,7 @@ export function JoinUs({ locale = "nl" }: { locale?: Locale }) {
           <button className="bg-theme mt-8 lg:mt-12 lg:flex-1 text-white text-xs lg:text-lg rounded-xl lg:rounded-2xl px-5 lg:px-10 py-2.5 w-auto lg:py-5 font-medium">
             {AppTranslator.getLocaleText({
               locale,
-              translations: { en: "Contact Us", nl: "Neem Contact Op" },
+              translations: { en: "Contact Us", nl: "Neem contact op" },
             })}
           </button>
         </header>
