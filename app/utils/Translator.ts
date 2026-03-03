@@ -37,6 +37,6 @@ export class AppTranslator {
   }: GetLocaleTextConfig) {
     const translated = translations[locale];
     if (translated) return translated;
-    return defaultText ?? "";
+    return translations.nl ?? defaultText ?? "";
   }
 }

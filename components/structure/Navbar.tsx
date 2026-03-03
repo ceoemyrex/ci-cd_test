@@ -5,17 +5,53 @@ import { ArrowDropDownIcon } from "@/app/icons";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { XCircle } from "lucide-react";
-import { defaultLocale, languages, Locale } from "@/app/utils";
+import { AppTranslator, defaultLocale, languages, Locale } from "@/app/utils";
 
 /* eslint-disable @next/next/no-img-element */
 
 const navLinks = [
-  { url: "/", title: "Home" },
-  { url: "/track-move", title: "Track Move" },
-  { url: "/how-it-works", title: "How it Works" },
-  { url: "/about", title: "About" },
-  { url: "/blog", title: "Blog" },
-  { url: "/contact", title: "Contact" },
+  {
+    url: "/",
+    translations: {
+      en: "Home",
+      nl: "Home",
+    },
+  },
+  {
+    url: "/track-move",
+    translations: {
+      en: "Track Move",
+      nl: "Volg Verhuizing",
+    },
+  },
+  {
+    url: "/how-it-works",
+    translations: {
+      en: "How it Works",
+      nl: "Hoe het Werkt",
+    },
+  },
+  {
+    url: "/about",
+    translations: {
+      en: "About",
+      nl: "Over Ons",
+    },
+  },
+  {
+    url: "/blog",
+    translations: {
+      en: "Blog",
+      nl: "Blog",
+    },
+  },
+  {
+    url: "/contact",
+    translations: {
+      en: "Contact",
+      nl: "Contact",
+    },
+  },
 ];
 
 export function Navbar() {
@@ -76,14 +112,20 @@ export function Navbar() {
               return (
                 <Link
                   href={`/${locale}${link.url}`}
-                  key={link.title}
+                  key={AppTranslator.getLocaleText({
+                    translations: link.translations,
+                    locale,
+                  })}
                   className={`pb-1.5 px-2 ${
                     isActive
                       ? "text-theme font-medium -mb-px border-b-2 border-theme"
                       : "text-grey"
                   }`}
                 >
-                  {link.title}
+                  {AppTranslator.getLocaleText({
+                    translations: link.translations,
+                    locale,
+                  })}
                 </Link>
               );
             })}
@@ -146,7 +188,10 @@ export function Navbar() {
           <div className="flex flex-col p-6 space-y-6">
             {navLinks.map((link) => (
               <Link
-                key={link.title}
+                key={AppTranslator.getLocaleText({
+                  translations: link.translations,
+                  locale,
+                })}
                 href={`${locale}${link.url}`}
                 onClick={() => setIsOpen(false)}
                 className={`
@@ -154,12 +199,21 @@ export function Navbar() {
                 ${pathname == link.url ? "text-theme" : "text-grey"}
                 `}
               >
-                {link.title}
+                {AppTranslator.getLocaleText({
+                  translations: link.translations,
+                  locale,
+                })}
               </Link>
             ))}
 
             <button className="mt-6 bg-theme text-white py-3 rounded-xl">
-              Partner
+              {AppTranslator.getLocaleText({
+                  translations: {
+                    en:"Partner",
+                    nl:"Partner worden"
+                  },
+                  locale,
+                })}
             </button>
           </div>
         </div>
@@ -177,10 +231,13 @@ export function Navbar() {
             </header>
             <div className="py-2 lg:py-4">
               {languages.map((language) => {
+                const currentPathWithoutLocale =
+                  pathname.replace(`/${locale}`, "") || "/";
+
                 return (
                   <a
                     onClick={() => setLanguageOpen(false)}
-                    href={`/${language.locale}`}
+                    href={`/${language.locale}${currentPathWithoutLocale}`}
                     key={language.title}
                     className="flex items-center w-full gap-x-2 p-2"
                   >

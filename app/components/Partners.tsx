@@ -15,19 +15,19 @@ import { AppTranslator, Locale } from "../utils";
 const partnersText = {
   badge: {
     en: "Trusted Partners",
-    nl: "Betrouwbare partners",
+    nl: "Vertrouwde verhuizers",
   },
   title: {
     en: "Moving services powered by reliable partners",
-    nl: "Verhuisdiensten ondersteund door betrouwbare partners",
+    nl: "Samenwerkingen met vertrouwde verhuisbedrijven",
   },
   description: {
     en: "Zinter works with verified moving companies and service providers to ensure smooth coordination and dependable service delivery.",
-    nl: "Zinter werkt samen met geverifieerde verhuisbedrijven en dienstverleners om een soepele coördinatie en betrouwbare service te garanderen.",
+    nl: "Zinter werkt samen met geverifieerde verhuisbedrijven voor een soepele uitvoering van jouw verhuizing.",
   },
   becomePartner: {
     en: "Want to become a partner?",
-    nl: "Partner worden?",
+    nl: "Wil je partner worden?",
   },
   joinButton: {
     en: "Join as Partner",
@@ -37,19 +37,19 @@ const partnersText = {
   tags: {
     verified: {
       en: "Verified Partner",
-      nl: "Geverifieerde partner",
+      nl: "Geverifieeede partner",
     },
     licensed: {
       en: "Licensed & Insured",
-      nl: "Gelicentieerd & verzekerd",
+      nl: " geverifieerd en verzekerd",
     },
     local: {
       en: "Local Expert",
-      nl: "Lokale expert",
+      nl: "Lokale specialist",
     },
     storage: {
       en: "Storage Partner",
-      nl: "Opslagpartner",
+      nl: "Opslag partner",
     },
   },
 };

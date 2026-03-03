@@ -12,43 +12,43 @@ const howItWorksText = {
   },
   title: {
     en: "How Zinter works",
-    nl: "Hoe Zinter werkt",
+    nl: "Zo werkt Zinter",
   },
   description: {
     en: "Start with inventory first. Then coordinate what you need..",
-    nl: "Begin eerst met de inventaris. Coördineer daarna wat u nodig heeft..",
+    nl: "Met je inboedel als basis stemmen we de juiste diensten en plannen af.",
   },
   steps: [
     {
       title: {
         en: "Create Inventory",
-        nl: "Maak inventaris",
+        nl: "Stel je spullen samen",
       },
       description: {
         en: "Choose AI photo upload or manual list from the start",
-        nl: "Kies vanaf het begin voor AI-foto-upload of handmatige lijst",
+        nl: "Kies voor onze AI-herkenning of stel handmatig een lijst samen.",
       },
       icon: <CheckListIcon />,
     },
     {
       title: {
         en: "Coordinate details",
-        nl: "Coördineer details",
+        nl: "Regel je details",
       },
       description: {
         en: "Use inventory to plan services, timing, and requirements.",
-        nl: "Gebruik de inventaris om diensten, timing en vereisten te plannen.",
+        nl: "Gebruik je spullen om diensten en planning af te stemmen..",
       },
       icon: <SettingIcon />,
     },
     {
       title: {
         en: "Finalize with confidence",
-        nl: "Afronden met vertrouwen",
+        nl: "Rond af met zekerheid",
       },
       description: {
         en: "Review, confirm, and complete with full visibility.",
-        nl: "Bekijk, bevestig en voltooi met volledig overzicht.",
+        nl: "Bevestig en rond je verhuizing af met volledig inzicht.",
       },
       icon: <CheckCircle />,
     },

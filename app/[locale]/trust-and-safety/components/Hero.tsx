@@ -1,7 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
 import { LockIcon, PrivacyIcon, Shield, UserCheckIcon } from "@/app/icons";
 import { Navbar, AppTag } from "@/components";
 import { ReactNode } from "react";
+import { AppTranslator, Locale } from "@/app/utils";
 
 function TrustCard({
   title,
@@ -25,53 +27,133 @@ function TrustCard({
   );
 }
 
-export function TrustAndSafetyHero() {
+export function TrustAndSafetyHero({ locale }: { locale: Locale }) {
   return (
-    <section className={``}>
-      <div className=" relative pb-15 lg:pb-30 lg:rounded-t-4xl">
+    <section>
+      <div className="relative pb-15 lg:pb-30 lg:rounded-t-4xl">
         <img
-          src={"/hero-bg.png"}
+          src="/hero-bg.png"
           alt="hero-bg"
           className="absolute lg:rounded-t-4xl top-0 left-0 w-full h-full object-center object-cover"
         />
-        <div className="relative max-w-310 2xl:max-w-350  mx-auto p-4 lg:py-10 lg:p-10">
+
+        <div className="relative max-w-310 2xl:max-w-350 mx-auto p-4 lg:py-10 lg:p-10">
           <Navbar />
+
           <div className="pt-22 max-w-150 mx-auto lg:pt-36.25">
-            <div className="space-y-4  text-center">
-              <div className="text-center">
-                <AppTag title="Trust and Safety" />
-              </div>
-              <p className="font-bold text-dark text-center text-3xl lg:text-5xl leading-[120%]">
-                How inventory reduces{" "}
-                <span className="text-secondary">Surprise Costs</span>
+            <div className="space-y-4 text-center">
+              <AppTag
+                title={AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Trust and Safety",
+                    nl: "Vertrouwen en Veiligheid",
+                  },
+                })}
+              />
+
+              <p className="font-bold text-dark text-3xl lg:text-5xl leading-[120%]">
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "How inventory reduces ",
+                    nl: "Hoe inventaris ",
+                  },
+                })}
+                <span className="text-secondary">
+                  {AppTranslator.getLocaleText({
+                    locale,
+                    translations: {
+                      en: "Surprise Costs",
+                      nl: "Onverwachte Kosten Vermindert",
+                    },
+                  })}
+                </span>
               </p>
-              <p className="text-center text-sm lg:text-lg text-grey">
-                One of the most common complaints about moving is unexpected
-                costs. Here&apos;s how creating a clear inventory helps avoid
-                pricing surprises.
+
+              <p className="text-sm lg:text-lg text-grey">
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "One of the most common complaints about moving is unexpected costs. Here's how creating a clear inventory helps avoid pricing surprises.",
+                    nl: "Een van de meest voorkomende klachten bij verhuizen zijn onverwachte kosten. Zo helpt een duidelijke inventaris om prijsverrassingen te voorkomen.",
+                  },
+                })}
               </p>
             </div>
           </div>
+
           <div className="space-y-4 lg:space-y-0 lg:grid grid-cols-2 gap-8 mt-20 lg:mt-60">
             <TrustCard
-              icon={<LockIcon/>}
-              title="Data Protection"
-              description="Inventory data and images are handled securely and responsibly. We use industry-standard encryption to protect your information."
+              icon={<LockIcon />}
+              title={AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "Data Protection",
+                  nl: "Gegevensbescherming",
+                },
+              })}
+              description={AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "Inventory data and images are handled securely and responsibly. We use industry-standard encryption to protect your information.",
+                  nl: "Inventarisgegevens en afbeeldingen worden veilig en verantwoord verwerkt. We gebruiken industriestandaard encryptie om uw informatie te beschermen.",
+                },
+              })}
             />
+
             <TrustCard
-              icon={<PrivacyIcon/>}
-              title="Privacy First"
-              description="AI is optional. We never force you to use features you're not comfortable with. Your choices are always respected."
+              icon={<PrivacyIcon />}
+              title={AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "Privacy First",
+                  nl: "Privacy Eerst",
+                },
+              })}
+              description={AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "AI is optional. We never force you to use features you're not comfortable with. Your choices are always respected.",
+                  nl: "AI is optioneel. We dwingen u nooit om functies te gebruiken waar u zich niet prettig bij voelt. Uw keuzes worden altijd gerespecteerd.",
+                },
+              })}
             />
+
             <TrustCard
-              icon={<Shield/>}
-              title="Transparency"
-              description="No hidden fees, no surprise charges. Clear inventory leads to clear pricing and honest communication."
+              icon={<Shield />}
+              title={AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "Transparency",
+                  nl: "Transparantie",
+                },
+              })}
+              description={AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "No hidden fees, no surprise charges. Clear inventory leads to clear pricing and honest communication.",
+                  nl: "Geen verborgen kosten, geen verrassingen. Een duidelijke inventaris zorgt voor transparante prijzen en eerlijke communicatie.",
+                },
+              })}
             />
+
             <TrustCard
-              icon={<UserCheckIcon/>}
-              title="Verified Partners"
-              description="We work with trusted moving partners who meet our quality and reliability standards."
+              icon={<UserCheckIcon />}
+              title={AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "Verified Partners",
+                  nl: "Geverifieerde Partners",
+                },
+              })}
+              description={AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "We work with trusted moving partners who meet our quality and reliability standards.",
+                  nl: "Wij werken samen met betrouwbare verhuispartners die voldoen aan onze kwaliteits- en betrouwbaarheidsnormen.",
+                },
+              })}
             />
           </div>
         </div>

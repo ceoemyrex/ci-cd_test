@@ -10,15 +10,15 @@ import { FlattenedBlogPost } from "@/services";
 const blogsText = {
   badge: {
     en: "Blogs",
-    nl: "Blogs",
+    nl: "Blog",
   },
   title: {
     en: "Moving and inventory guides.",
-    nl: "Verhuis- en inventarisgidsen.",
+    nl: "Handige tips voor je verhuizing",
   },
   description: {
     en: "Explore practical articles on move planning, inventory creation, pricing, and logistics.",
-    nl: "Ontdek praktische artikelen over verhuisplanning, inventaris maken, prijzen en logistiek.",
+    nl: "Ontdek handige tips over verhuizen, inboedel, prijzen en logistiek.",
   },
   ctaViewAll: {
     en: "View All",
@@ -28,7 +28,13 @@ const blogsText = {
 
 /* ---------------- BLOG ITEM ---------------- */
 
-function BlogItem({ blog }: { blog: FlattenedBlogPost }) {
+function BlogItem({
+  blog,
+  locale = "nl",
+}: {
+  blog: FlattenedBlogPost;
+  locale?: Locale;
+}) {
   return (
     <div className="p-4 border border-black/10 rounded-xl lg:rounded-4xl space-y-8">
       <div className="bg-theme/10 rounded-xl lg:rounded-3xl overflow-clip h-35 lg:h-75 relative">
@@ -50,7 +56,13 @@ function BlogItem({ blog }: { blog: FlattenedBlogPost }) {
           href={`/blog/${blog.id}`}
           className="text-theme text-sm lg:text-base inline-flex items-center gap-x-3 border-b border-theme"
         >
-          Read More
+          {AppTranslator.getLocaleText({
+            locale,
+            translations: {
+              en: "Read More",
+              nl: "Lees meer",
+            },
+          })}
           <span className="-rotate-180">
             <ArrowRight width={24} height={24} fill="currentColor" />
           </span>
@@ -79,14 +91,23 @@ export function Blogs({
         <header className="text-center max-w-158.75 mx-auto">
           <span className="bg-[#CACACA1A]/10 px-4 text-xs lg:text-sm py-1.5 lg:py-2.5 rounded-[100px] text-secondary inline-flex items-center gap-x-1.5 border border-[#B6DDA8]">
             <HexagonIcon />
-            {AppTranslator.getLocaleText({ locale, translations: blogsText.badge })}
+            {AppTranslator.getLocaleText({
+              locale,
+              translations: blogsText.badge,
+            })}
           </span>
           <div className="mt-6 space-y-4">
             <p className="font-bold text-2xl lg:text-5xl">
-              {AppTranslator.getLocaleText({ locale, translations: blogsText.title })}
+              {AppTranslator.getLocaleText({
+                locale,
+                translations: blogsText.title,
+              })}
             </p>
             <p className="text-grey text-center text-sm lg:text-lg">
-              {AppTranslator.getLocaleText({ locale, translations: blogsText.description })}
+              {AppTranslator.getLocaleText({
+                locale,
+                translations: blogsText.description,
+              })}
             </p>
           </div>
         </header>
@@ -103,7 +124,10 @@ export function Blogs({
               href={"/blog"}
               className="bg-theme block text-center w-full text-white text-sm lg:text-lg rounded-2xl px-5 lg:px-10 py-2.5 lg:py-5 font-medium"
             >
-              {AppTranslator.getLocaleText({ locale, translations: blogsText.ctaViewAll })}
+              {AppTranslator.getLocaleText({
+                locale,
+                translations: blogsText.ctaViewAll,
+              })}
             </Link>
           </div>
         )}

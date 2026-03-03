@@ -1,8 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
 import { Shield } from "@/app/icons";
 import { AppTag } from "@/components";
+import { AppTranslator, Locale } from "@/app/utils";
 
-function CommitmentPoint({ title }: { title: string }) {
+function CommitmentPoint({
+  title,
+}: {
+  title: string;
+}) {
   return (
     <div className="flex items-center gap-x-3">
       <div>
@@ -11,41 +17,95 @@ function CommitmentPoint({ title }: { title: string }) {
         </div>
       </div>
       <div className="flex-1 space-y-1">
-        <p className="text-sm lg:text-xl">
-          {title}
-        </p>
+        <p className="text-sm lg:text-xl">{title}</p>
       </div>
     </div>
   );
 }
 
-export function CommitmentSection() {
+export function CommitmentSection({ locale }: { locale: Locale }) {
   return (
     <section className="py-18.5 lg:py-37.5">
       <div className="max-w-310 2xl:max-w-350 px-4 mx-auto">
         <div className="lg:flex gap-x-22">
           <div className="flex-1 pt-10">
             <div className="text-center lg:text-left">
-              <AppTag title="Best & Trusted Place  " />
+              <AppTag
+                title={AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Best & Trusted Place",
+                    nl: "Beste & Betrouwbare Plek",
+                  },
+                })}
+              />
             </div>
+
             <header className="mt-3 lg:mt-6 text-center lg:text-left space-y-4">
               <p className="font-bold text-dark text-2xl lg:text-[42px]">
-                Our commitment to you
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Our commitment to you",
+                    nl: "Onze toewijding aan u",
+                  },
+                })}
               </p>
+
               <p className="text-grey text-sm lg:text-base">
-                We understand that moving involves sharing personal information
-                and trusting others with your belongings. That&apos;s why
-                we&apos;ve built Zinter with security and transparency at its
-                core.
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "We understand that moving involves sharing personal information and trusting others with your belongings. That's why we've built Zinter with security and transparency at its core.",
+                    nl: "Wij begrijpen dat verhuizen betekent dat u persoonlijke informatie deelt en anderen uw bezittingen toevertrouwt. Daarom hebben wij Zinter gebouwd met veiligheid en transparantie als kern.",
+                  },
+                })}
               </p>
             </header>
+
             <div className="mt-12 space-y-8">
-                <CommitmentPoint title="Your data is never sold to third parties"/>
-                <CommitmentPoint title="AI is always optional manual options are always available"/>
-                <CommitmentPoint title="You control what information is shared with movers"/>
-                <CommitmentPoint title="Delete your data at any time"/>
+              <CommitmentPoint
+                title={AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Your data is never sold to third parties",
+                    nl: "Uw gegevens worden nooit aan derden verkocht",
+                  },
+                })}
+              />
+
+              <CommitmentPoint
+                title={AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "AI is always optional — manual options are always available",
+                    nl: "AI is altijd optioneel — handmatige opties blijven beschikbaar",
+                  },
+                })}
+              />
+
+              <CommitmentPoint
+                title={AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "You control what information is shared with movers",
+                    nl: "U bepaalt welke informatie met verhuizers wordt gedeeld",
+                  },
+                })}
+              />
+
+              <CommitmentPoint
+                title={AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Delete your data at any time",
+                    nl: "Verwijder uw gegevens op elk moment",
+                  },
+                })}
+              />
             </div>
           </div>
+
           <div className="flex-1">
             <div className="relative h-100 lg:h-180 w-full">
               {[
