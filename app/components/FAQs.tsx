@@ -20,7 +20,7 @@ export const faqs = [
       },
       answer: {
         en: "No. AI is completely optional. You can manually manage your inventory and bookings if you prefer full control.",
-        nl: "Nee. AI is volledig optioneel. Je kunt je inventaris en boekingen handmatig beheren als je volledige controle wilt.",
+        nl: "De prijs hangt af van hoeveel en wat je verhuist. Meer spullen betekent meer ruimte in de verhuiswagen en meer tijd om alles te verhuizen. Door precies te weten wat je meeneemt, kan een verhuisbedrijf een eerlijke en nauwkeurige prijs berekenen en voorkom je extra kosten achteraf.",
       },
     },
   },
@@ -80,20 +80,24 @@ export const faqs = [
 
 const faqText = {
   badge: {
-    en: "FAQ",
-    nl: "Veelgestelde Vragen",
+    en: "Faq",
+    nl: "Faq",
   },
   title: {
     en: "Frequently Asked Questions!",
-    nl: "Veelgestelde Vragen!",
+    nl: "Veelgestelde vragen!",
   },
   stillHaveQuestions: {
     en: "Still Have Questions?",
-    nl: "Nog steeds vragen?",
+    nl: "Heb je nog vragen?",
   },
   contactUs: {
     en: "Contact Us,",
     nl: "Neem contact op,",
+  },
+  contactUs2: {
+    en: "We are happy to help you",
+    nl: "We helpen je graag.",
   },
 };
 
@@ -118,7 +122,9 @@ export function FAQCard({ question, answer, isOpen, onToggle }: FAQCardProps) {
       >
         <p className="text-sm lg:text-xl text-dark">{question}</p>
 
-        <div className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}>
+        <div
+          className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+        >
           {isOpen ? null : <PlusIcon />}
         </div>
       </div>
@@ -159,31 +165,45 @@ export function FAQs({ locale = "nl" }: { locale?: Locale }) {
   return (
     <section className="py-15.5 lg:py-31.25 bg-linear-to-b from-[#F8FBFF] to-[#FFFFFF]">
       <div className="space-y-6 lg:flex max-w-310 2xl:max-w-350 px-4 mx-auto items-center gap-x-30">
-        
         {/* Left Side */}
         <div className="flex-2">
           <header>
             <span className="bg-[#CACACA1A]/10 px-4 text-xs lg:text-sm py-1.5 lg:py-2.5 rounded-[100px] text-secondary inline-flex items-center gap-x-1.5 border border-[#B6DDA8]">
               <HexagonIcon />
-              {AppTranslator.getLocaleText({ locale, translations: faqText.badge })}
+              {AppTranslator.getLocaleText({
+                locale,
+                translations: faqText.badge,
+              })}
             </span>
 
             <div className="mt-6 space-y-4">
               <p className="font-bold text-2xl lg:text-5xl">
-                {AppTranslator.getLocaleText({ locale, translations: faqText.title })}
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: faqText.title,
+                })}
               </p>
             </div>
 
             <div className="mt-11 lg:mt-22 border text-dark bg-white border-black/10 p-3 lg:p-6 rounded-2xl">
               <p className="text-base lg:text-2xl font-medium">
-                {AppTranslator.getLocaleText({ locale, translations: faqText.stillHaveQuestions })}
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: faqText.stillHaveQuestions,
+                })}
               </p>
 
               <p className="text-xs lg:text-lg">
                 <Link href={"/contact"} className="text-theme">
-                  {AppTranslator.getLocaleText({ locale, translations: faqText.contactUs })}
+                  {AppTranslator.getLocaleText({
+                    locale,
+                    translations: faqText.contactUs,
+                  })}
                 </Link>{" "}
-                We are happy to help you
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: faqText.contactUs2,
+                })}
               </p>
 
               <div className="flex items-center mt-4 lg:mt-9.5">
@@ -220,8 +240,18 @@ export function FAQs({ locale = "nl" }: { locale?: Locale }) {
           {faqs.map((faq, index) => (
             <FAQCard
               key={index}
-              question={AppTranslator.getLocaleText({ locale, translations: faq.translations.question }) ?? ""}
-              answer={AppTranslator.getLocaleText({ locale, translations: faq.translations.answer }) ?? ""}
+              question={
+                AppTranslator.getLocaleText({
+                  locale,
+                  translations: faq.translations.question,
+                }) ?? ""
+              }
+              answer={
+                AppTranslator.getLocaleText({
+                  locale,
+                  translations: faq.translations.answer,
+                }) ?? ""
+              }
               isOpen={openIndex === index}
               onToggle={() => toggleFAQ(index)}
             />

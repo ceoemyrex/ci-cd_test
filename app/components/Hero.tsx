@@ -39,7 +39,6 @@ export function Hero({ locale = "nl" }: { locale?: Locale }) {
                     locale,
                     translations: t.titleHighlight,
                   })}
-                  .
                 </span>
               </p>
               <p className="text-center text-sm lg:text-left lg:text-base text-grey">

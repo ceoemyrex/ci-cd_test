@@ -11,47 +11,47 @@ const stepsText = {
   },
   title: {
     en: "Your Move, in 60 Seconds.",
-    nl: "Jouw verhuizing in 60 seconden.",
+    nl: "Vraag een scherpe offerte aan",
   },
   description: {
     en: "Create and organize your entire move in just one minute. From building your inventory to booking trusted movers.",
-    nl: "Maak en organiseer je volledige verhuizing in slechts één minuut. Van inventaris opbouwen tot het boeken van betrouwbare verhuizers.",
+    nl: "Organiseer je volledige verhuizing in slechts één minuut: Van het opstellen van je spullen tot het boeken van betrouwbare verhuizers.",
   },
 
   step1Title: {
     en: "Submit your move details",
-    nl: "Vul je verhuisgegevens in",
+    nl: "Vul je verhuisgegevens in.",
   },
   step1Desc: {
     en: "Fill in our quick form with your move's start and end locations and size of your move",
-    nl: "Vul ons snelle formulier in met je vertrek- en eindlocatie en de grootte van je verhuizing.",
+    nl: "Vul je begin- en eindadres in en geef je verhuisgegevens door.",
   },
 
   step2Title: {
     en: "Snap your space",
-    nl: "Maak foto's van je ruimte",
+    nl: "Maak foto’s van je woning.",
   },
   step2Desc: {
     en: "Take a few quick photos of the rooms or items you're moving.",
-    nl: "Maak snel enkele foto's van de kamers of items die je verhuist.",
+    nl: "Maak foto’s van de ruimtes en spullen die je gaat verhuizen.",
   },
 
   step3Title: {
     en: "Get real-time quotes",
-    nl: "Ontvang realtime offertes",
+    nl: "Ontvang direct offertes.",
   },
   step3Desc: {
     en: "Our AI scans your inventory and returns accurate estimates from trusted pros.",
-    nl: "Onze AI scant je inventaris en geeft nauwkeurige prijsinschattingen van betrouwbare professionals.",
+    nl: "Onze AI analyseert je spullen en geeft nauwkeurige prijzen van betrouwbare verhuisbedrijven.",
   },
 
   step4Title: {
     en: "Pick your match",
-    nl: "Kies de beste match",
+    nl: "Kies de beste match.",
   },
   step4Desc: {
     en: "Compare offers. Read reviews. Book the mover that fits your needs and budget.",
-    nl: "Vergelijk aanbiedingen. Lees reviews. Boek de verhuizer die bij je behoeften en budget past.",
+    nl: "Vergelijk offertes, lees beoordelingen en boek het verhuisbedrijf dat het best bij jou past.",
   },
 };
 

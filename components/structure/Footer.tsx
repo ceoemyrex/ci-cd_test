@@ -17,7 +17,7 @@ const footerText = {
   },
   description: {
     en: "Inventory-first move coordination. Create a clear inventory first, then coordinate your move with confidence.",
-    nl: "Inventaris-georiënteerde verhuiscoördinatie. Maak eerst een duidelijke inventaris, en coördineer daarna je verhuizing met vertrouwen.",
+    nl: "Begin met een duidelijk overzicht en regel je verhuizing met vertrouwen.",
   },
   sections: {
     zinter: {
@@ -26,22 +26,22 @@ const footerText = {
     },
     resources: {
       en: "Resources",
-      nl: "Hulpmiddelen",
+      nl: "Resources",
     },
     social: {
       en: "Social",
-      nl: "Sociaal",
+      nl: "Social",
     },
     getUpdates: {
       en: "Get Updates",
-      nl: "Updates ontvangen",
+      nl: "Blijf op de hoogte",
     },
   },
   links: {
-    howItWorks: { en: "How it Works", nl: "Hoe het werkt" },
+    howItWorks: { en: "How it Works", nl: "Zo werkt het" },
     inventoryOptions: { en: "Inventory Options", nl: "Inventarisopties" },
-    trustAndSafety: { en: "Trust & Safety", nl: "Vertrouwen & Veiligheid" },
-    faq: { en: "FAQ", nl: "FAQ" },
+    trustAndSafety: { en: "Trust & Safety", nl: "Vertrouwen en veiligheid" },
+    faq: { en: "FAQ", nl: "Veelgestelde vragen" },
     blog: { en: "Blog", nl: "Blog" },
     contact: { en: "Contact", nl: "Contact" },
     facebook: { en: "Facebook", nl: "Facebook" },
@@ -50,11 +50,11 @@ const footerText = {
     linkedin: { en: "Linkedin", nl: "Linkedin" },
   },
   placeholder: {
-    email: { en: "Enter your email", nl: "Voer je e-mail in" },
-    submit: { en: "Submit", nl: "Verzenden" },
+    email: { en: "Enter your email", nl: "Vul je e-mailadres in" },
+    submit: { en: "Submit", nl: "Inschrijven" },
   },
   messages: {
-    enterEmail: { en: "Please enter your email", nl: "Voer je e-mail in" },
+    enterEmail: { en: "Please enter your email", nl: "Vul je e-mailadres in" },
     success: { en: "Email successfully added to mailing list", nl: "E-mail succesvol toegevoegd aan de mailinglijst" },
     error: { en: "An error occurred, could not add to mailing list", nl: "Er is een fout opgetreden, kon niet aan de mailinglijst toevoegen" },
   },
@@ -64,7 +64,7 @@ const footerText = {
   },
   disclaimer: {
     en: "AI is optional. Manual inventory is always available. Inventory data and images are handled securely.",
-    nl: "AI is optioneel. Handmatige inventaris is altijd beschikbaar. Inventarisgegevens en afbeeldingen worden veilig behandeld.",
+    nl: "AI is optioneel. Handmatig je spullen samenstellen is altijd mogelijk. Gegevens en afbeeldingen worden veilig verwerkt.",
   },
 };
 

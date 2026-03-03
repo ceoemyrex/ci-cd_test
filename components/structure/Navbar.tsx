@@ -207,7 +207,13 @@ export function Navbar() {
             ))}
 
             <button className="mt-6 bg-theme text-white py-3 rounded-xl">
-              Partner
+              {AppTranslator.getLocaleText({
+                  translations: {
+                    en:"Partner",
+                    nl:"Partner worden"
+                  },
+                  locale,
+                })}
             </button>
           </div>
         </div>

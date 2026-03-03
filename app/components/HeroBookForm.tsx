@@ -27,15 +27,15 @@ const heroBookFormText = {
   },
   movingSize: {
     en: "Moving Size",
-    nl: "Grootte van verhuizing",
+    nl: "Verhuisinformatie:",
   },
   continue: {
     en: "Continue",
-    nl: "Doorgaan",
+    nl: "Ga verder ",
   },
   footer: {
     en: "No calls. No spam. Just clear next steps.",
-    nl: "Geen telefoontjes. Geen spam. Alleen duidelijke volgende stappen.",
+    nl: "Geen ongewenste telefoontjes. Geen spam. Gewoon duidelijke vervolgstappen.",
   },
 };
 
@@ -195,17 +195,18 @@ export function HeroBookForm() {
       </header>
       <div className="p-4 lg:p-8 space-y-4">
         <LocationAutocomplete
-          label={
-            AppTranslator.getLocaleText({
-              locale,
-              translations: heroBookFormText.movingFrom,
-            }) ?? ""
-          }
+          label={AppTranslator.getLocaleText({
+            locale,
+            translations: heroBookFormText.movingFrom,
+          })}
           theme="grey"
           onSelectPlace={(place) => {
             setMoveFrom(place.formattedAddress);
           }}
-          placeholder={"Moving From"}
+          placeholder={AppTranslator.getLocaleText({
+            locale,
+            translations: heroBookFormText.movingFrom,
+          })}
           icon={<LocationIcon />}
         />
 

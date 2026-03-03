@@ -9,23 +9,23 @@ import { AppTranslator, Locale } from "../utils";
 const testimonialsText = {
   badge: {
     en: "Testimonials",
-    nl: "Getuigenissen",
+    nl: "Klantervaringen",
   },
   title: {
     en: "Real People Real Moves Real Peace of Mind.",
-    nl: "Echte mensen, echte verhuizingen, echte gemoedsrust.",
+    nl: "Verhuizing met vertrouwen.",
   },
   description: {
     en: "Behind every move is a real story, real belongings, and real trust.",
-    nl: "Achter elke verhuizing zit een echt verhaal, echte bezittingen en echt vertrouwen.",
+    nl: "Achter elke verhuizing schuilt een persoonlijk verhaal met waardevolle bezittingen.",
   },
   ctaStart: {
     en: "Start Your Move",
-    nl: "Begin je verhuizing",
+    nl: "Start je verhuizing",
   },
   ctaReview: {
     en: "Give Review",
-    nl: "Geef beoordeling",
+    nl: "Plaats beoordeling  ",
   },
   testimonial1: {
     alt: {
@@ -36,7 +36,7 @@ const testimonialsText = {
   testimonial2: {
     text: {
       en: "“I uploaded five photos from my phone and had a quote in minutes. Movers showed up exactly when they said they would!”",
-      nl: "“Ik uploadde vijf foto’s vanaf mijn telefoon en kreeg binnen enkele minuten een offerte. De verhuizers kwamen precies op tijd!”",
+      nl: "“Ik uploadde vijf foto’s vanaf mijn telefoon en ontving binnen enkele minuten een offerte. De verhuizers stonden precies op de afgesproken tijd voor de deur.”",
     },
     name: {
       en: "Fatima Noor",
