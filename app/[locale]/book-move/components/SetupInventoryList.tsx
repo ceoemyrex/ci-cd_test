@@ -5,7 +5,7 @@ import {
   DiningTableIcon,
   ImageIcon,
   KitchenUtensilsIcon,
-  PlusIcon,
+  // PlusIcon,
 } from "@/app/icons";
 import { MoveItem } from "@/services/MoveRequest";
 import { BedDoubleIcon, Sofa } from "lucide-react";
@@ -39,7 +39,7 @@ export function SetupInventoryListForm({
             }
           })} (<span className="text-grey">{moveSize}</span>)
         </p>
-        <button className="bg-white border text-sm lg:text-base flex items-center rounded-xl px-5 lg:py-4 lg:px-10 py-2 border-[#E5E5E5]">
+        {/* <button className="bg-white border text-sm lg:text-base flex items-center rounded-xl px-5 lg:py-4 lg:px-10 py-2 border-[#E5E5E5]">
           <PlusIcon />
           <span>{AppTranslator.getLocaleText({
             locale,
@@ -48,7 +48,7 @@ export function SetupInventoryListForm({
               nl:"Kamer toevoegen"
             }
           })} </span>
-        </button>
+        </button> */}
       </header>
 
       {/* Image Recognition Section */}

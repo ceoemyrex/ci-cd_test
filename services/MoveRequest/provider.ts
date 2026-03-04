@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 import { BASE_URL } from "../config";
-import { CreateMoveRequest, MoveItem } from "./types";
+import { CreateMoveRequest, MoveItem, TrackMove } from "./types";
 import { BaseApiResponse } from "../types";
 
 export class MoveRequestProvider {
@@ -70,19 +70,19 @@ export class MoveRequestProvider {
         `TrackMove?code=${code}`,
       );
 
-      return res.data as BaseApiResponse<MoveItem[]>;
+      return res.data as BaseApiResponse<TrackMove>;
     } catch (e) {
       if (e instanceof AxiosError) {
         return {
           responseStatus: false,
           responseMessage: "An error occurred could not create move request",
           ...e.response?.data,
-        } as BaseApiResponse<MoveItem[]>;
+        } as BaseApiResponse<TrackMove>;
       }
       return {
         responseStatus: false,
         responseMessage: "An error occurred could not create move request",
-      } as BaseApiResponse<MoveItem[]>;
+      } as BaseApiResponse<TrackMove>;
     }
   }
 

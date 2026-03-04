@@ -11,13 +11,32 @@ export interface Place {
     languageCode: string;
   };
   shortFormattedAddress: string;
+  postalAddress?: {
+    revision: number;
+    regionCode: string;
+    languageCode: string;
+    postalCode: string;
+    sortingCode: string;
+    administrativeArea: string;
+    locality: string;
+    sublocality: string;
+    addressLines: string[];
+    recipients: string[];
+    organization: string;
+  };
+  addressComponents?: {
+    longText: string;
+    shortText: string;
+    types: string[];
+    languageCode: string;
+  }[];
 }
 
-export interface PlaceResponse{
-    places:Place[]
+export interface PlaceResponse {
+  places: Place[];
 }
-export interface PlacePredictionResponse{
-    suggestions:PlacePredictionObject[]
+export interface PlacePredictionResponse {
+  suggestions: PlacePredictionObject[];
 }
 export interface PlacePredictionObject {
   placePrediction: PlacePrediction;

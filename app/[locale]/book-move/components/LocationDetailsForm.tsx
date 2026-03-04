@@ -121,7 +121,9 @@ export function LocationDetailsForm({
   const { locale } = useParams<{ locale: Locale }>();
 
   useEffect(() => {
-    setMoveSize(moveSizeText);
+    if (moveSizeText) {
+      setMoveSize(moveSizeText);
+    }
   }, [moveSizeText, setMoveSize]);
 
   const options = useMemo(() => {

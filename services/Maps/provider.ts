@@ -14,7 +14,7 @@ export class MapProvider {
         {
           headers: {
             "X-Goog-Api-Key": process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-            "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.priceLevel,places.adrFormatAddress,places.id,places.formattedAddress,places.shortFormattedAddress,places.location"
+            "X-Goog-FieldMask": "places.displayName,places.postalAddress,places.formattedAddress,places.priceLevel,places.adrFormatAddress,places.id,places.formattedAddress,places.shortFormattedAddress,places.location,places.addressComponents"
           },
         },
       );
@@ -34,7 +34,7 @@ export class MapProvider {
         {
           headers: {
             "X-Goog-Api-Key": process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-            "X-Goog-FieldMask": "displayName,formattedAddress,priceLevel,adrFormatAddress,id,formattedAddress,shortFormattedAddress,location"
+            "X-Goog-FieldMask": "displayName,postalAddress,addressComponents,formattedAddress,priceLevel,adrFormatAddress,id,formattedAddress,shortFormattedAddress,location"
           },
         },
       );
