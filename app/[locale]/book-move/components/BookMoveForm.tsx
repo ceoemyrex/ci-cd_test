@@ -188,7 +188,7 @@ export function BookMoveForm() {
       />
       {success && (
         <Portal>
-          <div className="fixed overflow-auto flex items-center justify-center top-0 left-0 w-full h-full bg-white/20 backdrop-blur z-1000000">
+          <div className="fixed overflow-auto flex items-center justify-center p-4 top-0 left-0 w-full h-full bg-white/20 backdrop-blur z-1000000">
             <div className="bg-white flex-1 max-w-135 border border-black/10 rounded-2xl">
               <StarrySpace />
               <img

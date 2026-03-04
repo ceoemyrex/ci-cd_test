@@ -206,7 +206,7 @@ export function LocationDetailsForm({
           >
             <PackageMovingIcon />
             {moveSize ? (
-              <p className="text-dark text-xs lg:text-sm">
+              <p className="text-dark text-base lg:text-sm">
                 {AppTranslator.getLocaleText({
                   locale,
                   translations: moveTranslations[moveSize],

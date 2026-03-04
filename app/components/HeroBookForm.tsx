@@ -92,7 +92,7 @@ export function MovingSizeDropdown({ value, onChange, tabs, locale }: Props) {
         {selectedLabel ? (
           <p className="text-dark text-xs lg:text-sm">{AppTranslator.getLocaleText({locale,translations:moveTranslations[selectedLabel as any]})}</p>
         ) : (
-          <p className="text-grey text-xs lg:text-sm">
+          <p className="text-grey text-base">
             {" "}
             {AppTranslator.getLocaleText({
               locale,
@@ -176,8 +176,9 @@ export function HeroBookForm() {
   const handleSubmit = () => {
     if (moveFrom && moveTo && moveSize) {
       router.push(
-        `/book-move?moveSize=${moveSize}&moveTo=${moveTo}&moveFrom=${moveFrom}`,
+        `${locale}/book-move?moveSize=${moveSize}&moveTo=${moveTo}&moveFrom=${moveFrom}`,
       );
+      return;
     }
   };
 
