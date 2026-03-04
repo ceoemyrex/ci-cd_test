@@ -4,6 +4,7 @@ import { PackageMovingIcon } from "@/app/icons/package";
 import { AppTranslator, Locale } from "@/app/utils";
 import { useGetLocation, useParamFilter } from "@/hooks";
 import { Place } from "@/services";
+import { moveTranslations } from "@/translations";
 import { LoaderCircle } from "lucide-react";
 import { useParams } from "next/navigation";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
@@ -205,7 +206,12 @@ export function LocationDetailsForm({
           >
             <PackageMovingIcon />
             {moveSize ? (
-              <p className="text-dark text-xs lg:text-sm">{moveSize}</p>
+              <p className="text-dark text-xs lg:text-sm">
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: moveTranslations[moveSize],
+                })}
+              </p>
             ) : (
               <p className="text-grey text-xs lg:text-sm">
                 {" "}
@@ -232,7 +238,10 @@ export function LocationDetailsForm({
                         key={tab.value}
                         className="flex-1 text-theme -mb-px mx-1 font-medium border-b border-theme p-4"
                       >
-                        {tab.name}
+                        {AppTranslator.getLocaleText({
+                          locale,
+                          translations: moveTranslations[tab.name],
+                        })}
                       </button>
                     );
                   }
@@ -243,7 +252,10 @@ export function LocationDetailsForm({
                       key={tab.value}
                       className="flex-1 px-4 py-2 text-grey"
                     >
-                      {tab.name}
+                      {AppTranslator.getLocaleText({
+                        locale,
+                        translations: moveTranslations[tab.name],
+                      })}
                     </button>
                   );
                 })}
@@ -259,9 +271,19 @@ export function LocationDetailsForm({
                         setSizeOpen(false);
                       }}
                     >
-                      {option.label}{" "}
+                      {AppTranslator.getLocaleText({
+                        locale,
+                        translations: moveTranslations[option.label],
+                      })}{" "}
                       {option.size && (
-                        <span className="px-1 text-grey">({option.size})</span>
+                        <span className="px-1 text-grey">
+                          (
+                          {AppTranslator.getLocaleText({
+                            locale,
+                            translations: moveTranslations[option.size],
+                          })}
+                          )
+                        </span>
                       )}
                     </button>
                   );

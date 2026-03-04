@@ -16,6 +16,7 @@ import { InventoryItem } from "./InventoryItem";
 import { useUpdateRoom } from "@/hooks";
 import { useParams } from "next/navigation";
 import { AppTranslator, Locale } from "@/app/utils";
+import { inventoryTranslations, moveTranslations } from "@/translations";
 
 /* -------------------- RoomItem -------------------- */
 export function RoomItem({
@@ -56,17 +57,17 @@ export function RoomItem({
     handleUpdateMoveItems,
   });
 
-  const {locale} = useParams<{locale:Locale}>()
-
+  const { locale } = useParams<{ locale: Locale }>();
 
   const SelectedBadge = (
     <div className="px-3 lg:px-4 py-1.5 lg:py-2 rounded-full inline text-xs lg:text-sm bg-theme/10 text-theme">
-      {selectedCount} {AppTranslator.getLocaleText({
+      {selectedCount}{" "}
+      {AppTranslator.getLocaleText({
         locale,
-        translations:{
-          en:"Items Selected",
-          nl:"items toegevoegd "
-        }
+        translations: {
+          en: "Items Selected",
+          nl: "items toegevoegd ",
+        },
       })}
     </div>
   );
@@ -88,31 +89,33 @@ export function RoomItem({
               {/* Header */}
               <header className="flex items-center z-100 bg-white sticky top top-0  lg:static border-b p-4 lg:p-8 border-black/10">
                 {currentTab == "inventory" ? (
-                  <p className="font-medium lg:text-2xl">{
-                    AppTranslator.getLocaleText({
+                  <p className="font-medium lg:text-2xl">
+                    {AppTranslator.getLocaleText({
                       locale,
-                      translations:{
-                        en:"Add Items",
-                        nl:"Meubels toevoegen"
-                      }
-                    })
-                  }</p>
+                      translations: {
+                        en: "Add Items",
+                        nl: "Meubels toevoegen",
+                      },
+                    })}
+                  </p>
                 ) : (
                   <p className="font-medium lg:text-2xl">
-                   {AppTranslator.getLocaleText({
-                    locale,
-                    translations:{
-                      en:"Upload Image",
-                      nl:"Voeg foto’s toe"
-                    }
-                   })}{" "}
-                    <span className="text-grey">{AppTranslator.getLocaleText({
+                    {AppTranslator.getLocaleText({
                       locale,
-                      translations:{
-                        en:"For Image Recognition",
-                        nl:"Voor AI-herkenning"
-                      }
-                    })}</span>
+                      translations: {
+                        en: "Upload Image",
+                        nl: "Voeg foto’s toe",
+                      },
+                    })}{" "}
+                    <span className="text-grey">
+                      {AppTranslator.getLocaleText({
+                        locale,
+                        translations: {
+                          en: "For Image Recognition",
+                          nl: "Voor AI-herkenning",
+                        },
+                      })}
+                    </span>
                   </p>
                 )}
                 <button className="ml-auto" onClick={() => setOpen(false)}>
@@ -132,13 +135,15 @@ export function RoomItem({
                   className={`${currentTab == "inventory" ? "text-theme border-b border-theme" : "text-grey"} text-xs lg:text-base p-2.5 lg:p-4 flex items-center gap-x-1`}
                 >
                   <CheckedDocument width={24} height={24} />
-                  <span>{AppTranslator.getLocaleText({
-                    locale,
-                    translations:{
-                      en:"Inventory List",
-                      nl:"Inventaris"
-                    }
-                  })}</span>
+                  <span>
+                    {AppTranslator.getLocaleText({
+                      locale,
+                      translations: {
+                        en: "Inventory List",
+                        nl: "Inventaris",
+                      },
+                    })}
+                  </span>
                 </button>
                 <button
                   onClick={() => {
@@ -147,21 +152,28 @@ export function RoomItem({
                   className={`${currentTab == "image" ? "text-theme border-b border-theme" : "text-grey"} text-xs lg:text-base p-2.5 lg:p-4 flex items-center gap-x-1`}
                 >
                   <ImageIcon2 width={24} height={24} />
-                  <span>{
-                    AppTranslator.getLocaleText({
+                  <span>
+                    {AppTranslator.getLocaleText({
                       locale,
-                      translations:{
-                        en:"Upload Image",
-                        nl:"Voeg foto’s toe"
-                      }
-                    })
-                    }</span>
+                      translations: {
+                        en: "Upload Image",
+                        nl: "Voeg foto’s toe",
+                      },
+                    })}
+                  </span>
                 </button>
               </header>
               {currentTab == "inventory" ? (
                 <>
                   <header className="lg:flex p-4 space-y-2 lg:space-y-0 lg:p-8 items-center">
-                    <p className="flex-1 text-sm lg:text-base">{roomName}</p>
+                    <p className="flex-1 text-sm lg:text-base">
+                      {AppTranslator.getLocaleText({
+                        locale,
+                        translations:
+                          moveTranslations[roomName] ??
+                          inventoryTranslations[roomName],
+                      })}
+                    </p>
                     <div className="flex-1">
                       <div className="bg-[#F5F6F8] max-w-100 ml-auto text-xs lg:text-base gap-x-2 p-2 px-4 flex items-center rounded-xl justify-center">
                         <Search className="text-grey" />
@@ -169,7 +181,13 @@ export function RoomItem({
                           value={inventoryQuery}
                           onChange={(e) => setInventoryQuery(e.target.value)}
                           type="text"
-                          placeholder="Search items here"
+                          placeholder={AppTranslator.getLocaleText({
+                            locale,
+                            translations: {
+                              en: "Search items here",
+                              nl: "Zoek hier naar items",
+                            },
+                          })}
                           className="w-full lg:py-2 outline-0 placeholder:text-grey"
                         />
                       </div>
@@ -179,17 +197,17 @@ export function RoomItem({
                   <div className="p-4 space-y-4 lg:space-y-0 lg:p-8 lg:grid grid-cols-3 gap-8">
                     {filteredInventoryItems.length ? (
                       filteredInventoryItems
-                      .filter(item=>item.categories.includes(roomName))
-                      .map((item) => (
-                        <InventoryItem
-                          key={item.name}
-                          name={item.name}
-                          imgUrl={item.image}
-                          roomName={roomName}
-                          moveItems={draftItems}
-                          handleUpdateMoveItems={setDraftItems}
-                        />
-                      ))
+                        .filter((item) => item.categories.includes(roomName))
+                        .map((item) => (
+                          <InventoryItem
+                            key={item.name}
+                            name={item.name}
+                            imgUrl={item.image}
+                            roomName={roomName}
+                            moveItems={draftItems}
+                            handleUpdateMoveItems={setDraftItems}
+                          />
+                        ))
                     ) : (
                       <div className="col-span-3">
                         <div className="text-center max-w-150px mx-auto py-10">
@@ -204,12 +222,13 @@ export function RoomItem({
                   {/* Footer */}
                   <footer className="border-t sticky lg:static bottom-0 bg-white border-black/10 flex items-center p-4 lg:p-8">
                     <div className="px-3 lg:px-6 py-2 text-xs lg:text-base lg:py-3 rounded-full bg-theme/10 text-theme">
-                      {draftItems.length}  {AppTranslator.getLocaleText({
+                      {draftItems.length}{" "}
+                      {AppTranslator.getLocaleText({
                         locale,
-                        translations:{
-                          en:"Items Selected",
-                          nl:"items toegevoegd "
-                        }
+                        translations: {
+                          en: "Items Selected",
+                          nl: "items toegevoegd ",
+                        },
                       })}
                     </div>
 
@@ -217,12 +236,12 @@ export function RoomItem({
                       onClick={handleSubmit}
                       className="ml-auto disabled:opacity-70 text-xs lg:text-base bg-theme flex items-center gap-x-3 rounded-xl text-white px-4 lg:px-8 py-2 lg:py-4"
                     >
-                       {AppTranslator.getLocaleText({
+                      {AppTranslator.getLocaleText({
                         locale,
-                        translations:{
-                          en:"Add Items",
-                          nl:"Toevoegen "
-                        }
+                        translations: {
+                          en: "Add Items",
+                          nl: "Toevoegen ",
+                        },
                       })}
                     </button>
                   </footer>
@@ -235,12 +254,11 @@ export function RoomItem({
                       <p className="text-xs lg:text-base">
                         {AppTranslator.getLocaleText({
                           locale,
-                          translations:{
-                            nl:"Zorg dat de foto’s van goede kwaliteit zijn.  Met een maximaal formaat van 2MB.",
-                            en:"The images should be of a very good quality, file Size should not be more than 2MB."
-                          }
+                          translations: {
+                            nl: "Zorg dat de foto’s van goede kwaliteit zijn.  Met een maximaal formaat van 2MB.",
+                            en: "The images should be of a very good quality, file Size should not be more than 2MB.",
+                          },
                         })}
-                        
                       </p>
                     </div>
                   </div>
@@ -258,7 +276,12 @@ export function RoomItem({
                   )}
                   <div className="p-4 lg:p-8 space-y-4 lg:space-y-0 lg:grid grid-cols-3 gap-8">
                     <div className="p-4 lg:p-8 bg-[#F7F9F7] rounded-xl border border-[#E5E5E5]">
-                      <p className="text-sm lg:text-base">{roomName}</p>
+                      <p className="text-sm lg:text-base"> {AppTranslator.getLocaleText({
+                        locale,
+                        translations:
+                          moveTranslations[roomName] ?? 
+                          inventoryTranslations[roomName],
+                      })}</p>
                       <label
                         htmlFor={`${roomName.replace(/\ \+/g, "_")}image`}
                         className="bg-white cursor-pointer mt-4 relative border border-dashed border-[#E5E5E5] space-y-4 rounded-xl h-50 flex items-center justify-center p-2"
@@ -267,32 +290,32 @@ export function RoomItem({
                           <p className="lg:not-[]:text-lg text-grey">
                             {AppTranslator.getLocaleText({
                               locale,
-                              translations:{
-                                nl:"Bestand toevoegen",
-                                en:"Drop a File"
-                              }
+                              translations: {
+                                nl: "Bestand toevoegen",
+                                en: "Drop a File",
+                              },
                             })}
                           </p>
                           <div className="flex items-center gap-x-2 justify-center">
                             <div className="flex-1 w-full h-px bg-grey" />
-                            <p className="text-xs lg:text-sm text-dark">{
-                              AppTranslator.getLocaleText({
+                            <p className="text-xs lg:text-sm text-dark">
+                              {AppTranslator.getLocaleText({
                                 locale,
-                                translations:{
-                                  en:"or",
-                                  nl:"of"
-                                }
-                              })
-                              }</p>
+                                translations: {
+                                  en: "or",
+                                  nl: "of",
+                                },
+                              })}
+                            </p>
                             <div className="flex-1 w-full h-px bg-grey" />
                           </div>
                           <span className="w-full text-sm lg:text-base inline-flex items-center justify-center mt-6 bg-[#FEFEFE] border h-10 lg:h-12 px-2 lg:px-4 rounded-lg border-[#E5E5E5] text-dark">
                             {AppTranslator.getLocaleText({
                               locale,
-                              translations:{
-                                en:"Browse Files",
-                                nl:"Bestand kiezen"
-                              }
+                              translations: {
+                                en: "Browse Files",
+                                nl: "Bestand kiezen",
+                              },
                             })}
                           </span>
                         </div>
@@ -315,12 +338,13 @@ export function RoomItem({
                   {/* Footer */}
                   <footer className="border-t sticky bottom-0 lg:static bg-white border-black/10 flex items-center p-4 lg:p-8">
                     <div className="px-3 lg:px-6 py-2 text-xs lg:text-base lg:py-3 rounded-full bg-theme/10 text-theme">
-                      {draftItems.length} {AppTranslator.getLocaleText({
+                      {draftItems.length}{" "}
+                      {AppTranslator.getLocaleText({
                         locale,
-                        translations:{
-                          en:"Items Selected",
-                          nl:"items toegevoegd "
-                        }
+                        translations: {
+                          en: "Items Selected",
+                          nl: "items toegevoegd ",
+                        },
                       })}
                     </div>
 
@@ -332,10 +356,10 @@ export function RoomItem({
                       {loading && <LoaderCircle className="animate-spin" />}
                       {AppTranslator.getLocaleText({
                         locale,
-                        translations:{
-                          en:"Upload Image",
-                          nl:"Foto’s toevoegen"
-                        }
+                        translations: {
+                          en: "Upload Image",
+                          nl: "Foto’s toevoegen",
+                        },
                       })}
                     </button>
                   </footer>
@@ -365,7 +389,14 @@ export function RoomItem({
               <div className="h-10 w-10 flex items-center justify-center rounded-full text-secondary bg-secondary/10">
                 {icon}
               </div>
-              <p className="text-sm lg:text-lg">{roomName}</p>
+              <p className="text-sm lg:text-lg">
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations:
+                    inventoryTranslations[roomName] ??
+                    moveTranslations[roomName],
+                })}
+              </p>
             </div>
           </div>
 
@@ -376,13 +407,13 @@ export function RoomItem({
             className="ml-auto  w-full lg:w-auto mt-4 lg:mt-0 justify-center border border-black/10 text-xs lg:text-base rounded-full px-4 py-1 lg:py-2 flex items-center gap-x-2"
           >
             <PlusIcon />
-           {AppTranslator.getLocaleText({
-            locale,
-            translations:{
-              en:" Add Items",
-              nl:"Toevoegen"
-            }
-           })}
+            {AppTranslator.getLocaleText({
+              locale,
+              translations: {
+                en: " Add Items",
+                nl: "Toevoegen",
+              },
+            })}
           </button>
 
           <button

@@ -8,6 +8,7 @@ import { Place } from "@/services";
 import { DateTime } from "luxon";
 import { AppTranslator, Locale } from "@/app/utils";
 import { useParams } from "next/navigation";
+import { inventoryTranslations, moveTranslations } from "@/translations";
 
 export default function StarrySpace() {
   const stars = useMemo(() => {
@@ -145,7 +146,11 @@ export function MovingSummary({
               </div>
             </div>
             <div className="space-y-3 max-w-130">
-              <p className="text-dark text-sm lg:text-base">Living Room</p>
+              <p className="text-dark text-sm lg:text-base">{AppTranslator.getLocaleText({
+                  locale,
+                  translations: moveTranslations["Living Room"] ??
+                    inventoryTranslations["Living Room"] ?? { en: "", nl: "" },
+                })}</p>
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <input
                   readOnly
@@ -155,7 +160,13 @@ export function MovingSummary({
               </div>
             </div>
             <div className="space-y-3 max-w-130">
-              <p className="text-dark text-sm lg:text-base">Kitchen </p>
+              <p className="text-dark text-sm lg:text-base">
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: moveTranslations["Kitchen"] ??
+                    inventoryTranslations["Kitchen"] ?? { en: "", nl: "" },
+                })}{" "}
+              </p>
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <input
                   readOnly
@@ -165,7 +176,14 @@ export function MovingSummary({
               </div>
             </div>
             <div className="space-y-3 max-w-130">
-              <p className="text-dark text-sm lg:text-base">Dining Room</p>
+              <p className="text-dark text-sm lg:text-base">
+                {" "}
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: moveTranslations["Dining Room"] ??
+                    inventoryTranslations["Dining Room"] ?? { en: "", nl: "" },
+                })}
+              </p>
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <input
                   readOnly
@@ -175,7 +193,12 @@ export function MovingSummary({
               </div>
             </div>
             <div className="space-y-3 max-w-130">
-              <p className="text-dark text-sm lg:text-base">{moveSize}</p>
+              <p className="text-dark text-sm lg:text-base">
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: moveTranslations[moveSize],
+                })}
+              </p>
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <input
                   readOnly
@@ -223,13 +246,16 @@ export function MovingSummary({
               </div>
             </div>
             <div className="space-y-3 max-w-130">
-              <p className="text-dark text-sm lg:text-base">  {AppTranslator.getLocaleText({
+              <p className="text-dark text-sm lg:text-base">
+                {" "}
+                {AppTranslator.getLocaleText({
                   locale,
                   translations: {
                     en: "Movers Email",
                     nl: "E-mailadres:",
                   },
-                })}</p>
+                })}
+              </p>
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <input
                   readOnly
@@ -239,13 +265,16 @@ export function MovingSummary({
               </div>
             </div>
             <div className="space-y-3 max-w-130">
-              <p className="text-dark text-sm lg:text-base">  {AppTranslator.getLocaleText({
+              <p className="text-dark text-sm lg:text-base">
+                {" "}
+                {AppTranslator.getLocaleText({
                   locale,
                   translations: {
                     en: "Province Id",
                     nl: "Provinciecode",
                   },
-                })}</p>
+                })}
+              </p>
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <input
                   readOnly
@@ -255,14 +284,15 @@ export function MovingSummary({
               </div>
             </div>
             <div className="space-y-3 col-span-2">
-              <p className="text-dark text-sm lg:text-base">{
-                AppTranslator.getLocaleText({
+              <p className="text-dark text-sm lg:text-base">
+                {AppTranslator.getLocaleText({
                   locale,
-                  translations:{
-                    en:"Address",
-                    nl:"Adres"
-                  }
-                })}</p>
+                  translations: {
+                    en: "Address",
+                    nl: "Adres",
+                  },
+                })}
+              </p>
               <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                 <input
                   readOnly

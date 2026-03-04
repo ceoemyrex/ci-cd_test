@@ -1,5 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
+import { AppTranslator, Locale } from "@/app/utils";
 import { MoveItem } from "@/services/MoveRequest";
+import { inventoryTranslations } from "@/translations";
+import { useParams } from "next/navigation";
 
 /* -------------------- InventoryItem -------------------- */
 export function InventoryItem({
@@ -15,6 +18,7 @@ export function InventoryItem({
   moveItems: MoveItem[];
   handleUpdateMoveItems: (items: MoveItem[]) => void;
 }) {
+  const {locale} = useParams<{locale:Locale}>()
   const quantity = moveItems.filter((item) => item.itemName === name).length;
 
   const addItem = () => {
@@ -45,7 +49,7 @@ export function InventoryItem({
       </div>
 
       <div className="bg-white p-4 rounded-b-xl flex items-center">
-        <p className="text-xs lg:text-sm">{name}</p>
+        <p className="text-xs lg:text-sm">{AppTranslator.getLocaleText({locale,translations:inventoryTranslations[name]})}</p>
 
         <div className="flex items-center ml-auto gap-x-4 text-sm">
           <button

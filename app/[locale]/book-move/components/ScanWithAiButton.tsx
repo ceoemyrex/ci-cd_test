@@ -14,6 +14,7 @@ import { ChangeEventHandler, useEffect, useMemo, useState } from "react";
 import { InventoryItem } from "./InventoryItem";
 import { AppTranslator, Locale } from "@/app/utils";
 import { useParams } from "next/navigation";
+import { inventoryTranslations, moveTranslations } from "@/translations";
 
 function RoomInventoryCard({
   roomName,
@@ -24,6 +25,7 @@ function RoomInventoryCard({
   draftItems: MoveItem[];
   setDraftItems: (items: MoveItem[]) => void;
 }) {
+  const { locale } = useParams<{ locale: Locale }>();
   const [inventoryQuery, setInventoryQuery] = useState("");
   const filteredInventoryItems = useMemo(() => {
     return inventories.filter((item) =>
@@ -34,7 +36,13 @@ function RoomInventoryCard({
   return (
     <>
       <header className="space-y-2 lg:space-y-0 lg:flex p-4 lg:p-8 items-center">
-        <p className="flex-1 text-sm lg:text-base">{roomName}</p>
+        <p className="flex-1 text-sm lg:text-base">
+          {AppTranslator.getLocaleText({
+            locale,
+            translations:
+              moveTranslations[roomName] ?? inventoryTranslations[roomName],
+          })}
+        </p>
         <div className="flex-1">
           <div className="bg-[#F5F6F8] max-w-100 ml-auto text-xs lg:text-base gap-x-2 p-2 px-4 flex items-center rounded-xl justify-center">
             <Search className="text-grey" />
@@ -42,7 +50,13 @@ function RoomInventoryCard({
               value={inventoryQuery}
               onChange={(e) => setInventoryQuery(e.target.value)}
               type="text"
-              placeholder="Search items here"
+              placeholder={AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "Search items here",
+                  nl: "Zoek hier naar items",
+                },
+              })}
               className="w-full lg:py-2 outline-0 placeholder:text-grey"
             />
           </div>
@@ -52,17 +66,17 @@ function RoomInventoryCard({
       <div className="p-4 space-y-4 lg:space-y-0 lg:p-8 lg:grid grid-cols-3 gap-8">
         {filteredInventoryItems.length ? (
           filteredInventoryItems
-          .filter(item=>item.categories.includes(roomName))
-          .map((item) => (
-            <InventoryItem
-              key={item.name}
-              name={item.name}
-              imgUrl={item.image}
-              roomName={roomName}
-              moveItems={draftItems}
-              handleUpdateMoveItems={setDraftItems}
-            />
-          ))
+            .filter((item) => item.categories.includes(roomName))
+            .map((item) => (
+              <InventoryItem
+                key={item.name}
+                name={item.name}
+                imgUrl={item.image}
+                roomName={roomName}
+                moveItems={draftItems}
+                handleUpdateMoveItems={setDraftItems}
+              />
+            ))
         ) : (
           <div className="col-span-3">
             <div className="text-center max-w-150px mx-auto py-10">
@@ -107,6 +121,8 @@ function RoomUploadCard({
       {items.length} Items Selected
     </div>
   );
+
+  const { locale } = useParams<{ locale: Locale }>();
 
   const Dot = <span className="inline-block h-1 w-1 bg-grey rounded-full" />;
 
@@ -171,7 +187,16 @@ function RoomUploadCard({
         </div>
       )}
       <header className="flex items-center justify-between">
-        <p className="text-sm lg:text-base">{roomName}</p>
+        <p className="text-sm lg:text-base">
+          {AppTranslator.getLocaleText({
+            locale,
+            translations: moveTranslations[roomName] ??
+              inventoryTranslations[roomName] ?? {
+                en: "",
+                nl: "",
+              },
+          })}
+        </p>
         {loading && (
           <LoaderCircle className="animate-spin text-theme" strokeWidth={1} />
         )}
@@ -181,14 +206,37 @@ function RoomUploadCard({
         className="bg-white group text-theme relative cursor-pointer mt-4 border border-dashed border-[#E5E5E5] space-y-4 rounded-xl h-50 flex items-center justify-center p-2"
       >
         <div className="flex-1 max-w-[80%] lg:max-w-[60%] text-center">
-          <p className="text-sm lg:text-lg text-grey">Drop a File</p>
+          <p className="text-sm lg:text-lg text-grey">
+            {AppTranslator.getLocaleText({
+              locale,
+              translations: {
+                nl: "Bestand toevoegen",
+                en: "Drop a File",
+              },
+            })}
+          </p>
           <div className="flex items-center gap-x-2 justify-center">
             <div className="flex-1 w-full h-px bg-grey" />
-            <p className="text-xs lg:text-sm text-dark">or</p>
+            <p className="text-xs lg:text-sm text-dark">
+              {" "}
+              {AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "or",
+                  nl: "of",
+                },
+              })}
+            </p>
             <div className="flex-1 w-full h-px bg-grey" />
           </div>
           <span className="w-full text-sm lg:text-base inline-flex items-center justify-center mt-6 bg-[#FEFEFE] border h-10 lg:h-12 px-4 rounded-lg border-[#E5E5E5] text-dark">
-            Browse Files
+            {AppTranslator.getLocaleText({
+              locale,
+              translations: {
+                en: "Browse Files",
+                nl: "Bestand kiezen",
+              },
+            })}
           </span>
         </div>
         {preview && (
@@ -251,7 +299,7 @@ export function ScanWithAiButton({
   handleUpdateMoveItems: (items: MoveItem[]) => void;
   tab?: string;
 }) {
-  const {locale} = useParams<{locale:Locale}>()
+  const { locale } = useParams<{ locale: Locale }>();
   const [draftItems, setDraftItems] = useState<MoveItem[]>([]);
   const [draftItemsFromInventory, setDraftItemsFromInventory] = useState<
     MoveItem[]
@@ -299,58 +347,57 @@ export function ScanWithAiButton({
   };
 
   const handleGenerateItems = async () => {
-
     let successCount = 0;
 
     const tasks = roomsSetup
-    .filter(room=>room.roomFile)
-    .map(async (room) => {
-      if (!room.roomFile) return;
-
-      updateRoomSetup(room.roomName, {
-        loading: true,
-        error: undefined,
-      });
-
-      try {
-        const formData = new FormData();
-        formData.append("images", room.roomFile);
-
-        const res = await MoveRequestProvider.getItemsByImage(
-          formData,
-          room.roomName,
-        );
-
-        if (!res.result?.length) {
-          throw new Error("No item could be generated from your image");
-        }
-
-        setDraftItems((prev) => [
-          ...prev.filter((i) => i.room !== room.roomName),
-          ...res.result,
-        ]);
+      .filter((room) => room.roomFile)
+      .map(async (room) => {
+        if (!room.roomFile) return;
 
         updateRoomSetup(room.roomName, {
-          roomFile: null,
+          loading: true,
           error: undefined,
         });
-        successCount++
-      } catch (error) {
-        updateRoomSetup(room.roomName, {
-          error:
-            (error as Error)?.message ??
-            "An error occurred, could not generate items",
-        });
-      } finally {
-        updateRoomSetup(room.roomName, {
-          loading: false,
-        });
-      }
-    });
+
+        try {
+          const formData = new FormData();
+          formData.append("images", room.roomFile);
+
+          const res = await MoveRequestProvider.getItemsByImage(
+            formData,
+            room.roomName,
+          );
+
+          if (!res.result?.length) {
+            throw new Error("No item could be generated from your image");
+          }
+
+          setDraftItems((prev) => [
+            ...prev.filter((i) => i.room !== room.roomName),
+            ...res.result,
+          ]);
+
+          updateRoomSetup(room.roomName, {
+            roomFile: null,
+            error: undefined,
+          });
+          successCount++;
+        } catch (error) {
+          updateRoomSetup(room.roomName, {
+            error:
+              (error as Error)?.message ??
+              "An error occurred, could not generate items",
+          });
+        } finally {
+          updateRoomSetup(room.roomName, {
+            loading: false,
+          });
+        }
+      });
 
     await Promise.all(tasks);
-    if(tasks.length == successCount){
-        setSuccessUploadOpen(true)
+    if (tasks.length == successCount) {
+      setSuccessUploadOpen(true);
     }
   };
 
@@ -401,16 +448,44 @@ export function ScanWithAiButton({
               {/* Header */}
               <header className="flex items-center bg-white sticky z-20 lg:static top-0 border-b p-4 lg:p-8 border-black/10">
                 {currentTab == "inventory" ? (
-                  <p className="font-medium text-base lg:text-2xl">Add Items</p>
+                  <p className="font-medium text-base lg:text-2xl">
+                    {" "}
+                    {AppTranslator.getLocaleText({
+                      locale,
+                      translations: {
+                        en: "Add Items",
+                        nl: "Meubels toevoegen",
+                      },
+                    })}
+                  </p>
                 ) : (
                   <p className="font-medium text-base lg:text-2xl">
-                    Upload Image{" "}
-                    <span className="text-grey">For Image Recognition</span>
+                    {AppTranslator.getLocaleText({
+                      locale,
+                      translations: {
+                        en: "Upload Image",
+                        nl: "Voeg foto’s toe",
+                      },
+                    })}{" "}
+                    <span className="text-grey">
+                      {" "}
+                      {AppTranslator.getLocaleText({
+                        locale,
+                        translations: {
+                          en: "For Image Recognition",
+                          nl: "Voor AI-herkenning",
+                        },
+                      })}
+                    </span>
                   </p>
                 )}
                 <button className="ml-auto" onClick={() => setOpen(false)}>
                   <CancelCircleIcon className="lg:inline-block hidden" />
-                  <CancelCircleIcon className="lg:hidden" height={24} width={24}/>
+                  <CancelCircleIcon
+                    className="lg:hidden"
+                    height={24}
+                    width={24}
+                  />
                 </button>
               </header>
               <header className="border-b border-black/10 flex items-center px-4 lg:px-8">
@@ -421,7 +496,16 @@ export function ScanWithAiButton({
                   className={`${currentTab == "inventory" ? "text-theme border-b border-theme" : "text-grey"} text-xs lg:text-base p-2.5 lg:p-4 flex items-center gap-x-1`}
                 >
                   <CheckedDocument width={24} height={24} />
-                  <span>Inventory List</span>
+                  <span>
+                    {" "}
+                    {AppTranslator.getLocaleText({
+                      locale,
+                      translations: {
+                        en: "Inventory List",
+                        nl: "Inventaris",
+                      },
+                    })}
+                  </span>
                 </button>
                 <button
                   onClick={() => {
@@ -430,7 +514,16 @@ export function ScanWithAiButton({
                   className={`${currentTab == "image" ? "text-theme border-b border-theme" : "text-grey"} p-2.5 lg:p-4 flex text-xs lg:text-base items-center justify-center gap-x-1`}
                 >
                   <ImageIcon2 width={24} height={24} />
-                  <span>Upload Image</span>
+                  <span>
+                    {" "}
+                    {AppTranslator.getLocaleText({
+                      locale,
+                      translations: {
+                        en: "Upload Image",
+                        nl: "Voeg foto’s toe",
+                      },
+                    })}
+                  </span>
                 </button>
               </header>
               {currentTab == "inventory" ? (
@@ -447,13 +540,26 @@ export function ScanWithAiButton({
                   })}
                   <footer className="border-t bg-white sticky bottom-0 lg:static border-black/10 flex items-center p-4 lg:p-8">
                     <div className="px-3 lg:px-6 py-2 text-xs lg:text-base lg:py-3 rounded-full bg-theme/10 text-theme">
-                      {draftItemsFromInventory.length} Items Selected
+                      {draftItemsFromInventory.length}{" "}
+                      {AppTranslator.getLocaleText({
+                        locale,
+                        translations: {
+                          en: "Items Selected",
+                          nl: "items toegevoegd ",
+                        },
+                      })}
                     </div>
                     <button
                       onClick={handleSubmit}
                       className="ml-auto disabled:opacity-70 text-xs lg:text-sm bg-theme flex items-center gap-x-3 rounded-xl text-white px-4 lg:px-8 py-2 lg:py-4"
                     >
-                      Add Items
+                      {AppTranslator.getLocaleText({
+                        locale,
+                        translations: {
+                          en: "Add Items",
+                          nl: "Toevoegen ",
+                        },
+                      })}
                     </button>
                   </footer>
                 </>
@@ -463,8 +569,13 @@ export function ScanWithAiButton({
                     <div className="flex items-center gap-x-4 p-4 text-theme text-sm bg-theme/10 rounded-lg">
                       <Info />
                       <p className="text-xs lg:text-base">
-                        The images should be of a very good quality, file Size
-                        should not be more than 2MB.
+                        {AppTranslator.getLocaleText({
+                          locale,
+                          translations: {
+                            nl: "Zorg dat de foto’s van goede kwaliteit zijn.  Met een maximaal formaat van 2MB.",
+                            en: "The images should be of a very good quality, file Size should not be more than 2MB.",
+                          },
+                        })}
                       </p>
                     </div>
                   </div>
@@ -489,7 +600,14 @@ export function ScanWithAiButton({
                   </div>
                   <footer className="border-t sticky bottom-0 bg-white lg:static border-black/10 flex items-center p-4 lg:p-8">
                     <div className="px-3 lg:px-6 py-2 text-xs lg:text-base lg:py-3 rounded-full bg-theme/10 text-theme">
-                      {draftItems.length} Items Selected
+                      {draftItems.length}{" "}
+                      {AppTranslator.getLocaleText({
+                        locale,
+                        translations: {
+                          en: "Items Selected",
+                          nl: "items toegevoegd ",
+                        },
+                      })}
                     </div>
 
                     <button
@@ -498,63 +616,69 @@ export function ScanWithAiButton({
                       className="ml-auto disabled:opacity-70 text-xs lg:text-sm bg-theme flex items-center gap-x-3 rounded-xl text-white px-4 lg:px-8 py-2 lg:py-4"
                     >
                       {isLoading && <LoaderCircle className="animate-spin" />}
-                      Upload Image
+                      {AppTranslator.getLocaleText({
+                        locale,
+                        translations: {
+                          en: "Upload Image",
+                          nl: "Foto’s toevoegen",
+                        },
+                      })}
                     </button>
                   </footer>
                 </>
               )}
             </div>
           </div>
-          {uploadSuccessOpen &&(
+          {uploadSuccessOpen && (
             <div className="bg-white/10 p-4 backdrop-blur  overflow-auto h-full w-full fixed left-0 z-1000000 top-0">
-            <div className="bg-white flex-1 max-w-130 mx-auto mt-[7%] rounded-2xl  border border-black/10">
-              <div className="p-4 lg:p-8 text-center">
-                <div className="bg-secondary/10 flex items-center justify-center mx-auto  h-12 w-12 rounded-full">
-                  <TickIcon />
-                </div>
-                <p className="font-bold lg:text-2xl">
-                  Image Recognition Successful
-                </p>
-                <p className="text-grey text-sm lg:text-xs">
-                  Inventory list successfully generated
-                </p>
-                <div className="border my-4 border-black/10 rounded-lg p-4">
-                  {draftItems.length > 0 && (
-                    <div className="text-center space-y-4">
-                      {SelectedBadge}
-                      <div className="flex flex-wrap gap-3 justify-center items-center">
-                        {draftItems.map((item, index) => (
-                          <div
-                            key={`${item.room}-${item.itemName}-${index}`}
-                            className="flex items-center gap-x-1 text-grey text-xs lg:text-sm font-medium"
-                          >
-                            <p>{item.itemName}</p>
-                            {index < draftItems.length - 1 && Dot}
-                          </div>
-                        ))}
+              <div className="bg-white flex-1 max-w-130 mx-auto mt-[7%] rounded-2xl  border border-black/10">
+                <div className="p-4 lg:p-8 text-center">
+                  <div className="bg-secondary/10 flex items-center justify-center mx-auto  h-12 w-12 rounded-full">
+                    <TickIcon />
+                  </div>
+                  <p className="font-bold lg:text-2xl">
+                    Image Recognition Successful
+                  </p>
+                  <p className="text-grey text-sm lg:text-xs">
+                    Inventory list successfully generated
+                  </p>
+                  <div className="border my-4 border-black/10 rounded-lg p-4">
+                    {draftItems.length > 0 && (
+                      <div className="text-center space-y-4">
+                        {SelectedBadge}
+                        <div className="flex flex-wrap gap-3 justify-center items-center">
+                          {draftItems.map((item, index) => (
+                            <div
+                              key={`${item.room}-${item.itemName}-${index}`}
+                              className="flex items-center gap-x-1 text-grey text-xs lg:text-sm font-medium"
+                            >
+                              <p>{item.itemName}</p>
+                              {index < draftItems.length - 1 && Dot}
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
+                <footer className="border-t border-black/10 flex items-center p-4">
+                  <button
+                    onClick={() => {
+                      setSuccessUploadOpen(false);
+                    }}
+                    className="py-3 rounded-lg bg-white px-4 lg:px-8 text-xs lg:text-sm gap-x-1 border border-[#E5E5E5] flex items-center"
+                  >
+                    <span>Go Back</span>
+                  </button>
+                  <button
+                    onClick={handleSubmitUploads}
+                    className="bg-theme flex gap-x-2 items-center ml-auto text-xs lg:text-sm px-4 lg:px-8 py-3 lg:py-4 rounded-lg text-white"
+                  >
+                    Continue
+                  </button>
+                </footer>
               </div>
-              <footer className="border-t border-black/10 flex items-center p-4">
-                <button
-                  onClick={() => {
-                    setSuccessUploadOpen(false)
-                  }}
-                  className="py-3 rounded-lg bg-white px-4 lg:px-8 text-xs lg:text-sm gap-x-1 border border-[#E5E5E5] flex items-center"
-                >
-                  <span>Go Back</span>
-                </button>
-                <button
-                  onClick={handleSubmitUploads}
-                  className="bg-theme flex gap-x-2 items-center ml-auto text-xs lg:text-sm px-4 lg:px-8 py-3 lg:py-4 rounded-lg text-white"
-                >
-                  Continue
-                </button>
-              </footer>
             </div>
-          </div>
           )}
         </Portal>
       )}
@@ -564,10 +688,10 @@ export function ScanWithAiButton({
       >
         {AppTranslator.getLocaleText({
           locale,
-          translations:{
-            nl:"Gebruik AI-herkenning",
-            en:"Scan with AI"
-          }
+          translations: {
+            nl: "Gebruik AI-herkenning",
+            en: "Scan with AI",
+          },
         })}
       </button>
     </>
