@@ -145,12 +145,14 @@ export function BookMoveForm() {
             adc.types.includes("street_number"),
           );
 
+          const strAddrComp = streetAddressComponent?.shortText.split(" ")
+          const firstStr = strAddrComp?.[0]
+
           handleUpdateForm({
             pickUpAddress: place.formattedAddress,
             pickUpLatitude: place.location.latitude.toString(),
             pickUpAddressNumber:
-              streetAddressComponent?.longText ?? place.displayName.text,
-            pickUpLongitude: place.location.longitude.toString(),
+              firstStr ?? "1",
           });
         }, [])}
         setMoveTo={useCallback((place) => {
@@ -160,10 +162,13 @@ export function BookMoveForm() {
             adc.types.includes("street_number"),
           );
 
+          const strAddrComp = streetAddressComponent?.shortText.split(" ")
+          const firstStr = strAddrComp?.[0]
+
           handleUpdateForm({
             dropOffAddress: place.formattedAddress,
             dropOffAddressNumber:
-              streetAddressComponent?.longText ?? place.displayName.text,
+             firstStr ?? "1",
             dropOffLatitude: place.location.latitude.toString(),
             dropOffLongitude: place.location.longitude.toString(),
           });
