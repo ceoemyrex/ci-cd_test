@@ -139,6 +139,9 @@ export function useGetLocation(
       setPopupOpen(false);
       return;
     }
+    if(currentPlace?.formattedAddress == queryString){
+      return;
+    }
 
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
@@ -165,7 +168,7 @@ export function useGetLocation(
       if (debounceRef.current)
         clearTimeout(debounceRef.current);
     };
-  }, [queryString, isSelecting]);
+  }, [queryString, isSelecting,currentPlace]);
 
   /* ------------------------ KEYBOARD NAVIGATION ------------------------ */
 

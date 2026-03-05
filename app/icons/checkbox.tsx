@@ -1,3 +1,5 @@
+import { SVGAttributes } from "react";
+
 export function CheckBoxIcon() {
   return (
     <svg
@@ -57,6 +59,33 @@ export function CheckBoxIcon() {
           />
         </filter>
       </defs>
+    </svg>
+  );
+}
+
+export function DoubleCheck(props:SVGAttributes<HTMLOrSVGElement>) {
+  return (
+    <svg
+      width={props.width ?? "28"}
+      height={props.height ?? "28"}
+      viewBox="0 0 28 28"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M3.5 15.5555C3.5 15.5555 5.25 16.3333 7.58333 19.8333C7.58333 19.8333 7.91566 19.2724 8.54155 18.378M19.8333 7C17.1599 8.33673 14.3639 11.1438 12.1192 13.7927"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9.33594 15.5555C9.33594 15.5555 11.0859 16.3333 13.4193 19.8333C13.4193 19.8333 19.8359 9.91667 25.6693 7"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }

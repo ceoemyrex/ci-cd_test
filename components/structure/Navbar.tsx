@@ -66,7 +66,7 @@ export function Navbar() {
     return currentLocale ?? defaultLocale;
   }, [locale]);
 
-  const navLinksUrls = navLinks.map(item=>item.url)
+  const navLinksUrls = navLinks.map((item) => item.url);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -91,7 +91,10 @@ export function Navbar() {
       >
         <nav className="flex w-full p-4 items-center max-w-310  2xl:max-w-350 mx-auto relative">
           {/* Logo */}
-          <Link href={"/"} className="flex items-center gap-x-2 lg:gap-x-4">
+          <Link
+            href={`/${locale}`}
+            className="flex items-center gap-x-2 lg:gap-x-4"
+          >
             <img
               src="/logo.svg"
               className="lg:h-11 w-8 h-8 lg:w-11"
@@ -102,6 +105,23 @@ export function Navbar() {
             </p>
           </Link>
 
+          <button 
+            onClick={() => setLanguageOpen(true)}
+          
+          className="flex rounded-[80px] gap-x-2 items-center p-2 xl:hidden mx-auto border border-dark/10">
+              <span className="h-6.5 block w-6.5 border relative border-dark-shade rounded-full">
+                <img
+                  src={siteLocale.flag}
+                  className="absolute top-0 object-cover left-0 w-full h-full rounded-full"
+                  alt="Flag"
+                />
+              </span>
+              <p className="text-sm lg:text-lg text-dark">
+                {siteLocale.locale.toUpperCase()}
+              </p>
+              <ArrowDropDownIcon />
+            </button>
+
           {/* Desktop Nav */}
           <div className="mx-auto border-b-2 border-[#D3E6FA] hidden xl:flex gap-x-5 justify-center">
             {navLinks.map((link) => {
@@ -109,13 +129,11 @@ export function Navbar() {
               const normalizedPath = pathname.replace(`/${locale}`, "") || "/";
               const normalizedLink = link.url || "/";
 
-              const linkIncludesPath = navLinksUrls.includes(normalizedPath)
+              const linkIncludesPath = navLinksUrls.includes(normalizedPath);
 
               const isActive = linkIncludesPath
-              ?normalizedPath === normalizedLink
-              :normalizedLink == "/";
-
-              
+                ? normalizedPath === normalizedLink
+                : normalizedLink == "/";
 
               return (
                 <Link
@@ -159,7 +177,13 @@ export function Navbar() {
             </button>
 
             <button className="bg-theme text-sm lg:text-xl font-medium rounded-lg lg:rounded-2xl py-2.5 lg:py-5 px-6 lg:px-10 text-white">
-              Partner
+              {AppTranslator.getLocaleText({
+                translations: {
+                  en: "Partner",
+                  nl: "Partner worden",
+                },
+                locale,
+              })}
             </button>
           </div>
 
@@ -216,12 +240,12 @@ export function Navbar() {
 
             <button className="mt-6 bg-theme text-white py-3 rounded-xl">
               {AppTranslator.getLocaleText({
-                  translations: {
-                    en:"Partner",
-                    nl:"Partner worden"
-                  },
-                  locale,
-                })}
+                translations: {
+                  en: "Partner",
+                  nl: "Partner worden",
+                },
+                locale,
+              })}
             </button>
           </div>
         </div>

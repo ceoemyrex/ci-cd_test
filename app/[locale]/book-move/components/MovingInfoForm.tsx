@@ -38,8 +38,8 @@ export function Dropdown({
         }}
         className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center cursor-pointer"
       >
-        <p className="text-grey text-xs lg:text-sm">
-          {selectedOption?.label || placeholder || "Select an option"}
+        <p className="text-dark text-xs lg:text-sm">
+          {selectedOption?.label || <span className="text-grey">{placeholder}</span> || <span className="text-grey"></span>}
         </p>
         <span className="ml-auto">
           {loading
@@ -249,7 +249,7 @@ export function MovingInfoForm({
             </p>
             <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
               <input
-                className="placeholder:text-grey w-full text-xs outline-0  lg:text-sm"
+                className="placeholder:text-grey w-full outline-0 text-base  lg:text-sm"
                 placeholder={AppTranslator.getLocaleText({
                   locale,
                   translations: {
@@ -275,7 +275,7 @@ export function MovingInfoForm({
             </p>
             <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
               <input
-                className="placeholder:text-grey w-full text-xs outline-0  lg:text-sm"
+                className="placeholder:text-grey w-full text-base outline-0  lg:text-sm"
                 placeholder={AppTranslator.getLocaleText({
                   locale,
                   translations: {
@@ -301,7 +301,7 @@ export function MovingInfoForm({
             </p>
             <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
               <input
-                className="placeholder:text-grey w-full text-xs outline-0  lg:text-sm"
+                className="placeholder:text-grey w-full text-base outline-0  lg:text-sm"
                 placeholder={AppTranslator.getLocaleText({
                   locale,
                   translations: {
@@ -379,7 +379,7 @@ export function MovingInfoForm({
             )}*`}</p>
             <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
               <input
-                className="placeholder:text-grey text-xs w-full outline-0  lg:text-sm"
+                className="placeholder:text-grey text-base w-full outline-0  lg:text-sm"
                 placeholder={AppTranslator.getLocaleText({
                   locale,
                   translations: {
@@ -420,7 +420,7 @@ export function MovingInfoForm({
                   <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                     <input
                       type="number"
-                      className="placeholder:text-grey w-full text-xs outline-0  lg:text-sm"
+                      className="placeholder:text-grey w-full text-base outline-0  lg:text-sm"
                       placeholder={AppTranslator.getLocaleText({
                         locale,
                         translations: {
@@ -445,7 +445,7 @@ export function MovingInfoForm({
                       },
                     })}
                   </p>
-                  <div className="bg-[#F9FCF9]  text-xs lg:text-sm justify-between border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
+                  <div className="bg-[#F9FCF9]  text-base lg:text-sm justify-between border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                     <CheckboxButton
                       label={AppTranslator.getLocaleText({
                         locale,
@@ -522,7 +522,7 @@ export function MovingInfoForm({
             </p>
             <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
               <input
-                className="placeholder:text-grey w-full text-xs outline-0  lg:text-sm"
+                className="placeholder:text-grey w-full text-base outline-0  lg:text-sm"
                 placeholder={AppTranslator.getLocaleText({
                   locale,
                   translations: {
@@ -563,7 +563,7 @@ export function MovingInfoForm({
                   <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                     <input
                       type="number"
-                      className="placeholder:text-grey w-full text-xs outline-0  lg:text-sm"
+                      className="placeholder:text-grey w-full text-base outline-0  lg:text-sm"
                       placeholder={AppTranslator.getLocaleText({
                         locale,
                         translations: {

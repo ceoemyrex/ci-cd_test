@@ -7,6 +7,7 @@ import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
 import { MoveRequestProvider } from "@/services/MoveRequest";
 import { Locale, AppTranslator } from "@/app/utils";
+import { useRouter } from "next/navigation";
 
 /* ---------------- TRANSLATIONS ---------------- */
 
@@ -43,6 +44,7 @@ export function TrackMoveHero({ locale = "nl" }: { locale: Locale }) {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [trackingCode, setTrackingCode] = useState("");
+  const router = useRouter()
 
   const handleSubmit = async () => {
     if (!trackingCode) {
@@ -66,6 +68,8 @@ export function TrackMoveHero({ locale = "nl" }: { locale: Locale }) {
             })
         );
       }
+      router.push(`/track-move/${trackingCode}`)
+
     } catch (error) {
       const err =
         (error as Error)?.message ??

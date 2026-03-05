@@ -5,7 +5,7 @@ import {
   DiningTableIcon,
   ImageIcon,
   KitchenUtensilsIcon,
-  PlusIcon,
+  // PlusIcon,
 } from "@/app/icons";
 import { MoveItem } from "@/services/MoveRequest";
 import { BedDoubleIcon, Sofa } from "lucide-react";
@@ -13,6 +13,7 @@ import { RoomItem } from "./RoomItem";
 import { ScanWithAiButton } from "./ScanWithAiButton";
 import { AppTranslator, Locale } from "@/app/utils";
 import { useParams } from "next/navigation";
+import { moveTranslations } from "@/translations";
 
 /* -------------------- SetupInventoryListForm -------------------- */
 export function SetupInventoryListForm({
@@ -37,9 +38,12 @@ export function SetupInventoryListForm({
               en:"Add items to your",
               nl:"Spullen toevoegen"
             }
-          })} (<span className="text-grey">{moveSize}</span>)
+          })} (<span className="text-grey">{AppTranslator.getLocaleText({
+            locale,
+            translations:moveTranslations[moveSize]
+          })}</span>)
         </p>
-        <button className="bg-white border text-sm lg:text-base flex items-center rounded-xl px-5 lg:py-4 lg:px-10 py-2 border-[#E5E5E5]">
+        {/* <button className="bg-white border text-sm lg:text-base flex items-center rounded-xl px-5 lg:py-4 lg:px-10 py-2 border-[#E5E5E5]">
           <PlusIcon />
           <span>{AppTranslator.getLocaleText({
             locale,
@@ -48,7 +52,7 @@ export function SetupInventoryListForm({
               nl:"Kamer toevoegen"
             }
           })} </span>
-        </button>
+        </button> */}
       </header>
 
       {/* Image Recognition Section */}

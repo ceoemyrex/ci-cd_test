@@ -5,6 +5,16 @@ export interface MoveItem {
   numberOfItems: number;
 }
 
+export interface TrackMove{
+  fromLatitude: string,
+  toLatitude: string,
+  fromLongitude: string,
+  toLongitude: string,
+  hasArrived: false,
+  inTransit: false,
+  isCompleted: false
+}
+
 export interface CreateMoveRequest {
   fullName: string;
   phoneNumber: string;

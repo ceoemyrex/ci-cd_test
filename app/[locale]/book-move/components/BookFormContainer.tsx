@@ -81,7 +81,7 @@ export function BookFormContainer({
           <button
             disabled={loading || isNextDisabled}
             onClick={onNext}
-            className="bg-theme disabled:opacity-60 flex gap-x-2 text-xs lg:text-base justify-center items-center ml-auto px-4 lg:px-10 py-2 w-full lg:w-auto lg:py-4 rounded-lg text-white"
+            className="bg-theme disabled:opacity-60 flex gap-x-2 text-sm h-12 lg:text-base justify-center items-center ml-auto px-4 lg:px-10 py-2 w-full lg:w-auto lg:py-4 rounded-lg text-white"
           >
             {loading && <LoaderCircle className="animate-spin" />}
             {btnTitle || buttonTitle}

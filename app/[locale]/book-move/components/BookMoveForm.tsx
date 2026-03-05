@@ -44,8 +44,8 @@ export function BookMoveForm() {
     fromNumberOfFloors: "",
     toNumberOfFloors: "",
 
-    fromLongCarry: "",
-    toLongCarry: "",
+    fromLongCarry: "Short driveway access",
+    toLongCarry: "Short driveway access",
 
     fromRemark: "",
     toRemark: "",
@@ -84,21 +84,33 @@ export function BookMoveForm() {
 
   const handleSubmit = async () => {
     setLoading(true);
+
     try {
-      const res = await MoveRequestProvider.getQuote(formData);
+      // Parse the date (Capital MM for Month)
+      // Then use .set() to hardcode the time if that's your requirement
+      const baseDate = DateTime.fromFormat(formData.moveDate, "yyyy-MM-dd").set(
+        { hour: 8, minute: 30, second: 0 },
+      );
+
+      // Format exactly as YYYY-MM-DDTHH:mm:ssZ
+      const formattedDate = baseDate.toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+      const res = await MoveRequestProvider.getQuote({
+        ...formData,
+        pickUpTime: formattedDate,
+        moveDate: formattedDate,
+      });
+
       if (!res.responseStatus) {
-        throw new Error(
-          res?.responseMessage ?? "An error occurred could not request quote",
-        );
+        throw new Error(res?.responseMessage ?? "Request failed");
       }
+
       setSuccess(true);
       setCurrentStep(0);
     } catch (error) {
       notificationApi.error({
         title: "Error",
-        description:
-          (error as Error)?.message ??
-          "An error occurred could not request quote",
+        description: (error as Error)?.message ?? "An error occurred",
       });
     } finally {
       setLoading(false);
@@ -128,17 +140,35 @@ export function BookMoveForm() {
         moveTo={moveTo}
         setMoveFrom={useCallback((place) => {
           setMoveFrom(place);
+
+          const streetAddressComponent = place.addressComponents?.find((adc) =>
+            adc.types.includes("street_number"),
+          );
+
+          const strAddrComp = streetAddressComponent?.shortText.split(" ")
+          const firstStr = strAddrComp?.[0]
+
           handleUpdateForm({
             pickUpAddress: place.formattedAddress,
             pickUpLatitude: place.location.latitude.toString(),
-            pickUpLongitude: place.location.longitude.toString(),
+            pickUpAddressNumber:
+              firstStr ?? "1",
           });
         }, [])}
         setMoveTo={useCallback((place) => {
           setMoveTo(place);
+
+          const streetAddressComponent = place.addressComponents?.find((adc) =>
+            adc.types.includes("street_number"),
+          );
+
+          const strAddrComp = streetAddressComponent?.shortText.split(" ")
+          const firstStr = strAddrComp?.[0]
+
           handleUpdateForm({
             dropOffAddress: place.formattedAddress,
-            dropOffAddressNumber: place.adrFormatAddress,
+            dropOffAddressNumber:
+             firstStr ?? "1",
             dropOffLatitude: place.location.latitude.toString(),
             dropOffLongitude: place.location.longitude.toString(),
           });
@@ -158,7 +188,7 @@ export function BookMoveForm() {
       />
       {success && (
         <Portal>
-          <div className="fixed overflow-auto flex items-center justify-center top-0 left-0 w-full h-full bg-white/20 backdrop-blur z-1000000">
+          <div className="fixed overflow-auto flex items-center justify-center p-4 top-0 left-0 w-full h-full bg-white/20 backdrop-blur z-1000000">
             <div className="bg-white flex-1 max-w-135 border border-black/10 rounded-2xl">
               <StarrySpace />
               <img

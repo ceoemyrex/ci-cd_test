@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useParams, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -5,6 +6,7 @@ import { LocationAutocomplete, tabs } from "../[locale]/book-move/components";
 import { ArrowDropDownIcon, LocationIcon, GeoLocationIcon } from "../icons";
 import { PackageMovingIcon } from "../icons/package";
 import { AppTranslator, Locale } from "../utils";
+import { moveTranslations } from "@/translations";
 
 /* ---------------- TRANSLATIONS ---------------- */
 
@@ -88,9 +90,9 @@ export function MovingSizeDropdown({ value, onChange, tabs, locale }: Props) {
         <PackageMovingIcon />
 
         {selectedLabel ? (
-          <p className="text-dark text-xs lg:text-sm">{selectedLabel}</p>
+          <p className="text-dark text-xs lg:text-sm">{AppTranslator.getLocaleText({locale,translations:moveTranslations[selectedLabel as any]})}</p>
         ) : (
-          <p className="text-grey text-xs lg:text-sm">
+          <p className="text-grey text-base">
             {" "}
             {AppTranslator.getLocaleText({
               locale,
@@ -120,7 +122,7 @@ export function MovingSizeDropdown({ value, onChange, tabs, locale }: Props) {
                   key={tab.value}
                   className="flex-1 text-theme -mb-px mx-1 font-medium border-b border-theme p-4"
                 >
-                  {tab.name}
+                  {AppTranslator.getLocaleText({locale,translations:moveTranslations[tab.name]})}
                 </button>
               ) : (
                 <button
@@ -128,7 +130,7 @@ export function MovingSizeDropdown({ value, onChange, tabs, locale }: Props) {
                   onClick={() => setCurrentTab(tab.value)}
                   className="flex-1 px-4 py-2 text-grey"
                 >
-                  {tab.name}
+                  {AppTranslator.getLocaleText({locale,translations:moveTranslations[tab.name]})}
                 </button>
               ),
             )}
@@ -146,10 +148,13 @@ export function MovingSizeDropdown({ value, onChange, tabs, locale }: Props) {
                 }}
                 className="p-4 border-b text-dark border-[#E5E5E5] w-full text-left last:border-0 hover:bg-gray-50"
               >
-                {option.label}
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations:moveTranslations[option.label]
+                })}
 
                 {option.size && (
-                  <span className="px-1 text-grey">({option.size})</span>
+                  <span className="px-1 text-grey">({AppTranslator.getLocaleText({locale,translations:moveTranslations[option.size]})})</span>
                 )}
               </button>
             ))}
@@ -171,8 +176,9 @@ export function HeroBookForm() {
   const handleSubmit = () => {
     if (moveFrom && moveTo && moveSize) {
       router.push(
-        `/book-move?moveSize=${moveSize}&moveTo=${moveTo}&moveFrom=${moveFrom}`,
+        `${locale}/book-move?moveSize=${moveSize}&moveTo=${moveTo}&moveFrom=${moveFrom}`,
       );
+      return;
     }
   };
 
