@@ -90,7 +90,7 @@ export function ContactHero({ locale = "nl" }: { locale?: Locale }) {
                 </div>
                 <div>
                   <p className="text-dark text-sm lg:text-base">{AppTranslator.getLocaleText({ locale, translations: { en: "Email", nl: "E-mailadres" } })}</p>
-                  <p className="text-grey text-xs lg:text-sm">support@zinter.com</p>
+                  <p className="text-grey text-xs lg:text-sm">Support@zinter.nl</p>
                 </div>
               </div>
 

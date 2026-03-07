@@ -57,7 +57,7 @@ export function GetStarted({ locale = "nl" }: { locale?: Locale }) {
             </div>
 
             <Link
-              href={"/book-move"}
+              href={`/${locale}/book-move`}
               className="bg-theme inline-flex items-center justify-center px-6 lg:px-13 min-h-12 lg:py-5 text-sm lg:text-lg text-white rounded-2xl font-medium"
             >
               {AppTranslator.getLocaleText({ locale, translations: getStartedText.buttonText })}

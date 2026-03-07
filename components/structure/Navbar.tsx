@@ -100,27 +100,10 @@ export function Navbar() {
               className="lg:h-11 w-8 h-8 lg:w-11"
               alt="Logo"
             />
-            <p className="uppercase text-xl lg:text-4xl text-dark font-bold">
+            {/* <p className="uppercase text-xl lg:text-4xl text-dark font-bold">
               Zinter
-            </p>
+            </p> */}
           </Link>
-
-          <button 
-            onClick={() => setLanguageOpen(true)}
-          
-          className="flex rounded-[80px] gap-x-2 items-center p-2 xl:hidden mx-auto border border-dark/10">
-              <span className="h-6.5 block w-6.5 border relative border-dark-shade rounded-full">
-                <img
-                  src={siteLocale.flag}
-                  className="absolute top-0 object-cover left-0 w-full h-full rounded-full"
-                  alt="Flag"
-                />
-              </span>
-              <p className="text-sm lg:text-lg text-dark">
-                {siteLocale.locale.toUpperCase()}
-              </p>
-              <ArrowDropDownIcon />
-            </button>
 
           {/* Desktop Nav */}
           <div className="mx-auto border-b-2 border-[#D3E6FA] hidden xl:flex gap-x-5 justify-center">
@@ -237,6 +220,22 @@ export function Navbar() {
                 })}
               </Link>
             ))}
+            <button
+              onClick={() => setLanguageOpen(true)}
+              className="inline-flex rounded-[80px] gap-x-2 items-center"
+            >
+              <span className="h-6.5 block w-6.5 border relative border-dark-shade rounded-full">
+                <img
+                  src={siteLocale.flag}
+                  className="absolute top-0 object-cover left-0 w-full h-full rounded-full"
+                  alt="Flag"
+                />
+              </span>
+              <p className="text-sm lg:text-lg text-dark">
+                {siteLocale.locale.toUpperCase()}
+              </p>
+              <ArrowDropDownIcon />
+            </button>
 
             <button className="mt-6 bg-theme text-white py-3 rounded-xl">
               {AppTranslator.getLocaleText({
@@ -251,8 +250,8 @@ export function Navbar() {
         </div>
       </div>
       {languageSwitchOpen && (
-        <div className="bg-black/10 backdrop-blur fixed top-0 left-0 h-full w-full z-1000 flex items-end lg:items-center justify-center">
-          <div className="bg-white flex-1 max-w-80 rounded-t-2xl lg:rounded-2xl">
+        <div className="bg-black/10 backdrop-blur fixed top-0 left-0 h-full w-full z-1000 flex items-center justify-center">
+          <div className="bg-white flex-1 max-w-80 rounded-2xl">
             <header className="p-4 border flex items-center justify-between border-black/10">
               <p className="font-medium text-black text-sm lg:text-xl">
                 Select Language

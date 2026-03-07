@@ -148,7 +148,7 @@ export function Testimonials({ theme = "light", locale = "nl" }: { theme?: "ligh
 
         <div className="max-w-129 flex-wrap mx-auto flex justify-center items-center gap-4">
           <Link
-            href="/book-move"
+            href={`/${locale}/book-move/`}
             className="bg-theme inline-flex items-center justify-center lg:flex-1 text-white text-xs lg:text-lg rounded-xl lg:rounded-2xl px-5 lg:px-10 py-2.5 w-full lg:w-auto lg:py-5 font-medium"
           >
             {AppTranslator.getLocaleText({ locale, translations: testimonialsText.ctaStart })}
