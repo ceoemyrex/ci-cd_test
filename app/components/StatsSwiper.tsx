@@ -2,8 +2,8 @@
 "use client";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Autoplay } from "swiper/modules";
-import { useParams } from "next/navigation";
-import { AppTranslator, Locale } from "../utils";
+// import { useParams } from "next/navigation";
+// import { AppTranslator, Locale } from "../utils";
 
 const stats = [
   {
@@ -177,7 +177,7 @@ const stats = [
 ];
 
 export function StatsSwiper() {
-  const { locale } = useParams() as { locale: Locale };
+  // const { locale } = useParams() as { locale: Locale };
 
   return (
     <div className="mt-14 max-w-310 2xl:max-w-350 mx-auto">
@@ -213,7 +213,7 @@ export function StatsSwiper() {
                       index % 2 !== 0 ? "flex flex-col-reverse" : ""
                     } top-0 p-2 lg:p-4 h-full w-full`}
                   >
-                    <div className="border lg:flex items-center gap-x-3 border-white p-4 bg-black/25 backdrop-blur-sm rounded-2xl">
+                    {/* <div className="border lg:flex items-center gap-x-3 border-white p-4 bg-black/25 backdrop-blur-sm rounded-2xl">
                       <div className="flex items-center">{stat.avatars}</div>
                       <p className="text-white font-semibold text-[8px] lg:text-xs">
                         {AppTranslator.getLocaleText({
@@ -221,7 +221,7 @@ export function StatsSwiper() {
                           locale,
                         })}
                       </p>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

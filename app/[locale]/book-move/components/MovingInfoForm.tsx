@@ -1,9 +1,12 @@
 "use client";
 import { ArrowDropDownIcon, LocationIcon } from "@/app/icons";
 import { LocationAutocomplete } from "./LocationDetailsForm";
-import { Place, ProvinceProvider } from "@/services";
+import {
+  Place,
+  // ProvinceProvider
+} from "@/services";
 import { CreateMoveRequest } from "@/services/MoveRequest";
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { DateTime } from "luxon";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
@@ -16,13 +19,13 @@ export function Dropdown({
   options,
   value,
   onChange,
-  loading = false
+  loading = false,
 }: {
   placeholder?: string;
   options: { label: string; value: string }[];
   value: string;
   onChange: (val: string) => void;
-  loading?:boolean
+  loading?: boolean;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -33,18 +36,22 @@ export function Dropdown({
     <div className="space-y-3 flex-1 relative">
       <div
         onClick={() => {
-          if(loading) return;
-          setOpen((prev) => !prev)
+          if (loading) return;
+          setOpen((prev) => !prev);
         }}
         className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center cursor-pointer"
       >
         <p className="text-dark text-xs lg:text-sm">
-          {selectedOption?.label || <span className="text-grey">{placeholder}</span> || <span className="text-grey"></span>}
+          {selectedOption?.label || (
+              <span className="text-grey">{placeholder}</span>
+            ) || <span className="text-grey"></span>}
         </p>
         <span className="ml-auto">
-          {loading
-          ?<LoaderCircle className="animate-spin"/>
-          :<ArrowDropDownIcon />}
+          {loading ? (
+            <LoaderCircle className="animate-spin" />
+          ) : (
+            <ArrowDropDownIcon />
+          )}
         </span>
       </div>
 
@@ -118,30 +125,6 @@ export function MovingInfoForm({
   const [promotionsAccepted, setPromotionsAccepted] = useState(false);
   const [dateOpen, setDateOpen] = useState(false);
   const { locale } = useParams<{ locale: Locale }>();
-  const [provinceOptions,setProvinceOptions] = useState<{label:string,value:string}[]>([])
-  const [loadingProvinces,setLoadingProvinces] = useState(true)
-
-
-  const getProvinces = useCallback(async()=>{
-    setLoadingProvinces(true)
-    try {
-      const res = await ProvinceProvider.getProvinces()
-      if(res.result.length){
-        const options = res.result.map(item=>({
-          label:item.provinceName,
-          value:item.provinceId.toString()
-        }))
-        setProvinceOptions(options)
-      }
-    }finally{
-      setLoadingProvinces(false)
-    }
-  },[])
-
-  useEffect(()=>{
-    getProvinces()
-  },[getProvinces])
-
 
   const moveDateJS = useMemo(() => {
     if (formData.moveDate) {
@@ -185,18 +168,19 @@ export function MovingInfoForm({
               id="movingDate"
               className="outline-0 w-full text-left text-xs lg:text-sm"
             >
-              {formData.moveDate
-              ? formData.moveDate
-              : <span className="text-grey">{
-                AppTranslator.getLocaleText({
-                locale,
-                translations:{
-                  en:"dd/mm/yyyy",
-                  nl:"dd/mm/jjjj"
-                }
-              })
-                }</span>
-              }
+              {formData.moveDate ? (
+                formData.moveDate
+              ) : (
+                <span className="text-grey">
+                  {AppTranslator.getLocaleText({
+                    locale,
+                    translations: {
+                      en: "dd/mm/yyyy",
+                      nl: "dd/mm/jjjj",
+                    },
+                  })}
+                </span>
+              )}
             </p>
             {/* <label htmlFor="movingDate" className="ml-auto">
             </label> */}
@@ -219,7 +203,7 @@ export function MovingInfoForm({
                         "yyyy-MM-dd",
                       ) as string,
                     });
-                    setDateOpen(false)
+                    setDateOpen(false);
                   }
                 }}
               />
@@ -343,40 +327,16 @@ export function MovingInfoForm({
               icon={<LocationIcon />}
             />
           </div>
-          <div className="max-w-130">
-            <p className="text-dark text-sm lg:text-base">
-              {AppTranslator.getLocaleText({
-                locale,
-                translations: {
-                  en: "Province*",
-                  nl: "Provincie*",
-                },
-              })}
-            </p>
-            <Dropdown
-              options={provinceOptions}
-              loading={loadingProvinces}
-              placeholder={AppTranslator.getLocaleText({
-                locale,
-                translations: {
-                  en: "Province",
-                  nl: "Provincie",
-                },
-              })}
-              value={formData.provinceId}
-              onChange={(provinceId) => handleUpdate({ provinceId })}
-            />
-          </div>
           <div className="space-y-3 max-w-130">
             <p className="text-dark text-sm lg:text-base">{`${AppTranslator.getLocaleText(
               {
                 locale,
                 translations: {
-                  en: "Remark",
-                  nl: "Opmerkingen",
+                  en: "Remark  (optional)",
+                  nl: "Opmerkingen (optioneel)",
                 },
               },
-            )}*`}</p>
+            )}`}</p>
             <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
               <input
                 className="placeholder:text-grey text-base w-full outline-0  lg:text-sm"
@@ -454,7 +414,7 @@ export function MovingInfoForm({
                           nl: "Ja",
                         },
                       })}
-                      checked={formData.fromHasElevator}
+                      checked={formData.fromHasElevator == true}
                       onChange={(val) => {
                         handleUpdate({
                           fromHasElevator: val,
@@ -469,7 +429,7 @@ export function MovingInfoForm({
                           nl: "Nee",
                         },
                       })}
-                      checked={!formData.fromHasElevator}
+                      checked={formData.fromHasElevator == false}
                       onChange={(val) => {
                         handleUpdate({
                           fromHasElevator: !val,
@@ -515,8 +475,8 @@ export function MovingInfoForm({
               {AppTranslator.getLocaleText({
                 locale,
                 translations: {
-                  en: "Remark",
-                  nl: "Opmerkingen",
+                  en: "Remark (optional)",
+                  nl: "Opmerkingen (optioneel)",
                 },
               })}
             </p>
@@ -598,7 +558,7 @@ export function MovingInfoForm({
                           nl: "Ja",
                         },
                       })}
-                      checked={formData.toHasElevator}
+                      checked={formData.toHasElevator == true}
                       onChange={(val) => {
                         handleUpdate({
                           toHasElevator: val,
@@ -613,7 +573,7 @@ export function MovingInfoForm({
                           nl: "Nee",
                         },
                       })}
-                      checked={!formData.toHasElevator}
+                      checked={formData.toHasElevator == false}
                       onChange={(val) => {
                         handleUpdate({
                           toHasElevator: !val,
@@ -647,7 +607,7 @@ export function MovingInfoForm({
                       nl: "Ja",
                     },
                   })}
-                  checked={formData.toNeedShuttle}
+                  checked={formData.toNeedShuttle == true}
                   onChange={(val) => handleUpdate({ toNeedShuttle: val })}
                 />
                 <CheckboxButton
@@ -658,7 +618,7 @@ export function MovingInfoForm({
                       nl: "Nee",
                     },
                   })}
-                  checked={!formData.toNeedShuttle}
+                  checked={formData.toNeedShuttle == false}
                   onChange={(val) => handleUpdate({ toNeedShuttle: !val })}
                 />
               </div>
@@ -682,7 +642,7 @@ export function MovingInfoForm({
                       nl: "Ja",
                     },
                   })}
-                  checked={formData.toHasBuildingInsurance}
+                  checked={formData.toHasBuildingInsurance == true}
                   onChange={(val) =>
                     handleUpdate({ toHasBuildingInsurance: val })
                   }
@@ -695,7 +655,7 @@ export function MovingInfoForm({
                       nl: "Nee",
                     },
                   })}
-                  checked={!formData.toHasBuildingInsurance}
+                  checked={formData.toHasBuildingInsurance == false}
                   onChange={(val) =>
                     handleUpdate({ toHasBuildingInsurance: !val })
                   }
@@ -721,7 +681,7 @@ export function MovingInfoForm({
                       nl: "Ja",
                     },
                   })}
-                  checked={formData.toNeedHelpPacking}
+                  checked={formData.toNeedHelpPacking == true}
                   onChange={(val) => handleUpdate({ toNeedHelpPacking: val })}
                 />
                 <CheckboxButton
@@ -732,7 +692,7 @@ export function MovingInfoForm({
                       nl: "Nee",
                     },
                   })}
-                  checked={!formData.toNeedHelpPacking}
+                  checked={formData.toNeedHelpPacking == false}
                   onChange={(val) => handleUpdate({ toNeedHelpPacking: !val })}
                 />
               </div>

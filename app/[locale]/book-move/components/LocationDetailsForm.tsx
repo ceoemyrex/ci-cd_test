@@ -3,11 +3,17 @@ import { LocationIcon, GeoLocationIcon, ArrowDropDownIcon } from "@/app/icons";
 import { PackageMovingIcon } from "@/app/icons/package";
 import { AppTranslator, Locale } from "@/app/utils";
 import { useGetLocation, useParamFilter } from "@/hooks";
-import { Place } from "@/services";
+import {  Place } from "@/services";
 import { moveTranslations } from "@/translations";
 import { LoaderCircle } from "lucide-react";
 import { useParams } from "next/navigation";
-import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import {
+  ReactNode,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 export const tabs = [
   {

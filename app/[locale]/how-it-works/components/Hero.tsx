@@ -64,7 +64,7 @@ Daarna verloopt je verhuizing sneller en met meer zekerheid.`,
               </p>
 
               <Link
-                href={"/book-move"}
+                href={`/${locale}/book-move/`}
                 className="bg-theme inline-flex items-center justify-center rounded-2xl text-white h-12 lg:h-17.5 px-12 lg:px-16 mt-5 lg:mt-10 font-medium text-base lg:text-xl"
               >
                 {AppTranslator.getLocaleText({ locale, translations: heroText.buttonText })}

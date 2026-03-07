@@ -43,17 +43,17 @@ export interface CreateMoveRequest {
   fromRemark: string;
   toRemark: string;
 
-  fromHasElevator: boolean;
-  toHasElevator: boolean;
+  fromHasElevator: boolean | null;
+  toHasElevator: boolean | null;
 
-  fromNeedShuttle: boolean;
-  toNeedShuttle: boolean;
+  fromNeedShuttle: boolean | null;
+  toNeedShuttle: boolean | null;
 
-  fromHasBuildingInsurance: boolean;
-  toHasBuildingInsurance: boolean;
+  fromHasBuildingInsurance: boolean | null;
+  toHasBuildingInsurance: boolean | null;
 
-  fromNeedHelpPacking: boolean;
-  toNeedHelpPacking: boolean;
+  fromNeedHelpPacking: boolean | null;
+  toNeedHelpPacking: boolean | null;
 
   items: MoveItem[];
 }

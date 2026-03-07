@@ -40,6 +40,7 @@ const footerText = {
   links: {
     howItWorks: { en: "How it Works", nl: "Zo werkt het" },
     inventoryOptions: { en: "Inventory Options", nl: "Inventarisopties" },
+    privacyPolicy: { en: "Privacy Policy", nl: "Privacyverklaring" },
     trustAndSafety: { en: "Trust & Safety", nl: "Vertrouwen en veiligheid" },
     faq: { en: "FAQ", nl: "Veelgestelde vragen" },
     blog: { en: "Blog", nl: "Blog" },
@@ -55,8 +56,14 @@ const footerText = {
   },
   messages: {
     enterEmail: { en: "Please enter your email", nl: "Vul je e-mailadres in" },
-    success: { en: "Email successfully added to mailing list", nl: "E-mail succesvol toegevoegd aan de mailinglijst" },
-    error: { en: "An error occurred, could not add to mailing list", nl: "Er is een fout opgetreden, kon niet aan de mailinglijst toevoegen" },
+    success: {
+      en: "Email successfully added to mailing list",
+      nl: "E-mail succesvol toegevoegd aan de mailinglijst",
+    },
+    error: {
+      en: "An error occurred, could not add to mailing list",
+      nl: "Er is een fout opgetreden, kon niet aan de mailinglijst toevoegen",
+    },
   },
   copyright: {
     en: "© 2026 Zinter. All rights reserved.",
@@ -99,12 +106,15 @@ export function Footer() {
     try {
       const res = await MailingProvider.addMailingList(email);
       if (!res.responseStatus) {
-        throw new Error(res.responseMessage ?? footerText.messages.error[locale]);
+        throw new Error(
+          res.responseMessage ?? footerText.messages.error[locale],
+        );
       }
       setMessage(footerText.messages.success[locale]);
       setStatus("success");
     } catch (error) {
-      const err = (error as Error)?.message ?? footerText.messages.error[locale];
+      const err =
+        (error as Error)?.message ?? footerText.messages.error[locale];
       setStatus("error");
       setMessage(err);
     } finally {
@@ -126,7 +136,9 @@ export function Footer() {
             <div className="flex-1">
               <div className="flex w-full gap-x-4 items-center">
                 <img src={"/logo.svg"} alt="Logo" className="h-11 w-11" />
-                <p className="font-bold text-4xl text-dark">{footerText.companyName[locale]}</p>
+                {/* <p className="font-bold text-4xl text-dark">
+                  {footerText.companyName[locale]}
+                </p> */}
               </div>
               <p className="mt-5 text-grey">{footerText.description[locale]}</p>
             </div>
@@ -135,39 +147,83 @@ export function Footer() {
             <div className="flex-2 text-sm lg:text-base space-y-4 lg:flex justify-center gap-x-20">
               {/* Zinter */}
               <div>
-                <p className="font-medium text-dark">{footerText.sections.zinter[locale]}</p>
+                <p className="font-medium text-dark">
+                  {footerText.sections.zinter[locale]}
+                </p>
                 <div className="mt-6 space-y-4 text-grey">
-                  <Link href={`/${locale}/how-it-works`} className="block">{footerText.links.howItWorks[locale]}</Link>
-                  <Link href={`/${locale}/trust-and-safety`} className="block">{footerText.links.inventoryOptions[locale]}</Link>
-                  <Link href={`/${locale}/trust-and-safety`} className="block">{footerText.links.trustAndSafety[locale]}</Link>
-                  <Link href={`/${locale}/faqs`} className="block">{footerText.links.faq[locale]}</Link>
+                  <Link href={`/${locale}/how-it-works`} className="block">
+                    {footerText.links.howItWorks[locale]}
+                  </Link>
+                  <Link href={`/${locale}/privacy-policy`} className="block">
+                    {footerText.links.privacyPolicy[locale]}
+                  </Link>
+                  <Link href={`/${locale}/trust-and-safety`} className="block">
+                    {footerText.links.trustAndSafety[locale]}
+                  </Link>
+                  <Link href={`/${locale}/faqs`} className="block">
+                    {footerText.links.faq[locale]}
+                  </Link>
                 </div>
               </div>
 
               {/* Resources */}
               <div>
-                <p className="font-medium text-dark">{footerText.sections.resources[locale]}</p>
+                <p className="font-medium text-dark">
+                  {footerText.sections.resources[locale]}
+                </p>
                 <div className="mt-6 space-y-4 text-grey">
-                  <Link href={`/${locale}/blog`} className="block">{footerText.links.blog[locale]}</Link>
-                  <Link href={`/${locale}/contact`} className="block">{footerText.links.contact[locale]}</Link>
+                  <Link href={`/${locale}/blog`} className="block">
+                    {footerText.links.blog[locale]}
+                  </Link>
+                  <Link href={`/${locale}/contact`} className="block">
+                    {footerText.links.contact[locale]}
+                  </Link>
                 </div>
               </div>
 
               {/* Social */}
               <div>
-                <p className="font-medium text-dark">{footerText.sections.social[locale]}</p>
+                <p className="font-medium text-dark">
+                  {footerText.sections.social[locale]}
+                </p>
                 <div className="mt-6 space-y-4 text-grey">
-                  <Link href={`/${locale}`} className="block">{footerText.links.facebook[locale]}</Link>
-                  <Link href={`/${locale}`} className="block">{footerText.links.twitter[locale]}</Link>
-                  <Link href={`/${locale}`} className="block">{footerText.links.instagram[locale]}</Link>
-                  <Link href={`/${locale}`} className="block">{footerText.links.linkedin[locale]}</Link>
+                  <Link
+                    target="_blank"
+                    href={`https://facebook.com/MoveWithZinter`}
+                    className="block"
+                  >
+                    {footerText.links.facebook[locale]}
+                  </Link>
+                  <Link
+                    target="_blank"
+                    href={`https://x.com/MoveWithZinter`}
+                    className="block"
+                  >
+                    {footerText.links.twitter[locale]}
+                  </Link>
+                  <Link
+                    target="_blank"
+                    href={`https://instagram.com/MoveWithZinter`}
+                    className="block"
+                  >
+                    {footerText.links.instagram[locale]}
+                  </Link>
+                  <Link
+                    target="_blank"
+                    href={`https://linkedin.com/MoveWithZinter`}
+                    className="block"
+                  >
+                    {footerText.links.linkedin[locale]}
+                  </Link>
                 </div>
               </div>
             </div>
 
             {/* Mailing List */}
             <div className="flex-1 pt-6 lg:pt-0">
-              <p className="font-medium text-dark">{footerText.sections.getUpdates[locale]}</p>
+              <p className="font-medium text-dark">
+                {footerText.sections.getUpdates[locale]}
+              </p>
               <div className="bg-white mt-3 lg:mt-6 flex rounded-2xl p-2">
                 <input
                   type="email"
@@ -186,8 +242,8 @@ export function Footer() {
                 </button>
               </div>
 
-              {status && (
-                status === "success" ? (
+              {status &&
+                (status === "success" ? (
                   <p className="text-secondary flex items-center gap-x-1 text-xs lg:text-sm p-2 font-medium">
                     <CheckCircle size={16} />
                     <span className="capitalize">{message}</span>
@@ -197,8 +253,7 @@ export function Footer() {
                     <CircleAlertIcon size={16} />
                     <span>{message}</span>
                   </p>
-                )
-              )}
+                ))}
             </div>
           </div>
         </div>
@@ -206,13 +261,13 @@ export function Footer() {
         {/* Footer Bottom */}
         <div className="border-t py-5 relative border-dark/10">
           <div className="lg:flex items-center max-w-310 text-xs space-y-4 lg:text-sm mx-auto px-10">
-            <p className="text-grey text-center lg:text-left">{footerText.copyright[locale]}</p>
-            <p className="text-grey text-center lg:text-left ml-auto">{footerText.disclaimer[locale]}</p>
+            <p className="text-grey text-center lg:text-left">
+              {footerText.copyright[locale]}
+            </p>
+            <p className="text-grey text-center lg:text-left ml-auto">
+              {footerText.disclaimer[locale]}
+            </p>
           </div>
-        </div>
-
-        <div className="px-10 max-w-310 mt-8 lg:mt-16 mx-auto">
-          <img src={"/zinter.png"} alt="Zinter Watermark" />
         </div>
       </div>
     </footer>

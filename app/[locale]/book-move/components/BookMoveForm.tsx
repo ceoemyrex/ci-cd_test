@@ -50,17 +50,17 @@ export function BookMoveForm() {
     fromRemark: "",
     toRemark: "",
 
-    fromHasElevator: false,
-    toHasElevator: false,
+    fromHasElevator: null,
+    toHasElevator: null,
 
-    fromNeedShuttle: false,
-    toNeedShuttle: false,
+    fromNeedShuttle: null,
+    toNeedShuttle: null,
 
-    fromHasBuildingInsurance: false,
-    toHasBuildingInsurance: false,
+    fromHasBuildingInsurance: null,
+    toHasBuildingInsurance: null,
 
-    fromNeedHelpPacking: false,
-    toNeedHelpPacking: false,
+    fromNeedHelpPacking: null,
+    toNeedHelpPacking: null,
 
     items: [],
   });
@@ -99,6 +99,17 @@ export function BookMoveForm() {
         ...formData,
         pickUpTime: formattedDate,
         moveDate: formattedDate,
+        fromHasElevator: formData.fromHasElevator == true,
+        toHasElevator: formData.toHasElevator == true,
+
+        fromNeedShuttle: formData.fromNeedShuttle == true,
+        toNeedShuttle: formData.toNeedShuttle == true,
+
+        fromHasBuildingInsurance: formData.fromHasBuildingInsurance == true,
+        toHasBuildingInsurance: formData.toHasBuildingInsurance == true,
+
+        fromNeedHelpPacking: formData.fromNeedHelpPacking == true,
+        toNeedHelpPacking: formData.toNeedHelpPacking == true,
       });
 
       if (!res.responseStatus) {
@@ -145,14 +156,13 @@ export function BookMoveForm() {
             adc.types.includes("street_number"),
           );
 
-          const strAddrComp = streetAddressComponent?.shortText.split(" ")
-          const firstStr = strAddrComp?.[0]
+          const strAddrComp = streetAddressComponent?.shortText.split(" ");
+          const firstStr = strAddrComp?.[0];
 
           handleUpdateForm({
             pickUpAddress: place.formattedAddress,
             pickUpLatitude: place.location.latitude.toString(),
-            pickUpAddressNumber:
-              firstStr ?? "1",
+            pickUpAddressNumber: firstStr ?? "1",
           });
         }, [])}
         setMoveTo={useCallback((place) => {
@@ -162,13 +172,12 @@ export function BookMoveForm() {
             adc.types.includes("street_number"),
           );
 
-          const strAddrComp = streetAddressComponent?.shortText.split(" ")
-          const firstStr = strAddrComp?.[0]
+          const strAddrComp = streetAddressComponent?.shortText.split(" ");
+          const firstStr = strAddrComp?.[0];
 
           handleUpdateForm({
             dropOffAddress: place.formattedAddress,
-            dropOffAddressNumber:
-             firstStr ?? "1",
+            dropOffAddressNumber: firstStr ?? "1",
             dropOffLatitude: place.location.latitude.toString(),
             dropOffLongitude: place.location.longitude.toString(),
           });
