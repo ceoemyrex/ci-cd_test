@@ -1,7 +1,6 @@
 import { AppTranslator,Locale } from "@/app/utils";
 import type { Metadata } from "next";
 
-
 export async function generateMetadata({
   params,
 }: {
@@ -13,15 +12,15 @@ export async function generateMetadata({
     title: `Zinter | ${AppTranslator.getLocaleText({
       locale,
       translations: {
-        en: "How it works",
-        nl: "Hoe het werkt",
+        en: "Moving and inventory Guides",
+        nl: "Verhuis- en inventarisgidsen",
       },
     })}`,
     description: AppTranslator.getLocaleText({
       locale,
       translations: {
-        en: "Zinter focuses on one thing first: creating a clear inventory. Once that's done, move coordination becomes faster, easier, and more accurate.",
-        nl: "Zinter richt zich eerst op één ding: een duidelijke inventaris opstellen. Zodra dat klaar is, verloopt de verhuiscoördinatie sneller, makkelijker en nauwkeuriger.",
+        en: "Explore practical articles on move planning, inventory creation, pricing, and logistics.",
+        nl: "Ontdek praktische artikelen over verhuisplanning, inventarisatie, prijsstelling en logistiek.",
       },
     }),
   };
@@ -32,9 +31,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <main lang="en">
-        {children}
-    </main>
-  );
+  return <>{children}</>;
 }

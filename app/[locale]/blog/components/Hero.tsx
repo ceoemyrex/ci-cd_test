@@ -3,6 +3,7 @@
 import { AppTag, Navbar } from "@/components";
 import { StatsSwiper } from "@/app/components";
 import { Locale, AppTranslator } from "@/app/utils";
+import Link from "next/link";
 
 export function BlogHero({ locale = "nl" }: { locale?: Locale }) {
   return (
@@ -53,12 +54,12 @@ export function BlogHero({ locale = "nl" }: { locale?: Locale }) {
                 })}
               </p>
 
-              <button className="bg-theme rounded-2xl text-white h-12 lg:h-17.5 px-12 lg:px-16 mt-5 lg:mt-10 font-medium text-base lg:text-xl">
+              <Link href={`/${locale}/book-move`} className="bg-theme rounded-2xl inline-flex items-center text-white h-12 lg:h-17.5 px-12 lg:px-16 mt-5 lg:mt-10 font-medium text-base lg:text-xl">
                 {AppTranslator.getLocaleText({
                   locale,
                   translations: { en: "Start your move", nl: "Start je verhuizing" },
                 })}
-              </button>
+              </Link>
             </div>
           </div>
         </div>

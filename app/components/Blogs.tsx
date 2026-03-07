@@ -35,25 +35,36 @@ function BlogItem({
   blog: FlattenedBlogPost;
   locale?: Locale;
 }) {
+
+
   return (
     <div className="p-4 border border-black/10 rounded-xl lg:rounded-4xl space-y-8">
       <div className="bg-theme/10 rounded-xl lg:rounded-3xl overflow-clip h-35 lg:h-75 relative">
         <img
           className="absolute top-0 left-0 w-full h-full object-cover rounded-xl lg:rounded-3xl"
           src={blog.image}
-          alt={blog.title}
+          alt={AppTranslator.getLocaleText({locale,translations:{
+            en:blog.title_english,
+            nl:blog.title,
+          }})}
         />
       </div>
       <div className="space-y-4">
         <p className="text-lg lg:text-2xl font-medium text-dark">
-          {blog.title}
+          {AppTranslator.getLocaleText({locale,translations:{
+            en:blog.title_english,
+            nl:blog.title
+          }})}
         </p>
         <div
-          dangerouslySetInnerHTML={{ __html: blog.content }}
+          dangerouslySetInnerHTML={{ __html: AppTranslator.getLocaleText({locale,translations:{
+            en:blog.content_english,
+            nl:blog.content
+          }}) }}
           className="text-xs lg:text-sm space-y-2 text-grey line-clamp-3"
         />
         <Link
-          href={`/blog/${blog.id}`}
+          href={`/${locale}/blog/${blog.id}`}
           className="text-theme text-sm lg:text-base inline-flex items-center gap-x-3 border-b border-theme"
         >
           {AppTranslator.getLocaleText({
@@ -114,7 +125,7 @@ export function Blogs({
 
         <div className="my-10 space-y-4 lg:my-20 lg:grid grid-cols-3 gap-x-6">
           {blogs.slice(0, limit).map((item) => (
-            <BlogItem key={item.title} blog={item} />
+            <BlogItem locale={locale} key={item.title} blog={item} />
           ))}
         </div>
 
