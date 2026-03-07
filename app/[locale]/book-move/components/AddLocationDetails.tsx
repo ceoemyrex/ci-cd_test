@@ -128,10 +128,32 @@ export function AddLocationDetails({
       return;
     }
 
+    const provinceAddrComp = moveFrom.addressComponents?.find((item)=>item.types.includes("administrative_area_level_1"))
+
+    if(!provinceAddrComp){
+      notificationApi.error({
+        title: AppTranslator.getLocaleText({
+          locale,
+          translations: {
+            en: "Invalid Address",
+            nl: "Ongeldig adres",
+          },
+        }),
+        description: AppTranslator.getLocaleText({
+          locale,
+          translations: {
+            en: `Please provide your Move From address that includes one of these provinces ${provincesText.join(", ")}`,
+            nl: `Geef een 'Verhuis van' adres op dat een van deze provincies bevat: ${provincesText.join(", ")}`,
+          },
+        }),
+      });
+      return;
+    }
+
     const matchingProvince = provinces.find((province) => {
-      return moveFrom.formattedAddress
+      return province.provinceName
         .toLowerCase()
-        .includes(province.provinceName.toLowerCase());
+        .includes(provinceAddrComp?.longText?.toLowerCase());
     });
 
     if (!matchingProvince) {
