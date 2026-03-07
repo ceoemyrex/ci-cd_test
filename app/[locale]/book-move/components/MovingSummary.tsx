@@ -264,25 +264,6 @@ export function MovingSummary({
                 />
               </div>
             </div>
-            <div className="space-y-3 max-w-130">
-              <p className="text-dark text-sm lg:text-base">
-                {" "}
-                {AppTranslator.getLocaleText({
-                  locale,
-                  translations: {
-                    en: "Province Id",
-                    nl: "Provinciecode",
-                  },
-                })}
-              </p>
-              <div className="bg-white border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
-                <input
-                  readOnly
-                  value={formData.provinceId}
-                  className="text-grey w-full placeholder:text-grey text-xs outline-0  lg:text-sm"
-                />
-              </div>
-            </div>
             <div className="space-y-3 col-span-2">
               <p className="text-dark text-sm lg:text-base">
                 {AppTranslator.getLocaleText({
