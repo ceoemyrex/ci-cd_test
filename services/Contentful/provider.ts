@@ -8,6 +8,9 @@ import * as contentful from "contentful";
 export interface FlattenedBlogPost {
   id: string;
   title: string;
+  title_english: string;
+  tag_english: string;
+  content_english: string;
   tag: string;
   image: string;
   content: string;
@@ -70,7 +73,9 @@ function richTextToHtml(node: any, showImage = false): string {
 
     default:
       return node.content
-        ? node.content.map((child: any) => richTextToHtml(child, showImage)).join("")
+        ? node.content
+            .map((child: any) => richTextToHtml(child, showImage))
+            .join("")
         : "";
   }
 }
@@ -108,28 +113,53 @@ export class ContentfulProvider {
 
   private static flattenEntries(entries: any[]): FlattenedBlogPost[] {
     return entries.map((entry) => {
-      const { title, tag, content, image } = entry.fields;
+      const {
+        title,
+        titleEnglish:title_english,
+        contentEnglish:content_english,
+        tagEnglish:tag_english,
+        tag,
+        content,
+        image,
+      } = entry.fields;
+
 
       const richContent = richTextToHtml(content, false);
+      const richContentEnglish = richTextToHtml(content_english, false);
 
       return {
         id: entry.sys.id,
         createdAt: entry.sys.createdAt,
         title,
         tag,
+        title_english,
+        tag_english,
         content: richContent,
+        content_english: richContentEnglish,
         image: image?.fields?.file?.url ? `https:${image.fields.file.url}` : "",
       };
     });
   }
   private static flattenEntry(entry: any): FlattenedBlogPost {
-    const { title, tag, content, image } = entry.fields;
+    const {
+      title,
+      tag,
+      titleEnglish:title_english,
+      contentEnglish:content_english,
+      tagEnglish:tag_english,
+      content,
+      image,
+    } = entry.fields;
     const richContent = richTextToHtml(content, true);
+    const richContentEnglish = richTextToHtml(content_english, true);
     return {
       id: entry.sys.id,
       title,
       tag,
       content: richContent,
+      content_english: richContentEnglish,
+      title_english,
+      tag_english,
       createdAt: entry.sys.createdAt,
       image: image?.fields?.file?.url ? `https:${image.fields.file.url}` : "",
     };
