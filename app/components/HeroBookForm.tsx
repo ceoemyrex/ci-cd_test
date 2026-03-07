@@ -86,7 +86,9 @@ export function MovingSizeDropdown({ value, onChange, tabs, locale }: Props) {
       </p>
 
       {/* Trigger */}
-      <div className="bg-[#F3F3F4] border-black/10 border flex items-center gap-x-2.5 rounded-xl p-2.5 lg:p-5">
+      <div 
+      onClick={() => setOpen((p) => !p)}
+      className="bg-[#F3F3F4] border-black/10 border cursor-pointer flex items-center gap-x-2.5 rounded-xl p-2.5 lg:p-5">
         <PackageMovingIcon />
 
         {selectedLabel ? (
@@ -104,7 +106,6 @@ export function MovingSizeDropdown({ value, onChange, tabs, locale }: Props) {
 
         <button
           type="button"
-          onClick={() => setOpen((p) => !p)}
           className={`ml-auto transition ${open ? "rotate-180" : ""}`}
         >
           <ArrowDropDownIcon />
