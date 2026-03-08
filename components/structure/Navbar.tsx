@@ -106,7 +106,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="mx-auto border-b-2 border-[#D3E6FA] hidden xl:flex gap-x-5 justify-center">
+          <div className="mx-auto border-b-2 border-[#D3E6FA] hidden md:flex gap-x-5 justify-center">
             {navLinks.map((link) => {
               // Ensure pathname and link.url both start without the locale prefix
               const normalizedPath = pathname.replace(`/${locale}`, "") || "/";
@@ -125,7 +125,7 @@ export function Navbar() {
                     translations: link.translations,
                     locale,
                   })}
-                  className={`pb-1.5 px-2 ${
+                  className={`pb-1.5 text-xs md:text-base lg:px-2 ${
                     isActive
                       ? "text-theme font-medium -mb-px border-b-2 border-theme"
                       : "text-grey"
@@ -143,17 +143,17 @@ export function Navbar() {
           {/* Desktop Right */}
           <div
             onClick={() => setLanguageOpen(true)}
-            className="hidden xl:flex items-center gap-x-8"
+            className="hidden md:flex items-center gap-x-8"
           >
             <button className="flex rounded-[80px] gap-x-2 items-center p-2 border border-dark/10">
-              <span className="h-8.5 block w-8.5 border relative border-dark-shade rounded-full">
+              <span className="h-6 block  w-6 lg:h-8.5 lg:w-8.5 border relative border-dark-shade rounded-full">
                 <img
                   src={siteLocale.flag}
                   className="absolute top-0 object-cover left-0 w-full h-full rounded-full"
                   alt="Flag"
                 />
               </span>
-              <p className="text-lg text-dark">
+              <p className="text-sm lg:text-lg text-dark">
                 {siteLocale.locale.toUpperCase()}
               </p>
               <ArrowDropDownIcon />
@@ -173,7 +173,7 @@ export function Navbar() {
           {/* Floating Mobile Button */}
           <button
             onClick={() => setIsOpen(true)}
-            className="xl:hidden bg-white h-10 w-10 rounded-full ml-auto top-4 right-4 z-50 text-dark border border-grey/10 shadow-xl flex items-center justify-center"
+            className="md:hidden bg-white h-10 w-10 rounded-full ml-auto top-4 right-4 z-50 text-dark border border-grey/10 shadow-xl flex items-center justify-center"
           >
             <i className="bi bi-list text-lg"></i>
           </button>

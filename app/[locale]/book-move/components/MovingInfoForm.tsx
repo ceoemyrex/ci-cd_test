@@ -371,11 +371,10 @@ export function MovingInfoForm({
                     {AppTranslator.getLocaleText({
                       locale,
                       translations: {
-                        en: " Number Of Floors",
-                        nl: "Aantal verdiepingen",
+                        en: " Number Of Floors (optional)",
+                        nl: "Aantal verdiepingen (optioneel)",
                       },
                     })}
-                    *
                   </p>
                   <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                     <input
@@ -514,11 +513,10 @@ export function MovingInfoForm({
                     {AppTranslator.getLocaleText({
                       locale,
                       translations: {
-                        en: " Number Of Floors",
-                        nl: "Aantal verdiepingen",
+                        en: " Number Of Floors (optional)",
+                        nl: "Aantal verdiepingen (optioneel)",
                       },
                     })}
-                    *
                   </p>
                   <div className="bg-[#F9FCF9] border border-black/10 gap-x-2.5 rounded-xl p-2.5 lg:p-5 flex items-center">
                     <input

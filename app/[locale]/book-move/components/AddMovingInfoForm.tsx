@@ -141,13 +141,13 @@ export function AddMovingInfoForm({
       return;
     }
 
-    if (!Number(formData.fromNumberOfFloors)) {
-      notificationApi.error({
-        title: t.pickupFloorsTitle,
-        description: t.pickupFloorsDesc,
-      });
-      return;
-    }
+    // if (!Number(formData.fromNumberOfFloors)) {
+    //   notificationApi.error({
+    //     title: t.pickupFloorsTitle,
+    //     description: t.pickupFloorsDesc,
+    //   });
+    //   return;
+    // }
 
     if (!moveTo) {
       notificationApi.error({
@@ -157,13 +157,13 @@ export function AddMovingInfoForm({
       return;
     }
 
-    if (!Number(formData.toNumberOfFloors)) {
-      notificationApi.error({
-        title: t.dropFloorsTitle,
-        description: t.dropFloorsDesc,
-      });
-      return;
-    }
+    // if (!Number(formData.toNumberOfFloors)) {
+    //   notificationApi.error({
+    //     title: t.dropFloorsTitle,
+    //     description: t.dropFloorsDesc,
+    //   });
+    //   return;
+    // }
 
     onNext?.();
   };
