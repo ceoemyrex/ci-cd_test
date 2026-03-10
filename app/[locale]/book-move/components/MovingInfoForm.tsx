@@ -387,7 +387,7 @@ export function MovingInfoForm({
                           nl: "Aantal verdiepingen ",
                         },
                       })}
-                      value={formData.fromNumberOfFloors}
+                      value={formData.fromNumberOfFloors ?? ""}
                       onChange={(e) =>
                         handleUpdate({ fromNumberOfFloors: e.target.value })
                       }
@@ -529,7 +529,7 @@ export function MovingInfoForm({
                           nl: "Aantal verdiepingen ",
                         },
                       })}
-                      value={formData.toNumberOfFloors}
+                      value={formData.toNumberOfFloors ?? ""}
                       onChange={(e) =>
                         handleUpdate({ toNumberOfFloors: e.target.value })
                       }

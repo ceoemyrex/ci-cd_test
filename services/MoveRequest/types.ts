@@ -34,8 +34,8 @@ export interface CreateMoveRequest {
   moveDate: string;     // ISO date string
   pickUpTime: string;   // ISO date string
 
-  fromNumberOfFloors: string;
-  toNumberOfFloors: string;
+  fromNumberOfFloors: string | null;
+  toNumberOfFloors: string | null;
 
   fromLongCarry: string;
   toLongCarry: string;
