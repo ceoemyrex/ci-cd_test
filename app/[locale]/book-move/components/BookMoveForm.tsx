@@ -39,7 +39,7 @@ export function BookMoveForm() {
     dropOffLatitude: "",
 
     moveDate: "",
-    pickUpTime: DateTime.now().toISO(),
+    pickUpTime: null,
 
     fromNumberOfFloors: null,
     toNumberOfFloors: null,
@@ -47,8 +47,8 @@ export function BookMoveForm() {
     fromLongCarry: "Short driveway access",
     toLongCarry: "Short driveway access",
 
-    fromRemark: "",
-    toRemark: "",
+    fromRemark: null,
+    toRemark: null,
 
     fromHasElevator: null,
     toHasElevator: null,
