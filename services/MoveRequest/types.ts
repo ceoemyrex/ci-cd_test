@@ -32,7 +32,7 @@ export interface CreateMoveRequest {
   dropOffLatitude: string;
 
   moveDate: string;     // ISO date string
-  pickUpTime: string;   // ISO date string
+  pickUpTime: string | null;   // ISO date string
 
   fromNumberOfFloors: string | null;
   toNumberOfFloors: string | null;
@@ -40,8 +40,8 @@ export interface CreateMoveRequest {
   fromLongCarry: string;
   toLongCarry: string;
 
-  fromRemark: string;
-  toRemark: string;
+  fromRemark: string | null;
+  toRemark: string | null;
 
   fromHasElevator: boolean | null;
   toHasElevator: boolean | null;

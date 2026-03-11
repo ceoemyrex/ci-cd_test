@@ -347,7 +347,7 @@ export function MovingInfoForm({
                     nl: "Opmerkingen over het ophaaladres ",
                   },
                 })}
-                value={formData.fromRemark}
+                value={formData.fromRemark ?? ""}
                 onChange={(e) => handleUpdate({ fromRemark: e.target.value })}
               />
             </div>
@@ -489,7 +489,7 @@ export function MovingInfoForm({
                     nl: "Opmerkingen over het ophaaladres ",
                   },
                 })}
-                value={formData.toRemark}
+                value={formData.toRemark ?? ""}
                 onChange={(e) => handleUpdate({ toRemark: e.target.value })}
               />
             </div>
