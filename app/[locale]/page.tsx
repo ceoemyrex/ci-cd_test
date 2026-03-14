@@ -4,6 +4,7 @@ import {
   Blogs,
   FAQs,
   Hero,
+  HeroLg,
   HowItWorks,
   Partners,
   Steps,
@@ -24,7 +25,12 @@ export default async function Page({params}:{params:Promise<{
 
   return (
     <>
-      <Hero locale={locale}/>
+      <div className="hidden lg:block">
+        <HeroLg locale={locale}/>
+      </div>
+      <div className="lg:hidden">
+        <Hero locale={locale}/>
+      </div>
       <Steps locale={locale} />
       <Partners locale={locale}/>
       <HowItWorks locale={locale}/>

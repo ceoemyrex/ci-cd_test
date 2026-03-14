@@ -264,3 +264,88 @@ export function HeroBookForm() {
     </div>
   );
 }
+export function HeroBookFormLg() {
+  const { locale } = useParams<{ locale: Locale }>();
+
+  const router = useRouter();
+  const [moveSize, setMoveSize] = useState("");
+  const [moveFrom, setMoveFrom] = useState("");
+  const [moveTo, setMoveTo] = useState("");
+
+  const handleSubmit = () => {
+    if (moveFrom && moveTo && moveSize) {
+      router.push(
+        `${locale}/book-move?moveSize=${moveSize}&moveTo=${moveTo}&moveFrom=${moveFrom}`,
+      );
+      return;
+    }
+  };
+
+  return (
+    <div className="bg-white shadow-xl rounded-[20px]">
+      <div className="p-4 grid grid-cols-3 gap-x-4 lg:p-8 space-y-4">
+        <LocationAutocomplete
+          label={AppTranslator.getLocaleText({
+            locale,
+            translations: heroBookFormText.movingFrom,
+          })}
+          theme="grey"
+          onSelectPlace={(place) => {
+            setMoveFrom(place.formattedAddress);
+          }}
+          placeholder={AppTranslator.getLocaleText({
+            locale,
+            translations: heroBookFormText.movingFrom,
+          })}
+          icon={<LocationIcon />}
+        />
+
+        <LocationAutocomplete
+          theme="grey"
+          onSelectPlace={(place) => {
+            setMoveTo(place.formattedAddress);
+          }}
+          label={
+            AppTranslator.getLocaleText({
+              locale,
+              translations: heroBookFormText.movingTo,
+            }) ?? ""
+          }
+          placeholder={
+            AppTranslator.getLocaleText({
+              locale,
+              translations: heroBookFormText.movingTo,
+            }) ?? ""
+          }
+          icon={<GeoLocationIcon />}
+        />
+
+        <MovingSizeDropdown
+          onChange={setMoveSize}
+          value={moveSize}
+          locale={locale}
+          tabs={tabs}
+        />
+       <div className="col-span-3">
+          <button
+          onClick={handleSubmit}
+          className="text-white bg-theme w-full h-12 lg:h-17.5 mt-8 rounded-lg lg:rounded-2xl lg:text-lg font-medium"
+        >
+          {AppTranslator.getLocaleText({
+            locale,
+            translations: heroBookFormText.continue,
+          })}
+        </button>
+       </div>
+      </div>
+      <div className="text-center py-4">
+        <p className="text-grey text-xs lg:text-base">
+          {AppTranslator.getLocaleText({
+            locale,
+            translations: heroBookFormText.footer,
+          })}
+        </p>
+      </div>
+    </div>
+  );
+}
