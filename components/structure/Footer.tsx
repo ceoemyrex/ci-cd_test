@@ -260,12 +260,9 @@ export function Footer() {
 
         {/* Footer Bottom */}
         <div className="border-t py-5 relative border-dark/10">
-          <div className="lg:flex items-center max-w-310 text-xs space-y-4 lg:text-sm mx-auto px-10">
-            <p className="text-grey text-center lg:text-left">
+          <div className="lg:flex items-center justify-center max-w-310 text-xs space-y-4 lg:text-sm mx-auto px-10">
+            <p className="text-grey text-center">
               {footerText.copyright[locale]}
-            </p>
-            <p className="text-grey text-center lg:text-left ml-auto">
-              {footerText.disclaimer[locale]}
             </p>
           </div>
         </div>

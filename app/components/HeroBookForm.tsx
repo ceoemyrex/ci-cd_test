@@ -329,7 +329,7 @@ export function HeroBookFormLg() {
        <div className="col-span-3">
           <button
           onClick={handleSubmit}
-          className="text-white bg-theme w-full h-12 lg:h-17.5 mt-8 rounded-lg lg:rounded-2xl lg:text-lg font-medium"
+          className="text-white bg-theme w-full h-12 lg:h-17.5 mt-4 rounded-lg lg:rounded-2xl lg:text-lg font-medium"
         >
           {AppTranslator.getLocaleText({
             locale,
@@ -338,7 +338,7 @@ export function HeroBookFormLg() {
         </button>
        </div>
       </div>
-      <div className="text-center py-4">
+      <div className="text-center py-2">
         <p className="text-grey text-xs lg:text-base">
           {AppTranslator.getLocaleText({
             locale,
