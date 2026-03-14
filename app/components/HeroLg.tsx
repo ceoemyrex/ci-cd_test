@@ -15,9 +15,9 @@ export function HeroLg({ locale = "nl" }: { locale?: Locale }) {
           alt="hero-bg"
           className="absolute lg:rounded-t-4xl top-0 left-0 w-full h-full object-center object-cover"
         />
-        <div className="relative max-w-310 2xl:max-w-350 mx-auto p-4 lg:py-10">
+        <div className="relative max-w-310 2xl:max-w-350 mx-auto p-4">
           <Navbar />
-          <div className="pt-22 lg:pt-30.25 max-w-210 mx-auto space-y-8 gap-x-8">
+          <div className="pt-16 max-w-210 mx-auto space-y-8 gap-x-8">
             <div className="space-y-4 flex-2 mt-0 lg:mt-14">
               <div className="text-center">
                 <span className="bg-[#CACACA1A]/10 px-4 text-xs lg:text-sm py-1.5 lg:py-2.5 rounded-[100px] text-secondary inline-flex items-center gap-x-1.5 border border-[#B6DDA8]">
