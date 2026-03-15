@@ -3,7 +3,7 @@ import { Footer } from "@/components";
 import {
   Blogs,
   FAQs,
-  Hero,
+  // Hero,
   HeroLg,
   HowItWorks,
   Partners,
@@ -25,12 +25,12 @@ export default async function Page({params}:{params:Promise<{
 
   return (
     <>
-      <div className="hidden lg:block">
+      <div>
         <HeroLg locale={locale}/>
       </div>
-      <div className="lg:hidden">
+      {/* <div className="lg:hidden">
         <Hero locale={locale}/>
-      </div>
+      </div> */}
       <Steps locale={locale} />
       <Partners locale={locale}/>
       <HowItWorks locale={locale}/>

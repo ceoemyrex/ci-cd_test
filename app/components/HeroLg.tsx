@@ -32,8 +32,16 @@ export function HeroLg({ locale = "nl" }: { locale?: Locale }) {
                 {AppTranslator.getLocaleText({
                   locale,
                   translations: {
-                    en:"Welcome to",
-                    nl:"Welkom bij"
+                    en:"Welcome",
+                    nl:"Welkom"
+                  }
+                })}
+                <br className="lg:hidden"/>
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en:" to",
+                    nl:" bij"
                   }
                 })}
                 <span className="text-secondary">
@@ -46,7 +54,7 @@ export function HeroLg({ locale = "nl" }: { locale?: Locale }) {
                   },
                   })}
                 </span>
-                <br />
+                <br className="lg:hidden"/>
                  {AppTranslator.getLocaleText({
                   locale,
                   translations: {

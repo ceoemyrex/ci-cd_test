@@ -283,7 +283,7 @@ export function HeroBookFormLg() {
 
   return (
     <div className="bg-white shadow-xl rounded-[20px]">
-      <div className="p-4 grid grid-cols-3 gap-x-4 lg:p-8 space-y-4">
+      <div className="p-4 lg:grid grid-cols-3 gap-x-4 lg:p-8 space-y-4">
         <LocationAutocomplete
           label={AppTranslator.getLocaleText({
             locale,
