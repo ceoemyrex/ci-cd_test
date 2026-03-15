@@ -62,6 +62,8 @@ const testimonialsText = {
 /* ---------------- COMPONENT ---------------- */
 
 export function Testimonials({ theme = "light", locale = "nl" }: { theme?: "light" | "white"; locale?: Locale }) {
+  return null
+  
   return (
     <section className={`py-18.5 lg:py-37.5 ${theme === "white" ? "bg-white" : "bg-[#F8FBFF]"}`}>
       <div className="max-w-310 2xl:max-w-350 px-4 mx-auto">

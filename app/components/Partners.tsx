@@ -189,7 +189,7 @@ export function Partners({ locale = "nl" }: { locale?: Locale }) {
           </div>
         </header>
 
-        <PartnersSlider locale={locale} />
+        {/* <PartnersSlider locale={locale} /> */}
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import { heroTranslations as t } from "@/translations";
+// import { heroTranslations as t } from "@/translations"
 import { Navbar } from "@/components";
-import { HexagonIcon } from "../icons";
+// import { HexagonIcon } from "../icons";
 import { StatsSwiper } from "./StatsSwiper";
 import { AppTranslator, Locale } from "../utils";
 import {  HeroBookFormLg } from "./HeroBookForm";
@@ -19,7 +19,7 @@ export function HeroLg({ locale = "nl" }: { locale?: Locale }) {
           <Navbar />
           <div className="pt-16 max-w-210 mx-auto space-y-8 gap-x-8">
             <div className="space-y-4 flex-2 mt-0 lg:mt-14">
-              <div className="text-center">
+              {/* <div className="text-center">
                 <span className="bg-[#CACACA1A]/10 px-4 text-xs lg:text-sm py-1.5 lg:py-2.5 rounded-[100px] text-secondary inline-flex items-center gap-x-1.5 border border-[#B6DDA8]">
                   <HexagonIcon />
                   {AppTranslator.getLocaleText({
@@ -27,13 +27,13 @@ export function HeroLg({ locale = "nl" }: { locale?: Locale }) {
                     translations: t.badge,
                   })}
                 </span>
-              </div>
+              </div> */}
               <p className="font-bold text-dark text-center text-3xl lg:text-6xl leading-[120%]">
                 {AppTranslator.getLocaleText({
                   locale,
                   translations: {
                     en:"Welcome",
-                    nl:"Welkom"
+                    nl:"Zorgeloos"
                   }
                 })}
                 <br className="lg:hidden"/>
@@ -41,7 +41,7 @@ export function HeroLg({ locale = "nl" }: { locale?: Locale }) {
                   locale,
                   translations: {
                     en:" to",
-                    nl:" bij"
+                    nl:" "
                   }
                 })}
                 <span className="text-secondary">
@@ -50,16 +50,16 @@ export function HeroLg({ locale = "nl" }: { locale?: Locale }) {
                     locale,
                      translations: {
                     en:"Stress-free ",
-                    nl:"Stressvrij "
+                    nl:"Verhuizen start "
                   },
                   })}
                 </span>
-                <br className="lg:hidden"/>
+                <br className=""/>
                  {AppTranslator.getLocaleText({
                   locale,
                   translations: {
-                    en:"Moving",
-                    nl:"Verhuizen"
+                    en:"Moving.",
+                    nl:"met ons."
                   }
                 })}
               </p>
@@ -67,8 +67,8 @@ export function HeroLg({ locale = "nl" }: { locale?: Locale }) {
                 {AppTranslator.getLocaleText({
                   locale,
                   translations: {
-                    en:"Create your inventory and receive quotes from trusted movers",
-                    nl:"Maak uw inventaris en ontvang offertes van betrouwbare verhuizers."
+                    en:"Everything you need to plan, compare, and book your move in one place.",
+                    nl:"Alles wat je nodig hebt om je verhuizing te plannen, te vergelijken én te boeken op één plek."
                   },
                 })}
               </p>
