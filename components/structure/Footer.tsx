@@ -203,14 +203,14 @@ export function Footer() {
                   </Link>
                   <Link
                     target="_blank"
-                    href={`https://instagram.com/MoveWithZinter`}
+                    href={`https://www.instagram.com/movewithzinter`}
                     className="block"
                   >
                     {footerText.links.instagram[locale]}
                   </Link>
                   <Link
                     target="_blank"
-                    href={`https://linkedin.com/MoveWithZinter`}
+                    href={`http://linkedin.com/company/zinter-bv`}
                     className="block"
                   >
                     {footerText.links.linkedin[locale]}

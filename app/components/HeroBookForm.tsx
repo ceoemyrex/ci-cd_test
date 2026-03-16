@@ -333,7 +333,10 @@ export function HeroBookFormLg() {
         >
           {AppTranslator.getLocaleText({
             locale,
-            translations: heroBookFormText.continue,
+            translations: {
+              en:"Get Quotes",
+              nl:"Vraag offertes aan"
+            },
           })}
         </button>
        </div>

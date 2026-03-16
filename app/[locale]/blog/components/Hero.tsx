@@ -57,7 +57,10 @@ export function BlogHero({ locale = "nl" }: { locale?: Locale }) {
               <Link href={`/${locale}/book-move`} className="bg-theme rounded-2xl inline-flex items-center text-white h-12 lg:h-17.5 px-12 lg:px-16 mt-5 lg:mt-10 font-medium text-base lg:text-xl">
                 {AppTranslator.getLocaleText({
                   locale,
-                  translations: { en: "Start your move", nl: "Start je verhuizing" },
+                  translations: {
+              en:"Get Quotes",
+              nl:"Vraag offertes aan"
+            },
                 })}
               </Link>
             </div>
