@@ -26,6 +26,8 @@ export interface CreateMoveRequest {
   dropOffAddress: string;
   dropOffAddressNumber: string;
 
+  houseSize:string,
+
   pickUpLongitude: string;
   pickUpLatitude: string;
   dropOffLongitude: string;

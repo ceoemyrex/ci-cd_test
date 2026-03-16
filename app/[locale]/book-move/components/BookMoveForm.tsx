@@ -22,11 +22,12 @@ export function BookMoveForm() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const [formData, setFormData] = useState<CreateMoveRequest>({
+   const [formData, setFormData] = useState<CreateMoveRequest>({
     fullName: "",
     phoneNumber: "",
     email: "",
     provinceId: "",
+    houseSize:moveSize,
 
     pickUpAddress: "",
     pickUpAddressNumber: "",
@@ -39,7 +40,7 @@ export function BookMoveForm() {
     dropOffLatitude: "",
 
     moveDate: "",
-    pickUpTime: null,
+    pickUpTime: DateTime.now().toISO(),
 
     fromNumberOfFloors: null,
     toNumberOfFloors: null,
@@ -47,8 +48,8 @@ export function BookMoveForm() {
     fromLongCarry: "Short driveway access",
     toLongCarry: "Short driveway access",
 
-    fromRemark: null,
-    toRemark: null,
+    fromRemark: "",
+    toRemark: "",
 
     fromHasElevator: null,
     toHasElevator: null,
@@ -98,6 +99,7 @@ export function BookMoveForm() {
       const res = await MoveRequestProvider.getQuote({
         ...formData,
         pickUpTime: formattedDate,
+        houseSize:moveSize,
         moveDate: formattedDate,
         fromHasElevator: formData.fromHasElevator == true,
         toHasElevator: formData.toHasElevator == true,
