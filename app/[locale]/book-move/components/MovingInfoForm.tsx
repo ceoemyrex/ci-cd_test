@@ -459,7 +459,7 @@ export function MovingInfoForm({
               label={AppTranslator.getLocaleText({
                 locale,
                 translations: {
-                  en: "From *",
+                  en: "to*",
                   nl: "Afleveradres*",
                 },
               })}

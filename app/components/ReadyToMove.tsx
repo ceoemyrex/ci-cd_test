@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { HexagonIcon } from "@/app/icons";
 import { Locale, AppTranslator } from "@/app/utils";
+import Link from "next/link";
 
 export function ReadyToMove({
   locale = "nl",
@@ -63,13 +64,13 @@ export function ReadyToMove({
                 })}
               </p>
             </div>
-            <button className="bg-theme px-6 lg:px-13 lg:pr-20 min-h-12 lg:py-5 text-sm lg:text-lg text-white rounded-2xl font-medium">
+            <Link href={`/${locale}/book-move`} className="bg-theme inline-flex justify-center items-center px-6 lg:px-13 lg:pr-20 min-h-12 lg:py-5 text-sm lg:text-lg text-white rounded-2xl font-medium">
               {AppTranslator.getLocaleText({
                 locale,
                 translations: { en: "Book a Move", nl: "Start je verhuizing" },
                 defaultText: buttonText,
               })}
-            </button>
+            </Link>
           </div>
         </div>
       </div>

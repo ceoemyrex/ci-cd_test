@@ -5,6 +5,7 @@ import { DateTime } from "luxon";
 import { CalendarIcon, TimerIcon } from "@/app/icons";
 import { BlogBackButton } from "../components";
 import { AppTranslator, Locale } from "@/app/utils";
+import Link from "next/link";
 
 export default async function Page({
   params,
@@ -144,7 +145,7 @@ export default async function Page({
               })}
             </p>
             <div className="text-center">
-              <button className="bg-theme rounded-2xl text-white h-12 lg:h-17.5 px-12 lg:px-16 mt-5 lg:mt-10 font-medium text-base lg:text-xl">
+              <Link href={`/${locale}/book-move`} className="bg-theme inline-flex items-center justify-center rounded-2xl text-white h-12 lg:h-17.5 px-12 lg:px-16 mt-5 lg:mt-10 font-medium text-base lg:text-xl">
                 {AppTranslator.getLocaleText({
                   locale,
                   translations: {
@@ -152,7 +153,7 @@ export default async function Page({
                     nl: "Start je verhuizing"
                   }
                 })}
-              </button>
+              </Link>
             </div>
           </div>
         </div>
