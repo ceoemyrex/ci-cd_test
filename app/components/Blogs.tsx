@@ -1,9 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
+// /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { HexagonIcon } from "../icons";
 import { ArrowRight } from "../icons/arrow";
 import { AppTranslator, Locale } from "../utils";
 import { FlattenedBlogPost } from "@/services";
+import Image from "next/image";
 
 /* ---------------- BLOGS TRANSLATIONS ---------------- */
 
@@ -35,32 +36,45 @@ function BlogItem({
   blog: FlattenedBlogPost;
   locale?: Locale;
 }) {
-
-
   return (
     <div className="p-4 border border-black/10 rounded-xl lg:rounded-4xl space-y-8">
-      <div className="bg-theme/10 rounded-xl lg:rounded-3xl overflow-clip h-35 lg:h-75 relative">
-        <img
-          className="absolute top-0 left-0 w-full h-full object-cover rounded-xl lg:rounded-3xl"
+      <div className="bg-theme/10 rounded-xl lg:rounded-3xl overflow-hidden h-35 lg:h-75 relative">
+        <Image
           src={blog.image}
-          alt={AppTranslator.getLocaleText({locale,translations:{
-            en:blog.title_english,
-            nl:blog.title,
-          }})}
+          alt={AppTranslator.getLocaleText({
+            locale,
+            translations: {
+              en: blog.title_english,
+              nl: blog.title,
+            },
+          })}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 400px"
+          quality={75}
+          loading="lazy"
         />
       </div>
       <div className="space-y-4">
         <p className="text-lg lg:text-2xl font-medium text-dark">
-          {AppTranslator.getLocaleText({locale,translations:{
-            en:blog.title_english,
-            nl:blog.title
-          }})}
+          {AppTranslator.getLocaleText({
+            locale,
+            translations: {
+              en: blog.title_english,
+              nl: blog.title,
+            },
+          })}
         </p>
         <div
-          dangerouslySetInnerHTML={{ __html: AppTranslator.getLocaleText({locale,translations:{
-            en:blog.content_english,
-            nl:blog.content
-          }}) }}
+          dangerouslySetInnerHTML={{
+            __html: AppTranslator.getLocaleText({
+              locale,
+              translations: {
+                en: blog.content_english,
+                nl: blog.content,
+              },
+            }),
+          }}
           className="text-xs lg:text-sm space-y-2 text-grey line-clamp-3"
         />
         <Link

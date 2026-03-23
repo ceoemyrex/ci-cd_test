@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import Link from "next/link";
@@ -6,6 +5,7 @@ import { CancelIcon, HexagonIcon } from "../icons";
 import { PlusIcon } from "../icons/add";
 import { useState } from "react";
 import { AppTranslator, Locale } from "../utils";
+import Image from "next/image";
 
 /* ============================= */
 /*        FAQ DATA               */
@@ -208,26 +208,32 @@ export function FAQs({ locale = "nl" }: { locale?: Locale }) {
 
               <div className="flex items-center mt-4 lg:mt-9.5">
                 <div className="h-10 w-10 lg:h-16 lg:w-16 -rotate-15 rounded-xl border border-secondary relative">
-                  <img
+                  <Image
                     src="/images/profile-2.png"
                     className="absolute top-0 rounded-xl left-0 w-full h-full object-cover"
                     alt="Profile 1"
+                    width={64}
+                    height={64}
                   />
                 </div>
 
                 <div className="h-10 w-10 lg:h-16 lg:w-16 rounded-xl -mx-4 border border-secondary relative">
-                  <img
+                  <Image
                     src="/images/profile-3.png"
                     className="absolute top-0 rounded-xl left-0 w-full h-full object-cover"
                     alt="Profile 2"
+                                        width={64}
+                    height={64}
                   />
                 </div>
 
                 <div className="h-10 w-10 lg:h-16 lg:w-16 -rotate-5 rounded-xl border border-secondary relative">
-                  <img
+                  <Image
                     src="/images/profile-1.png"
                     className="absolute top-0 rounded-xl left-0 w-full h-full object-cover"
                     alt="Profile 3"
+                                        width={64}
+                    height={64}
                   />
                 </div>
               </div>

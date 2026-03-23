@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowDropDownIcon } from "@/app/icons";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import { XCircle } from "lucide-react";
+import { Menu, X, XCircle } from "lucide-react";
 import { AppTranslator, defaultLocale, languages, Locale } from "@/app/utils";
 
 /* eslint-disable @next/next/no-img-element */
@@ -175,7 +175,7 @@ export function Navbar() {
             onClick={() => setIsOpen(true)}
             className="md:hidden bg-white h-10 w-10 rounded-full ml-auto top-4 right-4 z-50 text-dark border border-grey/10 shadow-xl flex items-center justify-center"
           >
-            <i className="bi bi-list text-lg"></i>
+            <Menu/>
           </button>
         </nav>
 
@@ -196,7 +196,7 @@ export function Navbar() {
           <div className="flex justify-between items-center p-6">
             <p className="text-xl font-bold">Menu</p>
             <button onClick={() => setIsOpen(false)}>
-              <i className="bi bi-x-lg text-xl"></i>
+              <X/>
             </button>
           </div>
 

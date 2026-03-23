@@ -1,18 +1,20 @@
-/* eslint-disable @next/next/no-img-element */
 // import { heroTranslations as t } from "@/translations"
 import { Navbar } from "@/components";
 // import { HexagonIcon } from "../icons";
 import { StatsSwiper } from "./StatsSwiper";
 import { AppTranslator, Locale } from "../utils";
 import {  HeroBookFormLg } from "./HeroBookForm";
+import Image from "next/image";
 
 export function HeroLg({ locale = "nl" }: { locale?: Locale }) {
   return (
     <section className={``}>
       <div className="relative pb-15 lg:pb-30">
-        <img
+        <Image
           src={"/hero-bg.png"}
           alt="hero-bg"
+          width={1000}
+          height={1000}
           className="absolute lg:rounded-t-4xl top-0 left-0 w-full h-full object-center object-cover"
         />
         <div className="relative max-w-310 2xl:max-w-350 mx-auto p-4">
