@@ -6,7 +6,7 @@ const PUBLIC_FILE = /\.(.*)$/;
 const locales = ["en", "nl"];
 const defaultLocale = "nl";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Skip static files, api routes, etc.
@@ -28,5 +28,9 @@ export function middleware(request: NextRequest) {
   // Redirect to default locale
   const url = request.nextUrl.clone();
   url.pathname = `/${defaultLocale}${pathname}`;
-  return NextResponse.redirect(url);
+  return NextResponse.rewrite(url);
 }
+
+export const config = {
+  matcher: ["/((?!_next|api|.*\\..*).*)"],
+};

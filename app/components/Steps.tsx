@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
 import { HexagonIcon } from "../icons";
 import { AppTranslator, Locale } from "../utils";
 
@@ -77,9 +77,11 @@ export function Steps({ locale = "nl" }: { locale?: Locale }) {
                     zIndex: index + 10,
                   }}
                 >
-                  <img
+                  <Image
                     src={src}
                     className="w-full h-full object-cover"
+                    height={600}
+                    width={600}
                     alt=""
                   />
                 </div>

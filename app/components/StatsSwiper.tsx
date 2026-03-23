@@ -2,6 +2,7 @@
 "use client";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Autoplay } from "swiper/modules";
+import Image from "next/image";
 // import { useParams } from "next/navigation";
 // import { AppTranslator, Locale } from "../utils";
 
@@ -202,11 +203,13 @@ export function StatsSwiper() {
           return (
             <SwiperSlide key={index} className={topMargin}>
               <div className="border border-white px-4 py-3 rounded-2xl">
-                <div className="relative w-full h-80 rounded-2xl overflow-hidden">
-                  <img
+                <div className="relative w-full h-40 lg:h-80 rounded-2xl overflow-hidden">
+                  <Image
                     src={stat.image}
                     alt={`Stats Image ${index + 1}`}
                     className="absolute inset-0 w-full h-full object-cover"
+                    width={500}
+                    height={320}
                   />
                   <div
                     className={`absolute ${

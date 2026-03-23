@@ -1,9 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
+// /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { HexagonIcon } from "../icons";
 import { ArrowRight } from "../icons/arrow";
 import { AppTranslator, Locale } from "../utils";
 import { FlattenedBlogPost } from "@/services";
+import Image from "next/image";
 
 /* ---------------- BLOGS TRANSLATIONS ---------------- */
 
@@ -40,9 +41,11 @@ function BlogItem({
   return (
     <div className="p-4 border border-black/10 rounded-xl lg:rounded-4xl space-y-8">
       <div className="bg-theme/10 rounded-xl lg:rounded-3xl overflow-clip h-35 lg:h-75 relative">
-        <img
+        <Image
           className="absolute top-0 left-0 w-full h-full object-cover rounded-xl lg:rounded-3xl"
           src={blog.image}
+          width={400}
+          height={300}
           alt={AppTranslator.getLocaleText({locale,translations:{
             en:blog.title_english,
             nl:blog.title,

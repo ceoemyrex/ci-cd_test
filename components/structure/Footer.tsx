@@ -6,6 +6,7 @@ import { CheckCircle, CircleAlertIcon, LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 
 /* ============================= */
 /*       TRANSLATIONS            */
@@ -124,10 +125,12 @@ export function Footer() {
 
   return (
     <footer className="relative">
-      <img
+      <Image
         src="/footer-bg-image.png"
         className="absolute top-0 left-0 w-full h-full object-cover"
         alt=""
+        height={1000}
+        width={1000}
       />
       <div className="relative">
         <div className="py-16.5 lg:py-33">
