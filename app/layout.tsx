@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import "bootstrap-icons/font/bootstrap-icons.css"
+// import "bootstrap-icons/font/bootstrap-icons.css"
 import "swiper/css";
 import "swiper/css/free-mode";
 
