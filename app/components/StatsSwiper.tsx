@@ -207,24 +207,19 @@ export function StatsSwiper() {
                   <Image
                     src={stat.image}
                     alt={`Stats Image ${index + 1}`}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    width={500}
-                    height={320}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    quality={75}
+                    loading="lazy"
                   />
+
                   <div
                     className={`absolute ${
                       index % 2 !== 0 ? "flex flex-col-reverse" : ""
                     } top-0 p-2 lg:p-4 h-full w-full`}
                   >
-                    {/* <div className="border lg:flex items-center gap-x-3 border-white p-4 bg-black/25 backdrop-blur-sm rounded-2xl">
-                      <div className="flex items-center">{stat.avatars}</div>
-                      <p className="text-white font-semibold text-[8px] lg:text-xs">
-                        {AppTranslator.getLocaleText({
-                          translations: stat.translations,
-                          locale,
-                        })}
-                      </p>
-                    </div> */}
+                    {/* overlay content */}
                   </div>
                 </div>
               </div>

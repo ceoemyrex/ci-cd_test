@@ -79,10 +79,12 @@ export function Steps({ locale = "nl" }: { locale?: Locale }) {
                 >
                   <Image
                     src={src}
-                    className="w-full h-full object-cover"
-                    height={600}
-                    width={600}
                     alt=""
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 75vw, 500px"
+                    quality={75}
+                    priority={index === 3} // only first image
                   />
                 </div>
               ))}
