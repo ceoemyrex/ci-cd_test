@@ -10,6 +10,7 @@
 
 @font-face {
   font-family: "DM_Sans";
+  font-display: swap;
   src: url("/fonts/DM_Sans/DMSans-Variable.ttf");
 }
 
