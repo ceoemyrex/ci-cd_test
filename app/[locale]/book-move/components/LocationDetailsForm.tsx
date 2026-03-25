@@ -23,7 +23,6 @@ export const tabs = [
     options: [
       {
         label: "Few items",
-        size: `10" Truck`,
       },
       {
         label: "1 Bedroom",
@@ -52,11 +51,9 @@ export const tabs = [
     options: [
       {
         label: "Few items",
-        size: `10" Truck`,
       },
       {
         label: "Studio",
-        size: `15" Truck`,
       },
       {
         label: "1 Bedroom",
@@ -281,16 +278,6 @@ export function LocationDetailsForm({
                         locale,
                         translations: moveTranslations[option.label],
                       })}{" "}
-                      {option.size && (
-                        <span className="px-1 text-grey">
-                          (
-                          {AppTranslator.getLocaleText({
-                            locale,
-                            translations: moveTranslations[option.size],
-                          })}
-                          )
-                        </span>
-                      )}
                     </button>
                   );
                 })}

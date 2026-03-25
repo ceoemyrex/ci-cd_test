@@ -61,8 +61,8 @@ export function Services({ blogs = [], locale = "nl" }: { blogs?: FlattenedBlogP
               {AppTranslator.getLocaleText({
                 locale,
                 translations: {
-                  en: "Zinter BV does not carry out moves directly",
-                  nl: "Zinter BV werkt samen met professionele verhuispartners",
+                  en: "Zinter does not carry out moves directly",
+                  nl: "Zinter werkt samen met professionele verhuispartners",
                 },
               })}
             </p>

@@ -1,4 +1,4 @@
-import { HexagonIcon } from "@/app/icons";
+// import { HexagonIcon } from "@/app/icons";
 import Link from "next/link";
 import { Locale, AppTranslator } from "@/app/utils";
 
@@ -40,12 +40,12 @@ export function GetStarted({ locale = "nl" }: { locale?: Locale }) {
 
         <div className="relative py-10 bg-secondary/80 lg:bg-transparent lg:min-h-140 flex items-center p-4 lg:px-30">
           <div className="flex-1 text-center lg:text-left">
-            <span className="border gap-x-2 items-center border-[#B6DDA8] bg-[#CACACA1A]/10 backdrop-blur-xs inline-flex rounded-[100px] text-white px-3 lg:px-6 py-2 text-xs lg:text-sm lg:py-3">
+            {/* <span className="border gap-x-2 items-center border-[#B6DDA8] bg-[#CACACA1A]/10 backdrop-blur-xs inline-flex rounded-[100px] text-white px-3 lg:px-6 py-2 text-xs lg:text-sm lg:py-3">
               <HexagonIcon fill="#ffffff" />
               <span>
                 {AppTranslator.getLocaleText({ locale, translations: getStartedText.ctaLabel })}
               </span>
-            </span>
+            </span> */}
 
             <div className="mt-6 mb-12 space-y-4 text-white">
               <p className="text-white text-2xl lg:text-6xl text-center lg:text-left font-bold">

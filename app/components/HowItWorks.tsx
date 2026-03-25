@@ -15,8 +15,8 @@ const howItWorksText = {
     nl: "Zo werkt Zinter",
   },
   description: {
-    en: "Start with inventory first. Then coordinate what you need..",
-    nl: "Met je inboedel als basis stemmen we de juiste diensten en plannen af.",
+    en: "Based on your household contents, we tailor the right services and schedule for you.",
+    nl: "Op basis van je inboedel stemmen we de juiste diensten en planning voor je af.",
   },
   steps: [
     {

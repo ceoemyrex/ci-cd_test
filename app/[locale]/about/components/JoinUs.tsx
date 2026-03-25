@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { AppTag } from "@/components";
+// import { AppTag } from "@/components";
 import { Locale, AppTranslator } from "@/app/utils";
 
 export function JoinUs({ locale = "nl" }: { locale?: Locale }) {
@@ -13,7 +13,7 @@ export function JoinUs({ locale = "nl" }: { locale?: Locale }) {
       />
       <div className="max-w-310 2xl:max-w-350 relative px-4 mx-auto">
         <header className="text-center max-w-153.75 mx-auto">
-          <AppTag title={AppTranslator.getLocaleText({ locale, translations: { en: "CTA", nl: "CTA" } })} />
+          {/* <AppTag title={AppTranslator.getLocaleText({ locale, translations: { en: "CTA", nl: "CTA" } })} /> */}
           <div className="mt-6 space-y-4">
             <p className="font-bold text-2xl lg:text-5xl">
               {AppTranslator.getLocaleText({
