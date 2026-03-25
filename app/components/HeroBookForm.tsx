@@ -86,13 +86,19 @@ export function MovingSizeDropdown({ value, onChange, tabs, locale }: Props) {
       </p>
 
       {/* Trigger */}
-      <div 
-      onClick={() => setOpen((p) => !p)}
-      className="bg-[#F3F3F4] border-black/10 border cursor-pointer flex items-center gap-x-2.5 rounded-xl p-2.5 lg:p-5">
+      <div
+        onClick={() => setOpen((p) => !p)}
+        className="bg-[#F3F3F4] border-black/10 border cursor-pointer flex items-center gap-x-2.5 rounded-xl p-2.5 lg:p-5"
+      >
         <PackageMovingIcon />
 
         {selectedLabel ? (
-          <p className="text-dark text-xs lg:text-sm">{AppTranslator.getLocaleText({locale,translations:moveTranslations[selectedLabel as any]})}</p>
+          <p className="text-dark text-xs lg:text-sm">
+            {AppTranslator.getLocaleText({
+              locale,
+              translations: moveTranslations[selectedLabel as any],
+            })}
+          </p>
         ) : (
           <p className="text-grey text-base">
             {" "}
@@ -123,7 +129,10 @@ export function MovingSizeDropdown({ value, onChange, tabs, locale }: Props) {
                   key={tab.value}
                   className="flex-1 text-theme -mb-px mx-1 font-medium border-b border-theme p-4"
                 >
-                  {AppTranslator.getLocaleText({locale,translations:moveTranslations[tab.name]})}
+                  {AppTranslator.getLocaleText({
+                    locale,
+                    translations: moveTranslations[tab.name],
+                  })}
                 </button>
               ) : (
                 <button
@@ -131,7 +140,10 @@ export function MovingSizeDropdown({ value, onChange, tabs, locale }: Props) {
                   onClick={() => setCurrentTab(tab.value)}
                   className="flex-1 px-4 py-2 text-grey"
                 >
-                  {AppTranslator.getLocaleText({locale,translations:moveTranslations[tab.name]})}
+                  {AppTranslator.getLocaleText({
+                    locale,
+                    translations: moveTranslations[tab.name],
+                  })}
                 </button>
               ),
             )}
@@ -151,11 +163,18 @@ export function MovingSizeDropdown({ value, onChange, tabs, locale }: Props) {
               >
                 {AppTranslator.getLocaleText({
                   locale,
-                  translations:moveTranslations[option.label]
+                  translations: moveTranslations[option.label],
                 })}
 
                 {option.size && (
-                  <span className="px-1 text-grey">({AppTranslator.getLocaleText({locale,translations:moveTranslations[option.size]})})</span>
+                  <span className="px-1 text-grey">
+                    (
+                    {AppTranslator.getLocaleText({
+                      locale,
+                      translations: moveTranslations[option.size],
+                    })}
+                    )
+                  </span>
                 )}
               </button>
             ))}
@@ -277,6 +296,11 @@ export function HeroBookFormLg() {
       router.push(
         `${locale}/book-move?moveSize=${moveSize}&moveTo=${moveTo}&moveFrom=${moveFrom}`,
       );
+      if (typeof window !== "undefined" && (window as any).gtag) {
+        (window as any).gtag("event", "conversion", {
+          send_to: "AW-18023297865/mnf3CK_2yIocEMnmlpJD",
+        });
+      }
       return;
     }
   };
@@ -326,20 +350,20 @@ export function HeroBookFormLg() {
           locale={locale}
           tabs={tabs}
         />
-       <div className="col-span-3">
+        <div className="col-span-3">
           <button
-          onClick={handleSubmit}
-          className="text-white bg-theme w-full h-12 lg:h-17.5 mt-4 rounded-lg lg:rounded-2xl lg:text-lg font-medium"
-        >
-          {AppTranslator.getLocaleText({
-            locale,
-            translations: {
-              en:"Get Quotes",
-              nl:"Vraag offertes aan"
-            },
-          })}
-        </button>
-       </div>
+            onClick={handleSubmit}
+            className="text-white bg-theme w-full h-12 lg:h-17.5 mt-4 rounded-lg lg:rounded-2xl lg:text-lg font-medium"
+          >
+            {AppTranslator.getLocaleText({
+              locale,
+              translations: {
+                en: "Get Quotes",
+                nl: "Vraag offertes aan",
+              },
+            })}
+          </button>
+        </div>
       </div>
       <div className="text-center py-2">
         <p className="text-grey text-xs lg:text-base">

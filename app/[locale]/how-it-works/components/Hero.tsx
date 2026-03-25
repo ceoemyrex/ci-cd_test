@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { AppTag, Navbar } from "@/components";
-import { StatsSwiper } from "@/app/components";
+// import { StatsSwiper } from "@/app/components";
 import Link from "next/link";
 import { Locale, AppTranslator } from "@/app/utils";
 
@@ -96,7 +96,7 @@ Daarna verloopt je verhuizing sneller en met meer zekerheid.`,
             </div>
           </div>
         </div>
-        <StatsSwiper />
+        {/* <StatsSwiper /> */}
       </div>
     </section>
   );

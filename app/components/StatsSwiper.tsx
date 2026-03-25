@@ -198,7 +198,7 @@ export function StatsSwiper() {
       >
         {stats.map((stat, index) => {
           const topMargin =
-            index % 3 === 0 ? "mt-0" : index % 3 === 1 ? "mt-6" : "mt-12";
+            index % 3 === 0 ? "mt-0" : index % 3 === 1 ? "mt-0" : "mt-0";
 
           return (
             <SwiperSlide key={index} className={topMargin}>

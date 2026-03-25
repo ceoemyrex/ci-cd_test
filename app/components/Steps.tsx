@@ -171,7 +171,7 @@ export function Steps({ locale = "nl" }: { locale?: Locale }) {
               </div>
 
               {/* STEP 3 */}
-              <div className="flex items-start gap-x-3">
+              {/* <div className="flex items-start gap-x-3">
                 <div>
                   <div className="h-8 lg:h-16 w-8 lg:w-16 flex bg-secondary/10 rounded-full items-center justify-center">
                     <p className="text-secondary font-bold text-lg lg:text-2xl">
@@ -193,14 +193,14 @@ export function Steps({ locale = "nl" }: { locale?: Locale }) {
                     })}
                   </p>
                 </div>
-              </div>
+              </div> */}
 
               {/* STEP 4 */}
               <div className="flex items-start gap-x-3">
                 <div>
                   <div className="h-8 w-8 lg:h-16 lg:w-16 flex bg-secondary/10 rounded-full items-center justify-center">
                     <p className="text-secondary font-bold text-lg lg:text-2xl">
-                      4
+                      3
                     </p>
                   </div>
                 </div>

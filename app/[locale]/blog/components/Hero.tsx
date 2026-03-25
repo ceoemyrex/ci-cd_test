@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { AppTag, Navbar } from "@/components";
-import { StatsSwiper } from "@/app/components";
+// import { StatsSwiper } from "@/app/components";
 import { Locale, AppTranslator } from "@/app/utils";
 import Link from "next/link";
 
@@ -69,7 +69,7 @@ export function BlogHero({ locale = "nl" }: { locale?: Locale }) {
             </div>
           </div>
         </div>
-        <StatsSwiper />
+        {/* <StatsSwiper /> */}
       </div>
     </section>
   );
