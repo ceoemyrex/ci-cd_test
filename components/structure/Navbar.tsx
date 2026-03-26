@@ -207,7 +207,7 @@ export function Navbar() {
                   translations: link.translations,
                   locale,
                 })}
-                href={`${locale}${link.url}`}
+                href={`/${locale}${link.url}`}
                 onClick={() => setIsOpen(false)}
                 className={`
                 font-medium text-sm

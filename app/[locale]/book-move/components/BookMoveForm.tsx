@@ -6,13 +6,15 @@ import { AddLocationDetails } from "./AddLocationDetails";
 import { AddInventoryList } from "./AddInventoryList";
 import { AddMovingInfoForm } from "./AddMovingInfoForm";
 import { MovingFormSummary } from "./MovingFormSummary";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { CreateMoveRequest, MoveRequestProvider } from "@/services/MoveRequest";
 import { Place } from "@/services";
 import { notification } from "antd";
 import { Portal } from "@/components";
 import StarrySpace from "./MovingSummary";
 import { DateTime } from "luxon";
+import Link from "next/link";
+import { Locale } from "@/app/utils";
 
 export function BookMoveForm() {
   const [notificationApi, context] = notification.useNotification();
@@ -21,6 +23,7 @@ export function BookMoveForm() {
   const [moveSize, setMoveSize] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const {locale} = useParams<{locale:Locale}>()
 
    const [formData, setFormData] = useState<CreateMoveRequest>({
     fullName: "",
@@ -217,12 +220,13 @@ export function BookMoveForm() {
                     Your quotes are on their way to your email
                   </p>
                   <div className="my-10 text-center">
-                    <button
+                    <Link
+                      href={`/${locale}`}
                       onClick={() => setSuccess(false)}
-                      className="bg-theme text-white text-sm lg:text-base rounded-lg px-10 py-4 font-medium"
+                      className="bg-theme inline-block text-white text-sm lg:text-base rounded-lg px-10 py-4 font-medium"
                     >
                       Ok Got It
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
