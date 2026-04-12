@@ -3,143 +3,10 @@
 import Image from "next/image";
 import { AppTranslator, Locale } from "@/app/utils";
 import { useParams } from "next/navigation";
-import type { BookMoveBookingDetails, RecommendedMover } from "@/types/movers";
+import type { RecommendedMover } from "@/types/movers";
 import { MoverDetailsPanel } from "./MoverDetailsPanel";
 import { MoverPaymentPanel } from "./MoverPaymentPanel";
 import { useBookMoveStep1 } from "./BookMoveStep1Context";
-
-const moverCatalog = [
-  {
-    id: "independent-movers",
-    name: "Independent Movers",
-    rating: 4.2,
-    priceAmount: 921,
-    meta: "Pickup & delivery included",
-    distance: "22 miles away",
-    status: "Available",
-    image:
-      "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=900&q=70",
-    moversPhoneValue: "09876897689",
-    moversEmailValue: "support@independentmovers.nl",
-  },
-  {
-    id: "urban-logistics",
-    name: "Urban Logistics",
-    rating: 4.2,
-    priceAmount: 822,
-    meta: "Pickup & delivery included",
-    distance: "24 miles away",
-    status: "Available",
-    image:
-      "https://images.unsplash.com/photo-1617854818583-09e7f077a156?auto=format&fit=crop&w=900&q=70",
-    moversPhoneValue: "09000000000",
-    moversEmailValue: "support@urbanlogistics.nl",
-  },
-  {
-    id: "mature-movers",
-    name: "Mature Movers",
-    rating: 4.2,
-    priceAmount: 711,
-    meta: "Pickup & delivery included",
-    distance: "18 miles away",
-    status: "Available",
-    image:
-      "https://images.unsplash.com/photo-1605733160314-4fc7dac4bb16?auto=format&fit=crop&w=900&q=70",
-    moversPhoneValue: "09111111111",
-    moversEmailValue: "support@maturemovers.nl",
-  },
-  {
-    id: "swiftmove-logistics",
-    name: "SwiftMove Logistics",
-    rating: 4.2,
-    priceAmount: 628,
-    meta: "Pickup & delivery included",
-    distance: "16 miles away",
-    status: "Available",
-    image:
-      "https://images.unsplash.com/photo-1600411019533-9b1b7b0b0c2d?auto=format&fit=crop&w=900&q=70",
-    moversPhoneValue: "09222222222",
-    moversEmailValue: "support@swiftmove.nl",
-  },
-  {
-    id: "sure-transport",
-    name: "Sure Transport",
-    rating: 4.2,
-    priceAmount: 300,
-    meta: "Pickup & delivery included",
-    distance: "13 miles away",
-    status: "Available",
-    image:
-      "https://images.unsplash.com/photo-1605733160332-5f0b98f6633b?auto=format&fit=crop&w=900&q=70",
-    moversPhoneValue: "09333333333",
-    moversEmailValue: "support@suretransport.nl",
-  },
-  {
-    id: "elite-haulers",
-    name: "Elite Haulers",
-    rating: 4.2,
-    priceAmount: 122,
-    meta: "Pickup & delivery included",
-    distance: "9 miles away",
-    status: "Available",
-    image:
-      "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=900&q=70",
-    moversPhoneValue: "09444444444",
-    moversEmailValue: "support@elitehaulers.nl",
-  },
-];
-
-function formatPrice(amount: number) {
-  return new Intl.NumberFormat("nl-NL", {
-    style: "currency",
-    currency: "EUR",
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
-
-function buildMovers(booking: BookMoveBookingDetails): RecommendedMover[] {
-  return moverCatalog.map((mover, index) => ({
-    id: mover.id,
-    name: mover.name,
-    rating: mover.rating,
-    price: formatPrice(mover.priceAmount),
-    priceAmount: mover.priceAmount,
-    meta: mover.meta,
-    distance: mover.distance,
-    status: mover.status,
-    image: mover.image,
-    fromLabel: "From",
-    fromAddress: booking.fromAddress,
-    toLabel: "To",
-    toAddress: booking.toAddress,
-    details: {
-      moveSizeLabel: "Move Size",
-      moveSizeValue: booking.moveSizeLabel,
-      livingRoomLabel: "Living Room",
-      livingRoomValue: `${18 - index} Items Selected`,
-      bedroom1Label: "Bedroom 1",
-      bedroom1Value: `${10 - Math.min(index, 5)} Items Selected`,
-      bedroom2Label: "Bedroom 2",
-      bedroom2Value: `${6 - Math.min(index, 4)} Items Selected`,
-      diningRoomLabel: "Dining Room",
-      diningRoomValue: `${Math.max(1, 5 - index)} Items Selected`,
-      kitchenLabel: "Kitchen",
-      kitchenValue: `${Math.max(3, 14 - index)} Items Selected`,
-      moveDateLabel: "Move Date",
-      moveDateValue: booking.moveDateLabel,
-      dayLabel: "Day",
-      dayValue: booking.moveDayLabel,
-      moveTimeLabel: "Move Time",
-      moveTimeValue: booking.moveTimeLabel,
-      moversPhoneLabel: "Movers phone",
-      moversPhoneValue: mover.moversPhoneValue,
-      moversEmailLabel: "Movers email",
-      moversEmailValue: mover.moversEmailValue,
-      addressLabel: "Address",
-      addressValue: booking.fromAddress,
-    },
-  }));
-}
 
 function RatingPill({ rating }: { rating: number }) {
   return (
@@ -211,7 +78,7 @@ function MoverCard({
           className="object-cover"
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
         />
-        <RatingPill rating={rating} />
+        {rating > 0 ? <RatingPill rating={rating} /> : null}
       </div>
       <div className="mt-1 px-3">
         <TitleRow name={name} status={status} />
@@ -230,20 +97,40 @@ function MoverCard({
 }
 
 export function RecommendedMoversPanel({
-  booking,
+  movers,
+  trackingCodeOverride,
 }: {
-  booking: BookMoveBookingDetails;
+  movers: RecommendedMover[];
+  trackingCodeOverride?: string;
 }) {
   const { locale } = useParams<{ locale: Locale }>();
   const { subView, selectedMover, goToDetail } = useBookMoveStep1();
-  const movers = buildMovers(booking);
 
   if (subView === "payment" && selectedMover) {
-    return <MoverPaymentPanel mover={selectedMover} />;
+    return (
+      <MoverPaymentPanel
+        mover={selectedMover}
+        trackingCodeOverride={trackingCodeOverride}
+      />
+    );
   }
 
   if (subView === "detail" && selectedMover) {
     return <MoverDetailsPanel mover={selectedMover} />;
+  }
+
+  if (!movers.length) {
+    return (
+      <div className="rounded-2xl border border-black/10 bg-white p-6 text-center text-sm text-grey">
+        {AppTranslator.getLocaleText({
+          locale,
+          translations: {
+            en: "No mover quotes are available for this tracking code yet.",
+            nl: "Er zijn nog geen offertes van verhuizers voor deze trackingcode.",
+          },
+        })}
+      </div>
+    );
   }
 
   return (
@@ -259,8 +146,8 @@ export function RecommendedMoversPanel({
             {AppTranslator.getLocaleText({
               locale,
               translations: {
-                en: "Recommended Movers",
-                nl: "Aangeraden verhuizers",
+                en: "quotes from movers",
+                nl: "offertes van verhuizers",
               },
             })}
           </span>

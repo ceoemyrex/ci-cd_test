@@ -116,9 +116,11 @@ function StripeField({
 function PaymentCardForm({
   clientSecret,
   mover,
+  trackingCodeOverride,
 }: {
   clientSecret: string;
   mover: RecommendedMover;
+  trackingCodeOverride?: string;
 }) {
   const { locale } = useParams<{ locale: Locale }>();
   const stripe = useStripe();
@@ -175,8 +177,12 @@ function PaymentCardForm({
     }
 
     const paymentIntentId = result.paymentIntent?.id ?? "";
+    const trackingCode =
+      trackingCodeOverride?.trim() ||
+      paymentIntentId.slice(-12).toUpperCase() ||
+      "ZINTERMOVE";
     completePayment({
-      trackingCode: paymentIntentId.slice(-12).toUpperCase() || "ZINTERMOVE",
+      trackingCode,
       paymentIntentId,
       paidAt: new Date().toISOString(),
     });
@@ -310,7 +316,13 @@ function PaymentCardForm({
   );
 }
 
-export function MoverPaymentPanel({ mover }: { mover: RecommendedMover }) {
+export function MoverPaymentPanel({
+  mover,
+  trackingCodeOverride,
+}: {
+  mover: RecommendedMover;
+  trackingCodeOverride?: string;
+}) {
   const { locale } = useParams<{ locale: Locale }>();
   const [selectedMethod, setSelectedMethod] = useState<"transfer" | "card">(
     "card",
@@ -459,7 +471,11 @@ export function MoverPaymentPanel({ mover }: { mover: RecommendedMover }) {
                   stripe={stripePromise}
                   options={{ clientSecret }}
                 >
-                  <PaymentCardForm clientSecret={clientSecret} mover={mover} />
+                  <PaymentCardForm
+                    clientSecret={clientSecret}
+                    mover={mover}
+                    trackingCodeOverride={trackingCodeOverride}
+                  />
                 </Elements>
               )}
             </>

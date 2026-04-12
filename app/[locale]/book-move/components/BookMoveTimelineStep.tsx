@@ -6,12 +6,6 @@ import { useParams } from "next/navigation";
 import { useMemo, type ReactNode } from "react";
 import { CalendarDays, CheckCheck, Copy, Package, Truck } from "lucide-react";
 import type { BookMoveBookingDetails, RecommendedMover } from "@/types/movers";
-import { StepBar } from "./StepsBar";
-import { RecommendedMoversPanel } from "./RecommendedMoversPanel";
-import {
-  BookMoveStep1Provider,
-  useBookMoveStep1,
-} from "./BookMoveStep1Context";
 import MapComponent from "@/app/components/MapComponent";
 
 function TimelineStepButton({
@@ -140,7 +134,7 @@ export function BookMoveTimelineStep({
   );
 }
 
-function MoveStage({
+export function MoveStage({
   active,
   icon,
   title,
@@ -185,28 +179,43 @@ function MoveStage({
   );
 }
 
-function TrackMoveStatus({
+export function TrackMoveStatus({
   mover,
   booking,
   trackingCode,
+  moveProgress,
 }: {
   mover: RecommendedMover;
   booking: BookMoveBookingDetails;
   trackingCode: string;
+  moveProgress?: {
+    hasArrived: boolean;
+    inTransit: boolean;
+    isCompleted: boolean;
+  };
 }) {
   const { locale } = useParams<{ locale: Locale }>();
+  const tm = moveProgress ?? {
+    hasArrived: false,
+    inTransit: false,
+    isCompleted: false,
+  };
   const trackMoveData = useMemo(
     () => ({
       fromLatitude: booking.fromLatitude,
       fromLongitude: booking.fromLongitude,
       toLatitude: booking.toLatitude,
       toLongitude: booking.toLongitude,
-      hasArrived: false,
-      inTransit: false,
-      isCompleted: false,
+      hasArrived: tm.hasArrived,
+      inTransit: tm.inTransit,
+      isCompleted: tm.isCompleted,
     }),
-    [booking],
+    [booking, tm.hasArrived, tm.inTransit, tm.isCompleted],
   );
+  const stage1 = true;
+  const stage2 = tm.hasArrived || tm.inTransit || tm.isCompleted;
+  const stage3 = tm.inTransit || tm.isCompleted;
+  const stage4 = tm.isCompleted;
 
   return (
     <div className="space-y-6">
@@ -310,28 +319,28 @@ function TrackMoveStatus({
           <p className="text-3xl font-medium text-grey">Move Timeline</p>
           <div className="mt-8">
             <MoveStage
-              active
+              active={stage1}
               showConnector
               icon={<CheckCheck className="h-5 w-5" />}
               title="Payment Made"
               description="Payment confirmed and tracking code generated"
             />
             <MoveStage
-              active={false}
+              active={stage2}
               showConnector
               icon={<CalendarDays className="h-5 w-5" />}
               title="Pickup & Move Start"
               description="Mover navigates to pickup location on schedule"
             />
             <MoveStage
-              active={false}
+              active={stage3}
               showConnector
               icon={<Truck className="h-5 w-5" />}
               title="Mover In Transit"
               description="Belongings securely loaded transit begins immediately"
             />
             <MoveStage
-              active={false}
+              active={stage4}
               showConnector={false}
               icon={<Package className="h-5 w-5" />}
               title="Unloading Move"
@@ -341,110 +350,5 @@ function TrackMoveStatus({
         </div>
       </div>
     </div>
-  );
-}
-
-function CheckoutFooter({ onBack }: { onBack: () => void }) {
-  const { locale } = useParams<{ locale: Locale }>();
-  const { subView, goBackFromPayment, goToGrid, goToPayment } = useBookMoveStep1();
-
-  const handleBack = () => {
-    if (subView === "payment") {
-      goBackFromPayment();
-      return;
-    }
-
-    if (subView === "detail") {
-      goToGrid();
-      return;
-    }
-
-    onBack();
-  };
-
-  return (
-    <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
-      <button
-        type="button"
-        onClick={handleBack}
-        className="inline-flex h-12 items-center justify-center rounded-xl border border-[#D0D5DD] bg-white px-6 text-sm font-medium text-dark"
-      >
-        {AppTranslator.getLocaleText({
-          locale,
-          translations: {
-            en: "Go Back",
-            nl: "Ga terug",
-          },
-        })}
-      </button>
-      {subView === "detail" && (
-        <button
-          type="button"
-          onClick={goToPayment}
-          className="inline-flex h-12 items-center justify-center rounded-xl bg-theme px-6 text-sm font-medium text-white sm:ml-auto"
-        >
-          {AppTranslator.getLocaleText({
-            locale,
-            translations: {
-              en: "Make Payment",
-              nl: "Betalen",
-            },
-          })}
-        </button>
-      )}
-    </div>
-  );
-}
-
-function BookMoveCheckoutFlowInner({
-  booking,
-  onBack,
-}: {
-  booking: BookMoveBookingDetails;
-  onBack: () => void;
-}) {
-  const { subView, selectedMover, paymentResult } = useBookMoveStep1();
-  const timelineStep =
-    subView === "payment" ? 2 : subView === "track" ? 3 : 1;
-
-  return (
-    <div className="min-h-screen space-y-4 rounded-3xl border border-black/10 bg-white/40 p-4 py-10 backdrop-blur-2xl lg:p-10">
-      <div className="mt-6 space-y-8 lg:mt-12 lg:flex lg:gap-x-8">
-        <div className="mb-6 flex-1 space-y-6 lg:mb-0">
-          <StepBar currentStep={5} />
-          <div className="hidden lg:block">
-            <BookMoveTimelineStep currentStep={timelineStep} />
-          </div>
-        </div>
-        <div className="flex-2">
-          {subView === "track" && selectedMover && paymentResult ? (
-            <TrackMoveStatus
-              mover={selectedMover}
-              booking={booking}
-              trackingCode={paymentResult.trackingCode}
-            />
-          ) : (
-            <>
-              <RecommendedMoversPanel booking={booking} />
-              <CheckoutFooter onBack={onBack} />
-            </>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export function BookMoveCheckoutFlow({
-  booking,
-  onBack,
-}: {
-  booking: BookMoveBookingDetails;
-  onBack: () => void;
-}) {
-  return (
-    <BookMoveStep1Provider>
-      <BookMoveCheckoutFlowInner booking={booking} onBack={onBack} />
-    </BookMoveStep1Provider>
   );
 }

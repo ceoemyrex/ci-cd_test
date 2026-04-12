@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { AddLocationDetails } from "./AddLocationDetails";
 import { AddInventoryList } from "./AddInventoryList";
 import { AddMovingInfoForm } from "./AddMovingInfoForm";
@@ -10,7 +10,6 @@ import { CreateMoveRequest, MoveRequestProvider } from "@/services/MoveRequest";
 import { Place } from "@/services";
 import { notification } from "antd";
 import { DateTime } from "luxon";
-import { BookMoveCheckoutFlow } from "./BookMoveTimelineStep";
 
 export function BookMoveForm() {
   const [notificationApi, context] = notification.useNotification();
@@ -72,6 +71,10 @@ export function BookMoveForm() {
 
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
+  const [quoteTrackingCode, setQuoteTrackingCode] = useState<string | null>(
+    null,
+  );
+  const [quoteRequestCompleted, setQuoteRequestCompleted] = useState(false);
 
   const steps = [
     AddLocationDetails,
@@ -115,7 +118,12 @@ export function BookMoveForm() {
         throw new Error(res?.responseMessage ?? "Request failed");
       }
 
-      setCurrentStep(steps.length);
+      const code =
+        typeof res.result === "string" && res.result.trim()
+          ? res.result.trim()
+          : null;
+      setQuoteTrackingCode(code);
+      setQuoteRequestCompleted(true);
     } catch (error) {
       notificationApi.error({
         title: "Error",
@@ -138,28 +146,6 @@ export function BookMoveForm() {
       router.back();
     }
   };
-
-  const bookingDetails = useMemo(() => {
-    const moveDate = formData.moveDate
-      ? DateTime.fromFormat(formData.moveDate, "yyyy-MM-dd")
-      : null;
-    const pickUpTime = formData.pickUpTime ? DateTime.fromISO(formData.pickUpTime) : null;
-
-    return {
-      fromAddress: moveFrom?.formattedAddress ?? formData.pickUpAddress,
-      toAddress: moveTo?.formattedAddress ?? formData.dropOffAddress,
-      moveSizeLabel: moveSize || "Move details pending",
-      moveDateLabel: moveDate?.isValid
-        ? moveDate.toFormat("dd LLLL, yyyy")
-        : "Move date pending",
-      moveDayLabel: moveDate?.isValid ? moveDate.toFormat("cccc") : "Flexible",
-      moveTimeLabel: pickUpTime?.isValid ? pickUpTime.toFormat("hh:mm a") : "08:30 AM",
-      fromLatitude: formData.pickUpLatitude,
-      fromLongitude: formData.pickUpLongitude,
-      toLatitude: formData.dropOffLatitude,
-      toLongitude: formData.dropOffLongitude,
-    };
-  }, [formData, moveFrom, moveSize, moveTo]);
 
   const handleSetMoveFrom = useCallback((place: Place) => {
     setMoveFrom(place);
@@ -197,18 +183,6 @@ export function BookMoveForm() {
     });
   }, []);
 
-  if (currentStep === steps.length) {
-    return (
-      <>
-        {context}
-        <BookMoveCheckoutFlow
-          booking={bookingDetails}
-          onBack={() => setCurrentStep(steps.length - 1)}
-        />
-      </>
-    );
-  }
-
   const CurrentStepComponent = steps[currentStep];
 
   return (
@@ -231,6 +205,9 @@ export function BookMoveForm() {
         formData={formData}
         loading={loading}
         handleSubmit={handleSubmit}
+        {...(currentStep === steps.length - 1
+          ? { quoteTrackingCode, quoteRequestCompleted }
+          : {})}
       />
     </>
   );

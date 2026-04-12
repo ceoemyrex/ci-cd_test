@@ -1,19 +1,43 @@
 "use client";
 import {
   CalendarDays,
+  CheckCheck,
   CircleAlert,
   LoaderCircle,
   Package,
   RefreshCwIcon,
   Truck,
 } from "lucide-react";
-import { DoubleCheck, Info, TickIcon } from "@/app/icons";
+import { Info, TickIcon } from "@/app/icons";
 import { AppTranslator, Locale } from "@/app/utils";
 import { useParams } from "next/navigation";
-import { Fragment } from "react/jsx-runtime";
-import { MoveRequestProvider, TrackMove } from "@/services";
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import {
+  MoveRequestProvider,
+  QuoteProvider,
+  TrackMove,
+  type MoveDetailsResponseModel,
+  type QuoteSummaryResponseModel,
+} from "@/services";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import MapComponent from "@/app/components/MapComponent";
+import {
+  mapQuotesToRecommendedMovers,
+  recommendedMoverFromMoveDetails,
+} from "@/hooks/mapQuotesToRecommendedMovers";
+import {
+  bookingFromTrackAndMoveDetails,
+  isTrackPaymentComplete,
+} from "@/hooks/trackMovePayment";
+import {
+  BookMoveStep1Provider,
+  useBookMoveStep1,
+} from "../../book-move/components/BookMoveStep1Context";
+import { RecommendedMoversPanel } from "../../book-move/components/RecommendedMoversPanel";
+import {
+  MoveStage,
+  TrackMoveStatus,
+} from "../../book-move/components/BookMoveTimelineStep";
+import type { BookMoveBookingDetails } from "@/types/movers";
 
 function StepButton({
   active = false,
@@ -56,108 +80,6 @@ function StepButton({
       <div className="text-dark">
         <p className="text-sm lg:text-lg font-medium">{title}</p>
         {description && <p className="text-grey text-xs lg:text-sm">{description}</p>}
-      </div>
-    </div>
-  );
-}
-
-function MoveStepButton({
-  active = false,
-  title,
-  description,
-  icon,
-}: {
-  active?: boolean;
-  title: string;
-  description?: string;
-  icon: ReactNode;
-}) {
-  if (!active) {
-    return (
-      <div className="flex relative gap-x-4">
-        <div>
-          <div className="border-2 border-[#C0C0C0] text-[#C0C0C0] rounded-full h-8 w-8 lg:h-12 lg:w-12 bg-white flex items-center justify-center">
-            {icon}
-          </div>
-        </div>
-        <div className="text-grey">
-          <p className="text-sm lg:text-lg font-medium">{title}</p>
-          {description && (
-            <p className="text-[#C0C0C0] text-xs lg:text-sm">{description}</p>
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex relative gap-x-4">
-      <div>
-        <div className="border-2 border-secondary text-secondary rounded-full h-8 w-8 lg:h-12 lg:w-12 bg-secondary/10 flex items-center justify-center">
-          {icon}
-        </div>
-      </div>
-      <div className="text-dark">
-        <p className="text-sm lg:text-lg font-medium">{title}</p>
-        {description && <p className="text-grey text-xs lg:text-sm">{description}</p>}
-      </div>
-    </div>
-  );
-}
-
-function MoveProgressStep({
-  index,
-  step,
-  isActive,
-  totalLength,
-}: {
-  totalLength: number;
-  index: number;
-  isActive: boolean;
-  step: {
-    title: {
-      en: string;
-      nl: string;
-    };
-    description: {
-      en: string;
-      nl: string;
-    };
-    icon: ReactNode;
-  };
-}) {
-  const { locale } = useParams<{ locale: Locale }>();
-
-  return (
-    <div className="flex relative gap-x-4">
-      {index < totalLength - 1 && (
-        <div className="h-full absolute top-3 -left-3.25 bg-[#D3E3CD] ml-6 -mb-2 w-0.5" />
-      )}
-      {isActive
-      ?(
-        <div className="mt-3">
-        <div className="border-2 relative border-secondary rounded-full flex items-center justify-center h-6 w-6 ">
-          <div className="bg-secondary h-4 w-4 rounded-full "></div>
-        </div>
-      </div>
-      ):(<div className="mt-3">
-        <div className="border-2 relative border-[#c0c0c0] rounded-full flex items-center justify-center h-6 w-6 ">
-          <div className="bg-[#c0c0c0] h-4 w-4 rounded-full "></div>
-        </div>
-      </div>)}
-      <div className="pb-4">
-        <MoveStepButton
-          icon={step.icon}
-          title={AppTranslator.getLocaleText({
-            locale,
-            translations: step.title,
-          })}
-          active={isActive}
-          description={AppTranslator.getLocaleText({
-            locale,
-            translations: step.description,
-          })}
-        />
       </div>
     </div>
   );
@@ -310,95 +232,328 @@ export function TimelineStep({
     </>
   );
 }
+function moveTimelineStepReached(index: number, tm: TrackMove) {
+  if (index === 0) return true;
+  if (index === 1) return tm.hasArrived || tm.inTransit || tm.isCompleted;
+  if (index === 2) return tm.inTransit || tm.isCompleted;
+  if (index === 3) return tm.isCompleted;
+  return false;
+}
+
 export function MoveTimelineStepBar({ trackMove }: { trackMove: TrackMove }) {
   const steps = [
     {
       title: {
         en: "Payment Made",
-        nl: "Aangeraden verhuizers",
+        nl: "Betaling ontvangen",
       },
       description: {
         en: "Payment confirmed and tracking code generated",
-        nl: "Overzicht van verhuisbedrijven en offertes.",
+        nl: "Betaling bevestigd en trackingcode gegenereerd.",
       },
-      icon: <DoubleCheck />,
-      key: "hasPaid",
+      icon: <CheckCheck className="h-5 w-5" />,
     },
     {
       title: {
         en: "Pickup & Move Start",
-        nl: "Betalen ",
+        nl: "Ophalen & start verhuizing",
       },
       description: {
         en: "Mover navigates to pickup location on schedule",
-        nl: "Betaling afronden.",
+        nl: "De verhuizer rijdt volgens planning naar de ophaallocatie.",
       },
-      icon: <CalendarDays />,
-      key: "hasArrived",
+      icon: <CalendarDays className="h-5 w-5" />,
     },
     {
       title: {
         en: "Mover In Transit",
-        nl: "Verhuizing volgen",
+        nl: "Verhuizer onderweg",
       },
       description: {
         en: "Belongings securely loaded transit begins immediately",
-        nl: "Volg je verhuizing stap voor stap.",
+        nl: "Inboedel is veilig geladen; transport is gestart.",
       },
-      icon: <Truck />,
-      key: "inTransit",
+      icon: <Truck className="h-5 w-5" />,
     },
     {
       title: {
         en: "Unloading Move",
-        nl: "Verhuizing volgen",
+        nl: "Lossen",
       },
       description: {
-        en: "TrackMove moverUload",
-        nl: "Volg je verhuizing stap voor stap.",
+        en: "Final unloading updates will appear here",
+        nl: "Updates over het lossen verschijnen hier.",
       },
-      icon: <Package />,
-      key: "isCompleted",
+      icon: <Package className="h-5 w-5" />,
     },
   ];
 
   const { locale } = useParams<{ locale: Locale }>();
 
   return (
-    <>
-      <div className="rounded-2xl pt-12 relative">
-        <p className="text-xl text-grey font-medium lg:text-3xl ">
-          {AppTranslator.getLocaleText({
-            locale,
-            translations: {
-              en: "Move Timeline",
-              nl: "",
-            },
-          })}
-        </p>
-        <div className="mt-8 flex space-y-4">
-          <div className="flex-1">
-            {steps.map((step, index) => (
-              <Fragment
-                key={AppTranslator.getLocaleText({
-                  locale,
-                  translations: step.title,
-                })}
-              >
-                <MoveProgressStep
-                  totalLength={steps.length}
-                  index={index}
-                  isActive={
-                    index == 0 ? index == 0 : trackMove[step.key as never]
-                  }
-                  step={step}
-                />
-              </Fragment>
-            ))}
+    <div className="relative rounded-2xl pt-12">
+      <p className="text-xl font-medium text-grey lg:text-3xl">
+        {AppTranslator.getLocaleText({
+          locale,
+          translations: {
+            en: "Move Timeline",
+            nl: "Verhuistijdlijn",
+          },
+        })}
+      </p>
+      <div className="mt-8">
+        {steps.map((step, index) => (
+          <MoveStage
+            key={AppTranslator.getLocaleText({
+              locale,
+              translations: step.title,
+            })}
+            active={moveTimelineStepReached(index, trackMove)}
+            showConnector={index < steps.length - 1}
+            icon={step.icon}
+            title={AppTranslator.getLocaleText({
+              locale,
+              translations: step.title,
+            })}
+            description={AppTranslator.getLocaleText({
+              locale,
+              translations: step.description,
+            })}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function bookingFromTrackAndQuotes(
+  track: TrackMove,
+  firstQuote: QuoteSummaryResponseModel | undefined,
+): BookMoveBookingDetails {
+  const md = firstQuote?.moveDetails;
+  let moveDateLabel = "";
+  if (md?.moveDate) {
+    const d = new Date(md.moveDate);
+    if (!Number.isNaN(d.getTime())) {
+      moveDateLabel = d.toLocaleDateString("nl-NL", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+    }
+  }
+  return {
+    fromAddress: md?.from ?? "",
+    toAddress: md?.to ?? "",
+    moveSizeLabel: md?.houseSize ?? "",
+    moveDateLabel,
+    moveDayLabel: md?.moveDay ?? "",
+    moveTimeLabel: md?.moveTime ?? "",
+    fromLatitude: md?.pickUpLatitude ?? track.fromLatitude,
+    fromLongitude: md?.pickUpLongitude ?? track.fromLongitude,
+    toLatitude: md?.dropOffLatitude ?? track.toLatitude,
+    toLongitude: md?.dropOffLongitude ?? track.toLongitude,
+  };
+}
+
+function TrackOfferFooter() {
+  const { locale } = useParams<{ locale: Locale }>();
+  const { subView, goBackFromPayment, goToGrid } = useBookMoveStep1();
+
+  if (subView === "grid") {
+    return null;
+  }
+
+  const handleBack = () => {
+    if (subView === "payment") {
+      goBackFromPayment();
+      return;
+    }
+    goToGrid();
+  };
+
+  return (
+    <div className="mt-8">
+      <button
+        type="button"
+        onClick={handleBack}
+        className="inline-flex h-12 items-center justify-center rounded-xl border border-[#D0D5DD] bg-white px-6 text-sm font-medium text-dark"
+      >
+        {AppTranslator.getLocaleText({
+          locale,
+          translations: {
+            en: "Go Back",
+            nl: "Ga terug",
+          },
+        })}
+      </button>
+    </div>
+  );
+}
+
+function TrackMoveLoadedView({
+  trackMove,
+  trackingCode,
+}: {
+  trackMove: TrackMove;
+  trackingCode: string;
+}) {
+  const { locale } = useParams<{ locale: Locale }>();
+  const [quotes, setQuotes] = useState<QuoteSummaryResponseModel[]>([]);
+  const [moveDetails, setMoveDetails] =
+    useState<MoveDetailsResponseModel | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    QuoteProvider.getAllQuotesByTrackingCode(trackingCode).then((res) => {
+      if (cancelled) return;
+      if (res.responseStatus && Array.isArray(res.result)) {
+        setQuotes(res.result);
+      }
+    });
+    MoveRequestProvider.getMoveDetails(trackingCode).then((res) => {
+      if (cancelled) return;
+      if (res.responseStatus && res.result) {
+        setMoveDetails(res.result);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [trackingCode]);
+
+  const movers = useMemo(
+    () => mapQuotesToRecommendedMovers(quotes),
+    [quotes],
+  );
+  const { subView, selectedMover, paymentResult } = useBookMoveStep1();
+
+  const paymentCompleteOnServer = isTrackPaymentComplete(
+    trackMove,
+    moveDetails?.status,
+  );
+  const clientPaidSession = Boolean(
+    subView === "track" && selectedMover && paymentResult,
+  );
+  const showFullTrackView = clientPaidSession || paymentCompleteOnServer;
+
+  const offerTimelineStep =
+    clientPaidSession || paymentCompleteOnServer
+      ? 3
+      : subView === "payment"
+        ? 2
+        : 1;
+
+  const resolvedMover = useMemo(() => {
+    if (clientPaidSession && selectedMover) {
+      return selectedMover;
+    }
+    if (!showFullTrackView) {
+      return null;
+    }
+    if (movers.length > 0) {
+      return movers[0];
+    }
+    if (moveDetails) {
+      return recommendedMoverFromMoveDetails(
+        moveDetails,
+        moveDetails.fullName?.trim() || "Your move",
+        moveDetails.email,
+      );
+    }
+    return null;
+  }, [
+    clientPaidSession,
+    selectedMover,
+    showFullTrackView,
+    movers,
+    moveDetails,
+  ]);
+
+  const resolvedBooking = useMemo(() => {
+    if (quotes[0]) {
+      return bookingFromTrackAndQuotes(trackMove, quotes[0]);
+    }
+    if (moveDetails) {
+      return bookingFromTrackAndMoveDetails(trackMove, moveDetails);
+    }
+    return bookingFromTrackAndQuotes(trackMove, undefined);
+  }, [trackMove, quotes, moveDetails]);
+
+  return (
+    <div className="min-h-screen space-y-4 rounded-3xl border border-black/10 bg-white/40 p-4 py-10 backdrop-blur-2xl lg:p-10">
+      <div className="mt-6 space-y-8 lg:mt-12 lg:flex lg:gap-x-8">
+        <div className="mb-6 flex-1 space-y-10 lg:mb-0">
+          <StepBar currentStep={5} />
+          <div className="hidden lg:block">
+            <TimelineStep currentStep={offerTimelineStep} />
           </div>
         </div>
+        <div className="flex-2">
+          {showFullTrackView && resolvedMover ? (
+            <TrackMoveStatus
+              mover={resolvedMover}
+              booking={resolvedBooking}
+              trackingCode={trackingCode}
+              moveProgress={{
+                hasArrived: trackMove.hasArrived,
+                inTransit: trackMove.inTransit,
+                isCompleted: trackMove.isCompleted,
+              }}
+            />
+          ) : showFullTrackView && !resolvedMover ? (
+            <>
+              <p className="text-xl font-medium lg:text-3xl">
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Track Move",
+                    nl: "Verhuizing volgen",
+                  },
+                })}
+              </p>
+              <div className="mt-10 lg:flex lg:gap-x-4">
+                <div className="flex-3 rounded-2xl border border-[#C0C0C0] bg-white p-4 lg:p-8">
+                  <MapComponent {...trackMove} />
+                </div>
+                <div className="flex-2 pt-8 lg:pt-20">
+                  <MoveTimelineStepBar trackMove={trackMove} />
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="text-xl font-medium lg:text-3xl">
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: {
+                    en: "Choose a mover & pay",
+                    nl: "Kies een verhuizer & betaal",
+                  },
+                })}
+              </p>
+              <div className="mt-8 flex items-center gap-x-3 rounded-xl bg-theme/10 p-4 text-xs text-theme lg:text-base">
+                <Info />
+                <p className="flex-1">
+                  {AppTranslator.getLocaleText({
+                    locale,
+                    translations: {
+                      en: "Review quotes from moving companies below. After payment you will see the live map and full move timeline.",
+                      nl: "Bekijk hieronder de offertes van verhuizers. Na betaling zie je de live kaart en de volledige verhuistijdlijn.",
+                    },
+                  })}
+                </p>
+              </div>
+              <RecommendedMoversPanel
+                movers={movers}
+                trackingCodeOverride={trackingCode}
+              />
+              <TrackOfferFooter />
+            </>
+          )}
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -418,10 +573,11 @@ const trackMoveText = {
 };
 
 export function TrackMoveTimeline() {
-  const { locale, tracking_code: trackingCode } = useParams<{
+  const { locale, tracking_code: trackingCodeParam } = useParams<{
     locale: Locale;
     tracking_code: string;
   }>();
+  const trackingCode = decodeURIComponent(trackingCodeParam ?? "");
   const [loading, setLoading] = useState(true);
   const [trackMoveDetails, setTrackMoveDetails] = useState<TrackMove | null>(
     null,
@@ -474,45 +630,12 @@ export function TrackMoveTimeline() {
 
   if (trackMoveDetails) {
     return (
-      <div className="bg-white/40 p-4 lg:py-10 lg:p-10 backdrop-blur-2xl space-y-4 border border-black/10 min-h-screen rounded-3xl">
-        <div className="mt-6 lg:mt-12 space-y-8 lg:flex gap-x-8">
-          <div className="flex-1 mb-6 space-y-10 lg:mb-0">
-            <StepBar currentStep={5} />
-            <TimelineStep currentStep={3} />
-          </div>
-          <div className="flex-2">
-            <p className="text-xl lg:text-3xl font-medium">
-              {AppTranslator.getLocaleText({
-                locale,
-                translations: {
-                  en: "Track Move",
-                  nl: "Verhuizing volgen",
-                },
-              })}
-            </p>
-            <div className="mt-8 bg-theme/10 text-xs lg:text-base flex items-center gap-x-3 text-theme p-4 rounded-xl">
-              <Info />
-              <p className="flex-1">
-                {AppTranslator.getLocaleText({
-                  locale,
-                  translations: {
-                    en: "Make sure you get in touch with moving company to confirm any needed information",
-                    nl: "Neem contact op met je verhuisbedrijf voor extra vragen of informatie.",
-                  },
-                })}
-              </p>
-            </div>
-            <div className="mt-8 lg:flex gap-x-4">
-              <div className="bg-white border border-[#C0C0C0] flex-3 rounded-2xl p-4 lg:p-8">
-                <MapComponent {...trackMoveDetails} />
-              </div>
-              <div className="flex-2 pt-0 lg:pt-20">
-                <MoveTimelineStepBar trackMove={trackMoveDetails} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <BookMoveStep1Provider>
+        <TrackMoveLoadedView
+          trackMove={trackMoveDetails}
+          trackingCode={trackingCode}
+        />
+      </BookMoveStep1Provider>
     );
   }
 

@@ -185,8 +185,17 @@ export function MovingSizeDropdown({ value, onChange, tabs, locale }: Props) {
   );
 }
 
+function buildBookMoveHref(locale: string, moveFrom: string, moveTo: string, moveSize: string) {
+  const params = new URLSearchParams();
+  params.set("moveFrom", moveFrom.trim());
+  params.set("moveTo", moveTo.trim());
+  params.set("moveSize", moveSize.trim());
+  return `/${locale}/book-move?${params.toString()}`;
+}
+
 export function HeroBookForm() {
-  const { locale } = useParams<{ locale: Locale }>();
+  const { locale: localeParam } = useParams<{ locale: Locale }>();
+  const locale = localeParam ?? "nl";
 
   const router = useRouter();
   const [moveSize, setMoveSize] = useState("");
@@ -194,12 +203,11 @@ export function HeroBookForm() {
   const [moveTo, setMoveTo] = useState("");
 
   const handleSubmit = () => {
-    if (moveFrom && moveTo && moveSize) {
-      router.push(
-        `${locale}/book-move?moveSize=${moveSize}&moveTo=${moveTo}&moveFrom=${moveFrom}`,
-      );
-      return;
-    }
+    const from = moveFrom.trim();
+    const to = moveTo.trim();
+    const size = moveSize.trim();
+    if (!from || !to || !size) return;
+    router.push(buildBookMoveHref(locale, from, to, size));
   };
 
   return (
@@ -263,6 +271,7 @@ export function HeroBookForm() {
           tabs={tabs}
         />
         <button
+          type="button"
           onClick={handleSubmit}
           className="text-white bg-theme w-full h-12 lg:h-17.5 mt-8 rounded-lg lg:rounded-2xl lg:text-lg font-medium"
         >
@@ -284,7 +293,8 @@ export function HeroBookForm() {
   );
 }
 export function HeroBookFormLg() {
-  const { locale } = useParams<{ locale: Locale }>();
+  const { locale: localeParam } = useParams<{ locale: Locale }>();
+  const locale = localeParam ?? "nl";
 
   const router = useRouter();
   const [moveSize, setMoveSize] = useState("");
@@ -292,16 +302,15 @@ export function HeroBookFormLg() {
   const [moveTo, setMoveTo] = useState("");
 
   const handleSubmit = () => {
-    if (moveFrom && moveTo && moveSize) {
-      router.push(
-        `${locale}/book-move?moveSize=${moveSize}&moveTo=${moveTo}&moveFrom=${moveFrom}`,
-      );
-      if (typeof window !== "undefined" && (window as any).gtag) {
-        (window as any).gtag("event", "conversion", {
-          send_to: "AW-18023297865/mnf3CK_2yIocEMnmlpJD",
-        });
-      }
-      return;
+    const from = moveFrom.trim();
+    const to = moveTo.trim();
+    const size = moveSize.trim();
+    if (!from || !to || !size) return;
+    router.push(buildBookMoveHref(locale, from, to, size));
+    if (typeof window !== "undefined" && (window as any).gtag) {
+      (window as any).gtag("event", "conversion", {
+        send_to: "AW-18023297865/mnf3CK_2yIocEMnmlpJD",
+      });
     }
   };
 
@@ -352,6 +361,7 @@ export function HeroBookFormLg() {
         />
         <div className="col-span-3">
           <button
+            type="button"
             onClick={handleSubmit}
             className="text-white bg-theme w-full h-12 lg:h-17.5 mt-4 rounded-lg lg:rounded-2xl lg:text-lg font-medium"
           >

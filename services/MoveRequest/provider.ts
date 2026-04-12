@@ -6,6 +6,7 @@ import {
   MoveItem,
   TrackMove,
 } from "./types";
+import type { MoveDetailsResponseModel } from "../Quote/types";
 import { BaseApiResponse } from "../types";
 
 export class MoveRequestProvider {
@@ -25,12 +26,12 @@ export class MoveRequestProvider {
   static async getQuote(formData: CreateMoveRequest) {
     this.initialize();
     try {
-      const res = await this.instance.post<BaseApiResponse>(
+      const res = await this.instance.post<BaseApiResponse<string>>(
         `GetQuote`,
         formData,
       );
 
-      return res.data as BaseApiResponse;
+      return res.data as BaseApiResponse<string>;
     } catch (e) {
       if (e instanceof AxiosError) {
         return {
@@ -73,7 +74,7 @@ export class MoveRequestProvider {
     this.initialize();
     try {
       const res = await this.instance.get<BaseApiResponse>(
-        `TrackMove?code=${code}`,
+        `TrackMove?code=${encodeURIComponent(code)}`,
       );
 
       return res.data as BaseApiResponse<TrackMove>;
@@ -89,6 +90,29 @@ export class MoveRequestProvider {
         responseStatus: false,
         responseMessage: "An error occurred could not create move request",
       } as BaseApiResponse<TrackMove>;
+    }
+  }
+
+  static async getMoveDetails(code: string) {
+    this.initialize();
+    try {
+      const res = await this.instance.get<BaseApiResponse<MoveDetailsResponseModel>>(
+        `GetMoveDetails`,
+        { params: { code } },
+      );
+      return res.data as BaseApiResponse<MoveDetailsResponseModel>;
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        return {
+          responseStatus: false,
+          responseMessage: "Unable to load move details",
+          ...e.response?.data,
+        } as BaseApiResponse<MoveDetailsResponseModel>;
+      }
+      return {
+        responseStatus: false,
+        responseMessage: "Unable to load move details",
+      } as BaseApiResponse<MoveDetailsResponseModel>;
     }
   }
 

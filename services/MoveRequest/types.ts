@@ -13,6 +13,7 @@ export interface TrackMove {
   hasArrived: boolean;
   inTransit: boolean;
   isCompleted: boolean;
+  isPaymentComplete?: boolean;
 }
 
 export interface CreateMoveRequest {
