@@ -32,6 +32,7 @@ import {
   BookMoveStep1Provider,
   useBookMoveStep1,
 } from "../../book-move/components/BookMoveStep1Context";
+import { BookFormStep1Footer } from "../../book-move/components/BookFormStep1Footer";
 import { RecommendedMoversPanel } from "../../book-move/components/RecommendedMoversPanel";
 import {
   MoveStage,
@@ -179,7 +180,7 @@ export function TimelineStep({
     {
       title: {
         en: "Make Payment",
-        nl: "Betalen ",
+        nl: "Betalen",
       },
       description: {
         en: "Make your payment easily",
@@ -356,41 +357,6 @@ function bookingFromTrackAndQuotes(
   };
 }
 
-function TrackOfferFooter() {
-  const { locale } = useParams<{ locale: Locale }>();
-  const { subView, goBackFromPayment, goToGrid } = useBookMoveStep1();
-
-  if (subView === "grid") {
-    return null;
-  }
-
-  const handleBack = () => {
-    if (subView === "payment") {
-      goBackFromPayment();
-      return;
-    }
-    goToGrid();
-  };
-
-  return (
-    <div className="mt-8">
-      <button
-        type="button"
-        onClick={handleBack}
-        className="inline-flex h-12 items-center justify-center rounded-xl border border-[#D0D5DD] bg-white px-6 text-sm font-medium text-dark"
-      >
-        {AppTranslator.getLocaleText({
-          locale,
-          translations: {
-            en: "Go Back",
-            nl: "Ga terug",
-          },
-        })}
-      </button>
-    </div>
-  );
-}
-
 function TrackMoveLoadedView({
   trackMove,
   trackingCode,
@@ -548,7 +514,7 @@ function TrackMoveLoadedView({
                 movers={movers}
                 trackingCodeOverride={trackingCode}
               />
-              <TrackOfferFooter />
+              <BookFormStep1Footer locale={locale} />
             </>
           )}
         </div>

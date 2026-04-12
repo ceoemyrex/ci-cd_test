@@ -2,6 +2,7 @@ import { MovingSummary } from "./MovingSummary";
 import { CreateMoveRequest, MoveItem } from "@/services/MoveRequest";
 import { Place } from "@/services";
 import { BookFormContainer } from "./BookFormContainer";
+import { BookMoveTimelineStep } from "./BookMoveTimelineStep";
 import { AppTranslator, Locale } from "@/app/utils";
 import { useParams } from "next/navigation";
 import Link from "next/link";
@@ -34,6 +35,8 @@ export function MovingFormSummary({
   const { locale } = useParams<{ locale: Locale }>();
   const code = quoteTrackingCode?.trim() ?? "";
   const submitted = quoteRequestCompleted;
+  const trackHref =
+    code ? `/${locale}/track-move/${encodeURIComponent(code)}` : "";
 
   return (
     <BookFormContainer
@@ -58,53 +61,65 @@ export function MovingFormSummary({
         moveTo={moveTo}
       />
       {submitted && code ? (
-        <div className="mt-8 space-y-4 rounded-2xl border border-secondary/30 bg-[#FBFEFA] p-6">
-          <p className="text-lg font-medium text-dark">
-            {AppTranslator.getLocaleText({
-              locale,
-              translations: {
-                en: "Quote request sent",
-                nl: "Offerteaanvraag verstuurd",
-              },
-            })}
-          </p>
-          <p className="text-sm text-grey">
-            {AppTranslator.getLocaleText({
-              locale,
-              translations: {
-                en: "Save your tracking code. When movers send quotes, open the track page to compare offers and pay.",
-                nl: "Bewaar je trackingcode. Zodra verhuizers offertes sturen, kun je op de trackpagina vergelijken en betalen.",
-              },
-            })}
-          </p>
-          <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
-            <span className="rounded-lg bg-white px-4 py-2 font-mono text-base font-semibold text-dark ring-1 ring-black/10">
-              {code}
-            </span>
-            <button
-              type="button"
-              onClick={() => navigator.clipboard?.writeText(code)}
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#D0D5DD] bg-white px-4 py-2 text-sm font-medium text-dark"
-            >
-              <Copy className="h-4 w-4" />
+        <div className="mt-8 space-y-6">
+          <div className="space-y-4 rounded-2xl border border-secondary/30 bg-[#FBFEFA] p-6">
+            <p className="text-lg font-medium text-dark">
               {AppTranslator.getLocaleText({
                 locale,
-                translations: { en: "Copy code", nl: "Code kopiëren" },
+                translations: {
+                  en: "Quote request sent",
+                  nl: "Offerteaanvraag verstuurd",
+                },
               })}
-            </button>
+            </p>
+            <p className="text-sm text-grey">
+              {AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "Save your tracking code. Recommended movers, quotes, and payment all happen on your tracking page.",
+                  nl: "Bewaar je trackingcode. Aangeraden verhuizers, offertes en betaling vind je op je trackpagina.",
+                },
+              })}
+            </p>
+            <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
+              <span className="rounded-lg bg-white px-4 py-2 font-mono text-base font-semibold text-dark ring-1 ring-black/10">
+                {code}
+              </span>
+              <button
+                type="button"
+                onClick={() => navigator.clipboard?.writeText(code)}
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#D0D5DD] bg-white px-4 py-2 text-sm font-medium text-dark"
+              >
+                <Copy className="h-4 w-4" />
+                {AppTranslator.getLocaleText({
+                  locale,
+                  translations: { en: "Copy code", nl: "Code kopiëren" },
+                })}
+              </button>
+            </div>
             <Link
-              href={`/${locale}/track-move/${encodeURIComponent(code)}`}
-              className="inline-flex items-center justify-center rounded-xl bg-theme px-5 py-2 text-sm font-medium text-white"
+              href={trackHref}
+              className="flex w-full items-center justify-center rounded-xl bg-theme px-5 py-3 text-center text-base font-semibold text-white sm:w-auto sm:min-w-56"
             >
               {AppTranslator.getLocaleText({
                 locale,
                 translations: {
-                  en: "Track your move",
-                  nl: "Volg je verhuizing",
+                  en: "Make payment",
+                  nl: "Betalen",
                 },
               })}
             </Link>
+            <p className="text-xs text-grey">
+              {AppTranslator.getLocaleText({
+                locale,
+                translations: {
+                  en: "Opens recommended movers and secure checkout for your tracking code.",
+                  nl: "Opent aangeraden verhuizers en de beveiligde betaalpagina voor jouw trackingcode.",
+                },
+              })}
+            </p>
           </div>
+          <BookMoveTimelineStep currentStep={1} />
         </div>
       ) : null}
       {submitted && !code ? (

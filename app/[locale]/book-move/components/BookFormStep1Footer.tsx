@@ -38,6 +38,10 @@ export function BookFormStep1Footer({
   const { subView, goToGrid, goBackFromPayment, goToPayment } =
     useBookMoveStep1();
 
+  if (subView === "grid") {
+    return null;
+  }
+
   const handleGoBack = () => {
     if (subView === "payment") goBackFromPayment();
     else if (subView === "detail") goToGrid();
@@ -70,17 +74,15 @@ export function BookFormStep1Footer({
           })}
         </span>
       </button>
-      {(subView === "detail" || subView === "payment") && (
+      {subView === "detail" ? (
         <button
           type="button"
-          onClick={() => {
-            if (subView === "detail") goToPayment();
-          }}
+          onClick={() => goToPayment()}
           className="inline-flex h-12 w-full items-center justify-center rounded-lg bg-theme px-4 text-sm text-white sm:ml-auto sm:w-auto lg:px-10 lg:text-base"
         >
           {makePaymentLabel}
         </button>
-      )}
+      ) : null}
     </div>
   );
 }
