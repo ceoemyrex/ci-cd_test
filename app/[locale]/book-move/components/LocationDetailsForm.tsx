@@ -317,6 +317,7 @@ export function LocationAutocomplete({
 }: LocationAutocompleteProps) {
   const location = useGetLocation(selectedPlace, onSelectPlace, locationText);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { locale } = useParams<{ locale: Locale }>();
 
   /**
    * ✅ Close dropdown on outside click
@@ -347,11 +348,13 @@ export function LocationAutocomplete({
             readOnly={readOnly}
             value={location.queryString}
             onChange={(e) => location.setQueryText(e.target.value)}
+            onKeyDown={location.handleKeyDown}
             placeholder={placeholder}
             className="w-full outline-none capitalize text-base lg:text-sm"
           />
 
           <button
+            type="button"
             className="ml-auto cursor-pointer"
             onClick={() => location.setPopupOpen((p) => !p)}
           >
@@ -366,20 +369,66 @@ export function LocationAutocomplete({
         {/* DROPDOWN */}
         {!readOnly && location.popupOpen && (
           <div className="absolute left-0 top-full w-full z-50">
-            <ul className="mt-3 bg-white rounded-xl shadow-lg border border-grey/20 max-h-60 overflow-y-auto">
-              {location.places.map((place) => (
-                <li
-                  key={place.placePrediction.placeId}
-                  onClick={() => {
-                    location.selectPlace(place);
-                  }}
-                  className="p-4 text-sm capitalize text-grey border-b border-grey/10 last:border-0 cursor-pointer hover:bg-grey/5"
+            <div className="mt-3 overflow-hidden rounded-xl border border-grey/20 bg-white shadow-lg">
+              {location.places.length > 0 ? (
+                <ul className="max-h-60 overflow-y-auto">
+                  {location.places.map((place) => (
+                    <li
+                      key={place.placePrediction.placeId}
+                      onClick={() => {
+                        location.selectPlace(place);
+                      }}
+                      className="cursor-pointer border-b border-grey/10 p-4 text-sm capitalize text-grey last:border-0 hover:bg-grey/5"
+                    >
+                      {place.placePrediction.text.text}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="border-b border-grey/10 px-4 py-3 text-sm text-grey">
+                  {AppTranslator.getLocaleText({
+                    locale,
+                    translations: {
+                      en: "Autocomplete is unavailable. You can keep typing and use the address manually.",
+                      nl: "Autocomplete is niet beschikbaar. Je kunt het adres handmatig blijven invoeren.",
+                    },
+                  })}
+                </div>
+              )}
+
+              {location.queryString.trim() && (
+                <button
+                  type="button"
+                  onClick={location.useTypedAddress}
+                  className="w-full bg-[#F9FCF9] px-4 py-3 text-left text-sm font-medium text-theme hover:bg-[#F1FAF1]"
                 >
-                  {place.placePrediction.text.text}
-                </li>
-              ))}
-            </ul>
+                  {AppTranslator.getLocaleText({
+                    locale,
+                    translations: {
+                      en: `Use "${location.queryString.trim()}" as entered`,
+                      nl: `Gebruik "${location.queryString.trim()}" zoals ingevoerd`,
+                    },
+                  })}
+                </button>
+              )}
+            </div>
           </div>
+        )}
+
+        {!readOnly && !location.popupOpen && location.queryString.trim() && (
+          <button
+            type="button"
+            onClick={location.useTypedAddress}
+            className="mt-3 text-left text-xs font-medium text-theme underline-offset-2 hover:underline"
+          >
+            {AppTranslator.getLocaleText({
+              locale,
+              translations: {
+                en: "Use typed address manually instead",
+                nl: "Gebruik het ingevoerde adres handmatig",
+              },
+            })}
+          </button>
         )}
       </div>
     </div>

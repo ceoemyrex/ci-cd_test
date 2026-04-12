@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactNode } from "react";
 import { StepBar } from "./StepsBar";
 import { ArrowRight } from "@/app/icons/arrow";
@@ -36,9 +38,9 @@ export function BookFormContainer({
     },
   });
 
-  return (
-    <div className="bg-white/40 p-4 py-10 lg:p-10 backdrop-blur-2xl space-y-4 border border-black/10 min-h-screen rounded-3xl">
-      <p className="text-xl text-center lg:text-left lg:text-4xl font-medium text-dark">
+  const shell = (
+    <div className="min-h-screen space-y-4 rounded-3xl border border-black/10 bg-white/40 p-4 py-10 backdrop-blur-2xl lg:p-10">
+      <p className="text-center text-xl font-medium text-dark lg:text-left lg:text-4xl">
         {AppTranslator.getLocaleText({
           locale,
           translations: {
@@ -47,24 +49,24 @@ export function BookFormContainer({
           },
         })}
       </p>
-      <div className="mt-6 lg:mt-12 space-y-8 lg:flex gap-x-8">
-        <div className="flex-1 mb-6 lg:mb-0">
+      <div className="mt-6 space-y-8 lg:mt-12 lg:flex lg:gap-x-8">
+        <div className="mb-6 flex-1 space-y-6 lg:mb-0">
           <StepBar currentStep={currentStep} />
         </div>
         <div className="flex-2">
           <button
             onClick={onPrev}
-            className="gap-x-1 justify-center bg-white lg:w-auto border border-[#E5E5E5] h-8 w-8 rounded-full flex lg:hidden items-center"
+            className="flex h-8 w-8 items-center justify-center gap-x-1 rounded-full border border-[#E5E5E5] bg-white lg:hidden lg:w-auto"
           >
             <ArrowRight width={20} height={20} fill="currentColor" />
           </button>
           {children}
         </div>
       </div>
-      <div className="lg:flex space-y-4 items-center mt-6">
+      <div className="mt-6 space-y-4 lg:flex lg:items-center">
         <button
           onClick={onPrev}
-          className="py-2 hidden lg:inline-flex lg:py-4 text-xs lg:text-base rounded-lg bg-white px-4 lg:px-10 gap-x-1 justify-center w-full lg:w-auto border border-[#E5E5E5] items-center"
+          className="hidden w-full items-center justify-center gap-x-1 rounded-lg border border-[#E5E5E5] bg-white px-4 py-2 text-xs lg:inline-flex lg:w-auto lg:py-4 lg:px-10 lg:text-base"
         >
           <ArrowRight fill="#121212" />
           <span>
@@ -81,7 +83,7 @@ export function BookFormContainer({
           <button
             disabled={loading || isNextDisabled}
             onClick={onNext}
-            className="bg-theme disabled:opacity-60 flex gap-x-2 text-sm h-12 lg:text-base justify-center items-center ml-auto px-4 lg:px-10 py-2 w-full lg:w-auto lg:py-4 rounded-lg text-white"
+            className="bg-theme flex h-12 w-full items-center justify-center gap-x-2 rounded-lg px-4 py-2 text-sm text-white disabled:opacity-60 lg:ml-auto lg:w-auto lg:py-4 lg:px-10 lg:text-base"
           >
             {loading && <LoaderCircle className="animate-spin" />}
             {btnTitle || buttonTitle}
@@ -95,4 +97,5 @@ export function BookFormContainer({
       </div>
     </div>
   );
+  return shell;
 }

@@ -5,14 +5,14 @@ export interface MoveItem {
   numberOfItems: number;
 }
 
-export interface TrackMove{
-  fromLatitude: string,
-  toLatitude: string,
-  fromLongitude: string,
-  toLongitude: string,
-  hasArrived: false,
-  inTransit: false,
-  isCompleted: false
+export interface TrackMove {
+  fromLatitude: string;
+  toLatitude: string;
+  fromLongitude: string;
+  toLongitude: string;
+  hasArrived: boolean;
+  inTransit: boolean;
+  isCompleted: boolean;
 }
 
 export interface CreateMoveRequest {
@@ -26,15 +26,15 @@ export interface CreateMoveRequest {
   dropOffAddress: string;
   dropOffAddressNumber: string;
 
-  houseSize:string,
+  houseSize: string;
 
   pickUpLongitude: string;
   pickUpLatitude: string;
   dropOffLongitude: string;
   dropOffLatitude: string;
 
-  moveDate: string;     // ISO date string
-  pickUpTime: string | null;   // ISO date string
+  moveDate: string; // ISO date string
+  pickUpTime: string | null; // ISO date string
 
   fromNumberOfFloors: string | null;
   toNumberOfFloors: string | null;
@@ -58,4 +58,8 @@ export interface CreateMoveRequest {
   toNeedHelpPacking: boolean | null;
 
   items: MoveItem[];
+}
+
+export interface CreatePaymentIntentResponse {
+  clientSecret: string;
 }

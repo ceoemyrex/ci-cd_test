@@ -11,6 +11,8 @@
   "dependencies": {
     "@contentful/rich-text-html-renderer": "^17.1.6",
     "@react-google-maps/api": "^2.20.8",
+    "@stripe/react-stripe-js": "^6.1.0",
+    "@stripe/stripe-js": "^9.1.0",
     "antd": "^6.3.1",
     "axios": "^1.13.6",
     "bootstrap-icons": "^1.13.1",

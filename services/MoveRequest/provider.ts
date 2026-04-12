@@ -1,6 +1,11 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 import { BASE_URL } from "../config";
-import { CreateMoveRequest, MoveItem, TrackMove } from "./types";
+import {
+  CreateMoveRequest,
+  CreatePaymentIntentResponse,
+  MoveItem,
+  TrackMove,
+} from "./types";
 import { BaseApiResponse } from "../types";
 
 export class MoveRequestProvider {
@@ -40,7 +45,7 @@ export class MoveRequestProvider {
       } as BaseApiResponse;
     }
   }
-  static async getItemsByImage(formData:FormData,room:string) {
+  static async getItemsByImage(formData: FormData, room: string) {
     this.initialize();
     try {
       const res = await this.instance.post<BaseApiResponse<MoveItem[]>>(
@@ -62,8 +67,9 @@ export class MoveRequestProvider {
         responseMessage: "An error occurred could not create move request",
       } as BaseApiResponse<MoveItem[]>;
     }
-  } 
-  static async getTrackMove(code:string) {
+  }
+
+  static async getTrackMove(code: string) {
     this.initialize();
     try {
       const res = await this.instance.get<BaseApiResponse>(
@@ -86,4 +92,12 @@ export class MoveRequestProvider {
     }
   }
 
+  static async createPaymentIntent(amount: number) {
+    this.initialize();
+    const res = await this.instance.get<CreatePaymentIntentResponse>(
+      `CreatePaymentIntent?amount=${amount}`,
+    );
+
+    return res.data;
+  }
 }

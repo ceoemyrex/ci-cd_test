@@ -1,0 +1,54 @@
+export type RecommendedMover = {
+  id: string;
+  name: string;
+  rating: number;
+  price: string;
+  priceAmount: number;
+  meta: string;
+  distance: string;
+  status: string;
+  image: string;
+  fromLabel: string;
+  fromAddress: string;
+  toLabel: string;
+  toAddress: string;
+  details: {
+    moveSizeLabel: string;
+    moveSizeValue: string;
+    livingRoomLabel: string;
+    livingRoomValue: string;
+    bedroom1Label: string;
+    bedroom1Value: string;
+    bedroom2Label: string;
+    bedroom2Value: string;
+    diningRoomLabel: string;
+    diningRoomValue: string;
+    kitchenLabel: string;
+    kitchenValue: string;
+    moveDateLabel: string;
+    moveDateValue: string;
+    dayLabel: string;
+    dayValue: string;
+    moveTimeLabel: string;
+    moveTimeValue: string;
+    moversPhoneLabel: string;
+    moversPhoneValue: string;
+    moversEmailLabel: string;
+    moversEmailValue: string;
+    addressLabel: string;
+    addressValue: string;
+  };
+};
+
+export type BookMoveBookingDetails = {
+  fromAddress: string;
+  toAddress: string;
+  moveSizeLabel: string;
+  moveDateLabel: string;
+  moveDayLabel: string;
+  moveTimeLabel: string;
+  fromLatitude: string;
+  fromLongitude: string;
+  toLatitude: string;
+  toLongitude: string;
+};

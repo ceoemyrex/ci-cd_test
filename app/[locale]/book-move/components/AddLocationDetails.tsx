@@ -4,7 +4,7 @@ import { LocationDetailsForm } from "./LocationDetailsForm";
 import { CreateMoveRequest, Place, ProvinceProvider } from "@/services";
 import { message, notification } from "antd";
 import { BookFormContainer } from "./BookFormContainer";
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { AppTranslator, Locale } from "@/app/utils";
 
@@ -92,11 +92,6 @@ export function AddLocationDetails({
     }
   }, []);
 
-  const provincesText = useMemo(
-    () => provinces.map((item) => item.provinceName),
-    [provinces],
-  );
-
   useEffect(() => {
     getProvinces();
   }, [getProvinces]);
@@ -128,55 +123,41 @@ export function AddLocationDetails({
       return;
     }
 
-    const provinceAddrComp = moveFrom.addressComponents?.find((item)=>item.types.includes("administrative_area_level_1"))
+    const provinceAddrComp = moveFrom.addressComponents?.find((item) =>
+      item.types.includes("administrative_area_level_1"),
+    );
 
-    if(!provinceAddrComp){
-      notificationApi.error({
-        title: AppTranslator.getLocaleText({
-          locale,
-          translations: {
-            en: "Invalid Address",
-            nl: "Ongeldig adres",
-          },
-        }),
-        description: AppTranslator.getLocaleText({
-          locale,
-          translations: {
-            en: `Please provide your Move From address that includes one of these provinces ${provincesText.join(", ")}`,
-            nl: `Geef een 'Verhuis van' adres op dat een van deze provincies bevat: ${provincesText.join(", ")}`,
-          },
-        }),
-      });
-      return;
-    }
-
+    const normalizedAddress = moveFrom.formattedAddress.toLowerCase();
     const matchingProvince = provinces.find((province) => {
-      return province.provinceName
-        .toLowerCase()
-        .includes(provinceAddrComp?.longText?.toLowerCase());
+      const normalizedProvince = province.provinceName.toLowerCase();
+
+      return (
+        normalizedProvince.includes(
+          provinceAddrComp?.longText?.toLowerCase() ?? "",
+        ) || normalizedAddress.includes(normalizedProvince)
+      );
     });
 
     if (!matchingProvince) {
-      notificationApi.error({
+      notificationApi.warning({
         title: AppTranslator.getLocaleText({
           locale,
           translations: {
-            en: "Invalid Address",
-            nl: "Ongeldig adres",
+            en: "Manual address fallback enabled",
+            nl: "Handmatige adresinvoer gebruikt",
           },
         }),
         description: AppTranslator.getLocaleText({
           locale,
           translations: {
-            en: `Please provide your Move From address that includes one of these provinces ${provincesText.join(", ")}`,
-            nl: `Geef een 'Verhuis van' adres op dat een van deze provincies bevat: ${provincesText.join(", ")}`,
+            en: "We could not confirm the province from autocomplete, but you can continue with the typed address.",
+            nl: "We konden de provincie niet bevestigen via autocomplete, maar je kunt doorgaan met het ingevoerde adres.",
           },
         }),
       });
-      return;
     }
 
-    handleUpdate({ provinceId: matchingProvince.provinceId.toString() });
+    handleUpdate({ provinceId: matchingProvince?.provinceId.toString() ?? "" });
     onNext?.();
   };
 

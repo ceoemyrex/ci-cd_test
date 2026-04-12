@@ -1,20 +1,16 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { AddLocationDetails } from "./AddLocationDetails";
 import { AddInventoryList } from "./AddInventoryList";
 import { AddMovingInfoForm } from "./AddMovingInfoForm";
 import { MovingFormSummary } from "./MovingFormSummary";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { CreateMoveRequest, MoveRequestProvider } from "@/services/MoveRequest";
 import { Place } from "@/services";
 import { notification } from "antd";
-import { Portal } from "@/components";
-import StarrySpace from "./MovingSummary";
 import { DateTime } from "luxon";
-import Link from "next/link";
-import { Locale } from "@/app/utils";
+import { BookMoveCheckoutFlow } from "./BookMoveTimelineStep";
 
 export function BookMoveForm() {
   const [notificationApi, context] = notification.useNotification();
@@ -22,15 +18,13 @@ export function BookMoveForm() {
   const [moveTo, setMoveTo] = useState<Place | null>(null);
   const [moveSize, setMoveSize] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const {locale} = useParams<{locale:Locale}>()
 
-   const [formData, setFormData] = useState<CreateMoveRequest>({
+  const [formData, setFormData] = useState<CreateMoveRequest>({
     fullName: "",
     phoneNumber: "",
     email: "",
     provinceId: "",
-    houseSize:moveSize,
+    houseSize: moveSize,
 
     pickUpAddress: "",
     pickUpAddressNumber: "",
@@ -121,8 +115,7 @@ export function BookMoveForm() {
         throw new Error(res?.responseMessage ?? "Request failed");
       }
 
-      setSuccess(true);
-      setCurrentStep(0);
+      setCurrentStep(steps.length);
     } catch (error) {
       notificationApi.error({
         title: "Error",
@@ -146,6 +139,76 @@ export function BookMoveForm() {
     }
   };
 
+  const bookingDetails = useMemo(() => {
+    const moveDate = formData.moveDate
+      ? DateTime.fromFormat(formData.moveDate, "yyyy-MM-dd")
+      : null;
+    const pickUpTime = formData.pickUpTime ? DateTime.fromISO(formData.pickUpTime) : null;
+
+    return {
+      fromAddress: moveFrom?.formattedAddress ?? formData.pickUpAddress,
+      toAddress: moveTo?.formattedAddress ?? formData.dropOffAddress,
+      moveSizeLabel: moveSize || "Move details pending",
+      moveDateLabel: moveDate?.isValid
+        ? moveDate.toFormat("dd LLLL, yyyy")
+        : "Move date pending",
+      moveDayLabel: moveDate?.isValid ? moveDate.toFormat("cccc") : "Flexible",
+      moveTimeLabel: pickUpTime?.isValid ? pickUpTime.toFormat("hh:mm a") : "08:30 AM",
+      fromLatitude: formData.pickUpLatitude,
+      fromLongitude: formData.pickUpLongitude,
+      toLatitude: formData.dropOffLatitude,
+      toLongitude: formData.dropOffLongitude,
+    };
+  }, [formData, moveFrom, moveSize, moveTo]);
+
+  const handleSetMoveFrom = useCallback((place: Place) => {
+    setMoveFrom(place);
+
+    const streetAddressComponent = place.addressComponents?.find((adc) =>
+      adc.types.includes("street_number"),
+    );
+
+    const strAddrComp = streetAddressComponent?.shortText.split(" ");
+    const firstStr = strAddrComp?.[0];
+
+    handleUpdateForm({
+      pickUpAddress: place.formattedAddress,
+      pickUpLatitude: place.location.latitude.toString(),
+      pickUpLongitude: place.location.longitude.toString(),
+      pickUpAddressNumber: firstStr ?? "1",
+    });
+  }, []);
+
+  const handleSetMoveTo = useCallback((place: Place) => {
+    setMoveTo(place);
+
+    const streetAddressComponent = place.addressComponents?.find((adc) =>
+      adc.types.includes("street_number"),
+    );
+
+    const strAddrComp = streetAddressComponent?.shortText.split(" ");
+    const firstStr = strAddrComp?.[0];
+
+    handleUpdateForm({
+      dropOffAddress: place.formattedAddress,
+      dropOffAddressNumber: firstStr ?? "1",
+      dropOffLatitude: place.location.latitude.toString(),
+      dropOffLongitude: place.location.longitude.toString(),
+    });
+  }, []);
+
+  if (currentStep === steps.length) {
+    return (
+      <>
+        {context}
+        <BookMoveCheckoutFlow
+          booking={bookingDetails}
+          onBack={() => setCurrentStep(steps.length - 1)}
+        />
+      </>
+    );
+  }
+
   const CurrentStepComponent = steps[currentStep];
 
   return (
@@ -154,39 +217,8 @@ export function BookMoveForm() {
       <CurrentStepComponent
         moveFrom={moveFrom}
         moveTo={moveTo}
-        setMoveFrom={useCallback((place) => {
-          setMoveFrom(place);
-
-          const streetAddressComponent = place.addressComponents?.find((adc) =>
-            adc.types.includes("street_number"),
-          );
-
-          const strAddrComp = streetAddressComponent?.shortText.split(" ");
-          const firstStr = strAddrComp?.[0];
-
-          handleUpdateForm({
-            pickUpAddress: place.formattedAddress,
-            pickUpLatitude: place.location.latitude.toString(),
-            pickUpAddressNumber: firstStr ?? "1",
-          });
-        }, [])}
-        setMoveTo={useCallback((place) => {
-          setMoveTo(place);
-
-          const streetAddressComponent = place.addressComponents?.find((adc) =>
-            adc.types.includes("street_number"),
-          );
-
-          const strAddrComp = streetAddressComponent?.shortText.split(" ");
-          const firstStr = strAddrComp?.[0];
-
-          handleUpdateForm({
-            dropOffAddress: place.formattedAddress,
-            dropOffAddressNumber: firstStr ?? "1",
-            dropOffLatitude: place.location.latitude.toString(),
-            dropOffLongitude: place.location.longitude.toString(),
-          });
-        }, [])}
+        setMoveFrom={handleSetMoveFrom}
+        setMoveTo={handleSetMoveTo}
         onNext={next}
         moveSize={moveSize}
         setMoveSize={setMoveSize}
@@ -200,40 +232,6 @@ export function BookMoveForm() {
         loading={loading}
         handleSubmit={handleSubmit}
       />
-      {success && (
-        <Portal>
-          <div className="fixed overflow-auto flex items-center justify-center p-4 top-0 left-0 w-full h-full bg-white/20 backdrop-blur z-1000000">
-            <div className="bg-white flex-1 max-w-135 border border-black/10 rounded-2xl">
-              <StarrySpace />
-              <img
-                src="/success.png"
-                className="h-15 w-15 lg:h-30 lg:w-30 mx-auto -mt-7.5 lg:-mt-15 relative rounded-full"
-                alt="Success"
-              />
-
-              <div>
-                <div className=" p-8">
-                  <p className="font-bold text-center text-xl lg:text-3xl">
-                    Thank you for questing a quote {formData.fullName}{" "}
-                  </p>
-                  <p className="text-grey text-sm lg:text-base text-center">
-                    Your quotes are on their way to your email
-                  </p>
-                  <div className="my-10 text-center">
-                    <Link
-                      href={`/${locale}`}
-                      onClick={() => setSuccess(false)}
-                      className="bg-theme inline-block text-white text-sm lg:text-base rounded-lg px-10 py-4 font-medium"
-                    >
-                      Ok Got It
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Portal>
-      )}
     </>
   );
 }

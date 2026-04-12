@@ -9,13 +9,13 @@ import {
 } from "react";
 
 export function useGetLocation(
-  currentPlace?:Place | null,
-  setCurrentPlace?:(place:Place)=>void,
-  locationText?:string,
+  currentPlace?: Place | null,
+  setCurrentPlace?: (place: Place) => void,
+  locationText?: string,
 ) {
   /* ---------------------------------- STATE --------------------------------- */
 
-  const sessionRef = useRef(0)
+  const sessionRef = useRef(0);
   const [queryString, setQueryText] = useState("");
   const [places, setPlaces] = useState<PlacePredictionObject[]>([]);
   const [selectedPlace, setSelectedPlace] =
@@ -36,45 +36,44 @@ export function useGetLocation(
   const detailsCache = useRef<Record<string, Place>>({});
   const containerRef = useRef<HTMLDivElement | null>(null);
 
- useEffect(() => {
-  if (!currentPlace) return;
-  setPlaceDetails(currentPlace);
-  setQueryText(currentPlace.formattedAddress);
-}, [currentPlace]);
+  useEffect(() => {
+    if (!currentPlace) return;
+    setPlaceDetails(currentPlace);
+    setQueryText(currentPlace.formattedAddress);
+  }, [currentPlace]);
 
- useEffect(() => {
-  if(sessionRef.current > 0) return;
-  if (!locationText) return;
+  useEffect(() => {
+    if (sessionRef.current > 0) return;
+    if (!locationText) return;
 
- const resolveLocation = async () => {
-  try {
-    setLoading(true);
+    const resolveLocation = async () => {
+      try {
+        setLoading(true);
 
-    const res =
-      await MapProvider.getPlacePrediction(locationText);
+        const res = await MapProvider.getPlacePrediction(locationText);
 
-    const firstSuggestion = res?.suggestions?.[0];
-    if (!firstSuggestion) return;
+        const firstSuggestion = res?.suggestions?.[0];
+        if (!firstSuggestion) return;
 
-    // ✅ mark as programmatic
-    isProgrammaticUpdate.current = true;
+        // ✅ mark as programmatic
+        isProgrammaticUpdate.current = true;
 
-    setSelectedPlace(firstSuggestion);
-    setPlaces(res.suggestions);
-    setQueryText(firstSuggestion.placePrediction.text.text);
+        setSelectedPlace(firstSuggestion);
+        setPlaces(res.suggestions);
+        setQueryText(firstSuggestion.placePrediction.text.text);
 
-    setPopupOpen(false);
-    setPlaces([]);
-  } catch (err) {
-    console.error(err);
-  } finally {
-    setLoading(false);
-    sessionRef.current = 1;
-  }
-};
+        setPopupOpen(false);
+        setPlaces([]);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+        sessionRef.current = 1;
+      }
+    };
 
-  resolveLocation();
-}, [locationText]);
+    resolveLocation();
+  }, [locationText]);
 
   /* ---------------------------- SELECT PLACE ---------------------------- */
 
@@ -98,7 +97,7 @@ export function useGetLocation(
     // ✅ cache hit
     if (detailsCache.current[placeId]) {
       setPlaceDetails(detailsCache.current[placeId]);
-      setCurrentPlace?.(detailsCache.current[placeId])
+      setCurrentPlace?.(detailsCache.current[placeId]);
       return;
     }
 
@@ -108,12 +107,12 @@ export function useGetLocation(
       if (res) {
         detailsCache.current[placeId] = res;
         setPlaceDetails(res);
-        setCurrentPlace?.(res)
+        setCurrentPlace?.(res);
       }
     } catch (error) {
       console.error(error);
     }
-  }, [selectedPlace,setCurrentPlace]);
+  }, [selectedPlace, setCurrentPlace]);
 
   useEffect(() => {
     getPlaceDetails();
@@ -139,7 +138,7 @@ export function useGetLocation(
       setPopupOpen(false);
       return;
     }
-    if(currentPlace?.formattedAddress == queryString){
+    if (currentPlace?.formattedAddress == queryString) {
       return;
     }
 
@@ -155,7 +154,7 @@ export function useGetLocation(
         const suggestions = res?.suggestions ?? [];
 
         setPlaces(suggestions);
-        setPopupOpen(suggestions.length > 0);
+        setPopupOpen(true);
         setActiveIndex(-1);
       } catch (err) {
         console.error(err);
@@ -168,7 +167,36 @@ export function useGetLocation(
       if (debounceRef.current)
         clearTimeout(debounceRef.current);
     };
-  }, [queryString, isSelecting,currentPlace]);
+  }, [queryString, isSelecting, currentPlace]);
+
+  const useTypedAddress = useCallback(() => {
+    const trimmed = queryString.trim();
+    if (!trimmed) return;
+
+    const manualPlace: Place = {
+      id: `manual-${trimmed.toLowerCase().replace(/\s+/g, "-")}`,
+      formattedAddress: trimmed,
+      location: {
+        latitude: 0,
+        longitude: 0,
+      },
+      adrFormatAddress: trimmed,
+      displayName: {
+        text: trimmed,
+        languageCode: "en",
+      },
+      shortFormattedAddress: trimmed,
+      addressComponents: [],
+    };
+
+    isProgrammaticUpdate.current = true;
+    setPlaceDetails(manualPlace);
+    setSelectedPlace(null);
+    setPopupOpen(false);
+    setPlaces([]);
+    setCurrentPlace?.(manualPlace);
+    setQueryText(trimmed);
+  }, [queryString, setCurrentPlace]);
 
   /* ------------------------ KEYBOARD NAVIGATION ------------------------ */
 
@@ -197,7 +225,7 @@ export function useGetLocation(
         setPopupOpen(false);
       }
     },
-    [places, activeIndex, popupOpen, selectPlace]
+    [places, activeIndex, popupOpen, selectPlace],
   );
 
   /* -------------------------- CLICK OUTSIDE -------------------------- */
@@ -236,6 +264,7 @@ export function useGetLocation(
 
     activeIndex,
     handleKeyDown,
+    useTypedAddress,
 
     containerRef,
   };

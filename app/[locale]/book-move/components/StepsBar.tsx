@@ -113,7 +113,8 @@ export function StepBar({
     },
   ];
 
-  const selectedStep = steps.find((_, index) => index + 1 == currentStep);
+  const selectedStep =
+    steps.find((_, index) => index + 1 == currentStep) ?? steps[steps.length - 1];
 
   const { locale } = useParams<{ locale: Locale }>();
 
