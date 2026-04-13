@@ -37,4 +37,27 @@ export class QuoteProvider {
       } as BaseApiResponse<QuoteSummaryResponseModel[]>;
     }
   }
+
+  static async acceptQuote(quoteId: number) {
+    this.initialize();
+    try {
+      const res = await this.instance.get<BaseApiResponse<string>>(
+        `AcceptQuote`,
+        { params: { id: quoteId } },
+      );
+      return res.data as BaseApiResponse<string>;
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        return {
+          responseStatus: false,
+          responseMessage: "Unable to accept quote",
+          ...e.response?.data,
+        } as BaseApiResponse<string>;
+      }
+      return {
+        responseStatus: false,
+        responseMessage: "Unable to accept quote",
+      } as BaseApiResponse<string>;
+    }
+  }
 }

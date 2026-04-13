@@ -9,6 +9,8 @@ import { AppTranslator, defaultLocale, languages, Locale } from "@/app/utils";
 
 /* eslint-disable @next/next/no-img-element */
 
+const PARTNER_LOGIN_URL = "https://pathners.zintersv.com/login";
+
 const navLinks = [
   {
     url: "/",
@@ -159,7 +161,13 @@ export function Navbar() {
               <ArrowDropDownIcon />
             </button>
 
-            <button className="bg-theme text-sm lg:text-xl font-medium rounded-lg lg:rounded-2xl py-2.5 lg:py-5 px-6 lg:px-10 text-white">
+            <a
+              href={PARTNER_LOGIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="bg-theme text-sm lg:text-xl font-medium rounded-lg lg:rounded-2xl py-2.5 lg:py-5 px-6 lg:px-10 text-white"
+            >
               {AppTranslator.getLocaleText({
                 translations: {
                   en: "Partner",
@@ -167,7 +175,7 @@ export function Navbar() {
                 },
                 locale,
               })}
-            </button>
+            </a>
           </div>
 
           {/* Floating Mobile Button */}
@@ -237,7 +245,13 @@ export function Navbar() {
               <ArrowDropDownIcon />
             </button>
 
-            <button className="mt-6 bg-theme text-white py-3 rounded-xl">
+            <a
+              href={PARTNER_LOGIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsOpen(false)}
+              className="mt-6 inline-block w-full text-center bg-theme text-white py-3 rounded-xl"
+            >
               {AppTranslator.getLocaleText({
                 translations: {
                   en: "Partner",
@@ -245,7 +259,7 @@ export function Navbar() {
                 },
                 locale,
               })}
-            </button>
+            </a>
           </div>
         </div>
       </div>

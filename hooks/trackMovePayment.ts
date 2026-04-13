@@ -14,7 +14,7 @@ export function isTrackPaymentComplete(
   const s = (moveRequestStatus ?? "").trim().toLowerCase();
   if (s) {
     if (
-      /\bunpaid\b|pending payment|awaiting payment|payment pending|awaiting quote|quote pending|unconfirmed/.test(
+      /\bunpaid\b|pending payment|awaiting payment|payment pending|awaiting quote|quote pending|unconfirmed|\bnewrequest\b/.test(
         s,
       )
     ) {
@@ -24,6 +24,7 @@ export function isTrackPaymentComplete(
       return true;
     }
     if (
+      /\bapproved\b/.test(s) ||
       s.includes("payment complete") ||
       s.includes("fully booked") ||
       /\bbooked\b/.test(s) ||

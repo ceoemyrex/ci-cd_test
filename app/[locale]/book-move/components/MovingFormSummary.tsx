@@ -6,7 +6,6 @@ import { BookMoveTimelineStep } from "./BookMoveTimelineStep";
 import { AppTranslator, Locale } from "@/app/utils";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { Copy } from "lucide-react";
 
 export function MovingFormSummary({
   onPrev,
@@ -76,27 +75,11 @@ export function MovingFormSummary({
               {AppTranslator.getLocaleText({
                 locale,
                 translations: {
-                  en: "Save your tracking code. Recommended movers, quotes, and payment all happen on your tracking page.",
-                  nl: "Bewaar je trackingcode. Aangeraden verhuizers, offertes en betaling vind je op je trackpagina.",
+                  en: "Check your email for your reference. You can continue here to see recommended movers, quotes, and pay once they are ready.",
+                  nl: "Controleer je e-mail voor je referentie. Je kunt hier verder om aangeraden verhuizers en offertes te zien en te betalen zodra ze klaar zijn.",
                 },
               })}
             </p>
-            <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
-              <span className="rounded-lg bg-white px-4 py-2 font-mono text-base font-semibold text-dark ring-1 ring-black/10">
-                {code}
-              </span>
-              <button
-                type="button"
-                onClick={() => navigator.clipboard?.writeText(code)}
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#D0D5DD] bg-white px-4 py-2 text-sm font-medium text-dark"
-              >
-                <Copy className="h-4 w-4" />
-                {AppTranslator.getLocaleText({
-                  locale,
-                  translations: { en: "Copy code", nl: "Code kopiëren" },
-                })}
-              </button>
-            </div>
             <Link
               href={trackHref}
               className="flex w-full items-center justify-center rounded-xl bg-theme px-5 py-3 text-center text-base font-semibold text-white sm:w-auto sm:min-w-56"
@@ -113,8 +96,8 @@ export function MovingFormSummary({
               {AppTranslator.getLocaleText({
                 locale,
                 translations: {
-                  en: "Opens recommended movers and secure checkout for your tracking code.",
-                  nl: "Opent aangeraden verhuizers en de beveiligde betaalpagina voor jouw trackingcode.",
+                  en: "Opens your move page with quotes and secure checkout.",
+                  nl: "Opent je verhuispagina met offertes en beveiligde betaling.",
                 },
               })}
             </p>

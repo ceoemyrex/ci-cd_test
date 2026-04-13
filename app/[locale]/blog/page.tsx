@@ -20,7 +20,12 @@ export default async function Page({params}:{
     <>
       <BlogHero locale={locale}/>
       <Suspense fallback={null}>
-        <Blogs locale={locale} blogs={blogs ?? []} showCta={false} />
+        <Blogs
+          locale={locale}
+          blogs={blogs ?? []}
+          showCta={false}
+          showTitle={false}
+        />
       </Suspense>
       <Testimonials locale={locale}/>
       <ReadyToMove locale={locale}/>
