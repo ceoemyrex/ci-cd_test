@@ -24,7 +24,7 @@ export default async function Page({params}:{
           locale={locale}
           blogs={blogs ?? []}
           showCta={false}
-          showTitle={false}
+          showHeader={false}
         />
       </Suspense>
       <Testimonials locale={locale}/>
