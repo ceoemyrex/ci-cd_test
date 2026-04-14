@@ -102,28 +102,28 @@ function BlogItem({
 export function Blogs({
  limit,
  showCta = true,
- showHeader = true,
+ showText = true,
  blogs = [],
  locale = "nl",
 }: {
  limit?: number;
  showCta?: boolean;
- showHeader?: boolean;
+ showText?: boolean;
  blogs?: FlattenedBlogPost[];
  locale?: Locale;
 }) {
  return (
   <section className="py-18.5 lg:py-37.5">
    <div className="max-w-310 2xl:max-w-350 px-4 mx-auto">
-    {showHeader ? (
-     <header className="text-center max-w-200.75 mx-auto">
-      <span className="bg-[#CACACA1A]/10 px-4 text-xs lg:text-sm py-1.5 lg:py-2.5 rounded-[100px] text-secondary inline-flex items-center gap-x-1.5 border border-[#B6DDA8]">
-       <HexagonIcon />
-       {AppTranslator.getLocaleText({
-        locale,
-        translations: blogsText.badge,
-       })}
-      </span>
+    <header className="text-center max-w-200.75 mx-auto">
+     <span className="bg-[#CACACA1A]/10 px-4 text-xs lg:text-sm py-1.5 lg:py-2.5 rounded-[100px] text-secondary inline-flex items-center gap-x-1.5 border border-[#B6DDA8]">
+      <HexagonIcon />
+      {AppTranslator.getLocaleText({
+       locale,
+       translations: blogsText.badge,
+      })}
+     </span>
+     {showText ? (
       <div className="mt-6 space-y-4">
        <p className="font-bold text-2xl lg:text-5xl">
         {AppTranslator.getLocaleText({
@@ -138,8 +138,8 @@ export function Blogs({
         })}
        </p>
       </div>
-     </header>
-    ) : null}
+     ) : null}
+    </header>
 
     <div className="my-10 space-y-4 lg:my-20 lg:grid grid-cols-3 gap-x-6">
      {blogs.slice(0, limit).map((item) => (

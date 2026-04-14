@@ -71,9 +71,6 @@ export function BookMoveForm() {
 
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
-  const [quoteTrackingCode, setQuoteTrackingCode] = useState<string | null>(
-    null,
-  );
   const [quoteRequestCompleted, setQuoteRequestCompleted] = useState(false);
 
   const steps = [
@@ -118,11 +115,6 @@ export function BookMoveForm() {
         throw new Error(res?.responseMessage ?? "Request failed");
       }
 
-      const code =
-        typeof res.result === "string" && res.result.trim()
-          ? res.result.trim()
-          : null;
-      setQuoteTrackingCode(code);
       setQuoteRequestCompleted(true);
     } catch (error) {
       notificationApi.error({
@@ -206,7 +198,7 @@ export function BookMoveForm() {
         loading={loading}
         handleSubmit={handleSubmit}
         {...(currentStep === steps.length - 1
-          ? { quoteTrackingCode, quoteRequestCompleted }
+          ? { quoteRequestCompleted }
           : {})}
       />
     </>
