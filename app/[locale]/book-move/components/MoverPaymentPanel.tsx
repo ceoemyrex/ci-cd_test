@@ -5,7 +5,7 @@ import type { RecommendedMover } from "@/types/movers";
 import { MoverRoutePriceCard } from "./MoverRoutePriceCard";
 import { AppTranslator, Locale } from "@/app/utils";
 import { useParams } from "next/navigation";
-import { MoveRequestProvider, QuoteProvider } from "@/services";
+import { MoveRequestProvider } from "@/services";
 import {
   CardCvcElement,
   CardExpiryElement,
@@ -181,22 +181,6 @@ function PaymentCardForm({
       trackingCodeOverride?.trim() ||
       paymentIntentId.slice(-12).toUpperCase() ||
       "ZINTERMOVE";
-
-    const quoteId = Number.parseInt(mover.id, 10);
-    if (Number.isFinite(quoteId) && quoteId > 0) {
-      const acceptRes = await QuoteProvider.acceptQuote(quoteId);
-      if (!acceptRes.responseStatus) {
-        message.warning(
-          AppTranslator.getLocaleText({
-            locale,
-            translations: {
-              en: "Payment went through, but confirming the quote on our server failed. Refresh the page or contact support if this persists.",
-              nl: "De betaling is gelukt, maar bevestigen van de offerte op de server is mislukt. Vernieuw de pagina of neem contact op als dit blijft.",
-            },
-          }),
-        );
-      }
-    }
 
     completePayment({
       trackingCode,
