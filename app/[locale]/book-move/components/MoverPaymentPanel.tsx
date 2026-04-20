@@ -332,6 +332,7 @@ export function MoverPaymentPanel({
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const quoteId = Number.parseInt(mover.id, 10);
 
   useEffect(() => {
     let cancelled = false;
@@ -342,11 +343,23 @@ export function MoverPaymentPanel({
         setLoading(true);
         setError(null);
         setClientSecret(null);
+        if (!Number.isFinite(quoteId) || quoteId <= 0) {
+          throw new Error(
+            AppTranslator.getLocaleText({
+              locale,
+              translations: {
+                en: "Missing quote reference for payment.",
+                nl: "Offerte-referentie ontbreekt voor betaling.",
+              },
+            }),
+          );
+        }
         let request = paymentIntentRequestCache.get(cacheKey);
 
         if (!request) {
           request = MoveRequestProvider.createPaymentIntent(
             mover.priceAmount,
+            quoteId,
           ).then((response) => response.clientSecret);
           paymentIntentRequestCache.set(cacheKey, request);
         }
@@ -393,7 +406,7 @@ export function MoverPaymentPanel({
     return () => {
       cancelled = true;
     };
-  }, [locale, mover.id, mover.priceAmount]);
+  }, [locale, mover.id, mover.priceAmount, quoteId]);
 
   const stripeReady = useMemo(() => Boolean(publishableKey && stripePromise), []);
 

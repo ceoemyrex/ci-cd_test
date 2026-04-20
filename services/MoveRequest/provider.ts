@@ -116,10 +116,10 @@ export class MoveRequestProvider {
     }
   }
 
-  static async createPaymentIntent(amount: number) {
+  static async createPaymentIntent(amount: number, quoteId: number) {
     this.initialize();
     const res = await this.instance.get<CreatePaymentIntentResponse>(
-      `CreatePaymentIntent?amount=${amount}`,
+      `CreatePaymentIntent?amount=${amount}&quoteId=${quoteId}`,
     );
 
     return res.data;
