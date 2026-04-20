@@ -22,6 +22,7 @@ import { useBookMoveStep1 } from "./BookMoveStep1Context";
 const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 const stripePromise = publishableKey ? loadStripe(publishableKey) : null;
 const paymentIntentRequestCache = new Map<string, Promise<string>>();
+const paymentIntentSecretPattern = /^pi_[^_]+_secret_.+$/;
 
 const elementOptions = {
   style: {
@@ -340,6 +341,7 @@ export function MoverPaymentPanel({
       try {
         setLoading(true);
         setError(null);
+        setClientSecret(null);
         let request = paymentIntentRequestCache.get(cacheKey);
 
         if (!request) {
@@ -350,6 +352,18 @@ export function MoverPaymentPanel({
         }
 
         const nextClientSecret = await request;
+        if (!paymentIntentSecretPattern.test(nextClientSecret)) {
+          paymentIntentRequestCache.delete(cacheKey);
+          throw new Error(
+            AppTranslator.getLocaleText({
+              locale,
+              translations: {
+                en: "Payment setup failed. Please try again in a moment.",
+                nl: "Betaling kon niet worden voorbereid. Probeer het opnieuw.",
+              },
+            }),
+          );
+        }
         if (!cancelled) {
           setClientSecret(nextClientSecret);
         }
